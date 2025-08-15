@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://b4guub2w3vtjd"]
+
+[ext_resource type="Texture2D" uid="uid://babserfe1booh" path="res://Sprites/ace_of_clubs.png" id="1_0qqmn"]
+
+[node name="Card" type="Sprite2D"]
+texture = ExtResource("1_0qqmn")
+centered = false
