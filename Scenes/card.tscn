@@ -1,7 +1,8 @@
 [gd_scene load_steps=2 format=3 uid="uid://b4guub2w3vtjd"]
 
-[ext_resource type="Texture2D" uid="uid://babserfe1booh" path="res://Sprites/ace_of_clubs.png" id="1_0qqmn"]
+[ext_resource type="Script" uid="uid://cnlralvspabdn" path="res://Scripts/Card.cs" id="1_0qqmn"]
 
-[node name="Card" type="Sprite2D"]
-texture = ExtResource("1_0qqmn")
-centered = false
+[node name="Card" type="TextureRect"]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_0qqmn")
