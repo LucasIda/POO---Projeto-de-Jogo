@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="DeckBuilder"
-run/main_scene="uid://b4guub2w3vtjd"
+run/main_scene="uid://mirandkx0nvm"
 config/features=PackedStringArray("4.4", "C#", "GL Compatibility")
 
 [dotnet]

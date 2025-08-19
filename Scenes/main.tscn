@@ -23,15 +23,15 @@ offset_bottom = 190.0
 
 [node name="DrawButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
-text = "DrawButton"
+text = "Draw"
 
 [node name="ReturnButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
-text = "ReturnButton "
+text = "Return"
 
 [node name="ResetButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
-text = "ResetButton "
+text = "Reset"
 
 [node name="CardContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
