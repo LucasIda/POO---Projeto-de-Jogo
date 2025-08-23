@@ -3,39 +3,43 @@ using System;
 
 public partial class Card : TextureRect
 {
-    public string CardName { get; private set; }
+    public CardData Data { get; private set; }
+    public bool IsSelected { get; private set; }
 
-    public bool IsSelected { get; private set; }  // Estado de seleção da carta
-
-    // Sinal para quando a carta for clicada
     public delegate void CardClicked(Card clickedCard);
     public event CardClicked OnCardClicked;
 
-    public void SetCard(string name, Texture2D texture)
+    public void SetCard(CardData data, Texture2D texture)
     {
-        CardName = name;
+        Data = data;
         Texture = texture;
-        
-        // Conectar o sinal de clique do controle
-        Connect("gui_input", new Callable(this, "OnCardInput"));
+
+        Connect("gui_input", new Callable(this, nameof(OnCardInput)));
     }
 
-    // Detectar cliques na carta
     private void OnCardInput(InputEvent @event)
     {
         if (@event is InputEventMouseButton mouseEvent &&
-            mouseEvent.ButtonIndex == MouseButton.Left &&  // <- CORRETO para Godot 4
+            mouseEvent.ButtonIndex == MouseButton.Left &&
             mouseEvent.Pressed)
         {
-            OnCardClicked?.Invoke(this);  // Dispara o evento de clique
+            OnCardClicked?.Invoke(this);
+            ShowInfo();
         }
     }
 
-
-    // Método para alternar o estado de seleção
     public void ToggleSelection()
     {
         IsSelected = !IsSelected;
-        Modulate = IsSelected ? new Color(1, 1, 1, 0.5f) : new Color(1, 1, 1, 1);  // Altera a opacidade
+        Modulate = IsSelected
+            ? new Color(1, 1, 1, 0.5f)
+            : new Color(1, 1, 1, 1);
+    }
+
+    public void ShowInfo()
+    {
+        GD.Print($"Nome completo: {Data.Name}");
+        GD.Print($"Rank: {Data.Rank}");
+        GD.Print($"Naipe: {Data.Suit}");
     }
 }

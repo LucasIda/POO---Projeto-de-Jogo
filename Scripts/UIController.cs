@@ -9,34 +9,21 @@ public partial class UIController : Control
     [Export] private NodePath CardContainerPath;
 
     private Control _cardContainer;
-    private List<string> _deck = new();
-    private List<string> _discard = new();  // Cartas que foram retiradas (poderiam estar no "lixo" ou na mão)
+    private List<CardData> _deck = new();
+    private List<CardData> _discard = new();
 
     public override void _Ready()
     {
         _cardContainer = GetNode<Control>(CardContainerPath);
 
-        // Carregar todas as cartas da pasta Sprites
-        var dir = DirAccess.Open("res://Sprites/Cartas");
-        if (dir != null)
-        {
-            dir.ListDirBegin();
-            string fileName = dir.GetNext();
-            while (fileName != "")
-            {
-                if (fileName.EndsWith(".png"))
-                    _deck.Add(fileName);
-
-                fileName = dir.GetNext();
-            }
-            dir.ListDirEnd();
-        }
+        // 🔹 Gerar baralho completo
+        _deck = CardDatabase.GenerateDeck();
 
         // Embaralhar deck
         GD.Randomize();
         _deck = _deck.OrderBy(x => GD.Randi()).ToList();
 
-        // Conectar os botões
+        // Conectar botões
         GetNode<Button>("VBoxContainer/DrawButton").Pressed += OnDrawPressed;
         GetNode<Button>("VBoxContainer/ReturnButton").Pressed += OnReturnPressed;
         GetNode<Button>("VBoxContainer/ResetButton").Pressed += OnResetPressed;
@@ -50,35 +37,27 @@ public partial class UIController : Control
             return;
         }
 
-        string cardName = _deck[0];
+        CardData cardData = _deck[0];
         _deck.RemoveAt(0);
-        _discard.Add(cardName);  // Adiciona a carta ao "lixo" ou mão
+        _discard.Add(cardData);
 
-        // Instanciar a cena Card
         var card = CardScene.Instantiate<Card>();
-        Texture2D texture = GD.Load<Texture2D>($"res://Sprites/Cartas/{cardName}");
-        card.SetCard(cardName, texture);
+        Texture2D texture = GD.Load<Texture2D>(cardData.TexturePath);
+        card.SetCard(cardData, texture);
 
-        // Conectar o evento de clique da carta
         card.OnCardClicked += OnCardClicked;
 
-        // Calcular a posição da carta na mão
-        int cardPositionInHand = _discard.Count;  // A posição da carta na mão é o número de cartas já retiradas
-        GD.Print($"Carta sacada: {cardName}, Posição na mão: {cardPositionInHand}");
-
-        // Definir posição da carta no container (para exibição)
-        float cardOffsetX = _cardContainer.GetChildCount() * 110; // Calcula o deslocamento no eixo X
-        card.Position = new Vector2(cardOffsetX, 0); // A posição é definida no eixo X
+        float cardOffsetX = _cardContainer.GetChildCount() * 110;
+        card.Position = new Vector2(cardOffsetX, 0);
 
         _cardContainer.AddChild(card);
+
+        GD.Print($"Carta sacada: {cardData.Name}");
     }
 
-    // Método para lidar com o clique na carta
     private void OnCardClicked(Card clickedCard)
     {
-        GD.Print($"Carta {clickedCard.CardName} foi clicada!");
-
-        // Alterna a seleção da carta clicada
+        GD.Print($"Carta {clickedCard.Data.Name} foi clicada!");
         clickedCard.ToggleSelection();
     }
 
@@ -90,29 +69,21 @@ public partial class UIController : Control
             return;
         }
 
-        // Remove a última carta da "mão"
-        string lastCard = _discard.Last();
-        _discard.RemoveAt(_discard.Count - 1);  // Remove a última carta do "lixo" ou mão
-
-        // Recoloca a carta no deck (no começo da lista)
+        CardData lastCard = _discard.Last();
+        _discard.RemoveAt(_discard.Count - 1);
         _deck.Insert(0, lastCard);
 
-        GD.Print($"Devolveu: {lastCard}");
+        GD.Print($"Devolveu: {lastCard.Name}");
 
-        // Remover a carta do container (a última adicionada) e reorganizar
         if (_cardContainer.GetChildCount() > 0)
         {
             Node lastChild = _cardContainer.GetChild(_cardContainer.GetChildCount() - 1);
-            lastChild.QueueFree(); // Libera o recurso da última carta
+            lastChild.QueueFree();
 
-            // Reposiciona as cartas restantes para manter o visual
             for (int i = 0; i < _cardContainer.GetChildCount(); i++)
             {
-                var card = _cardContainer.GetChild(i) as Card;
-                if (card != null)
-                {
-                    card.Position = new Vector2(i * 110, 0);  // Reposiciona as cartas restantes
-                }
+                if (_cardContainer.GetChild(i) is Card card)
+                    card.Position = new Vector2(i * 110, 0);
             }
         }
     }
@@ -122,34 +93,16 @@ public partial class UIController : Control
         _deck.AddRange(_discard);
         _discard.Clear();
 
-        // Embaralha o deck de novo
         GD.Randomize();
         _deck = _deck.OrderBy(x => GD.Randi()).ToList();
 
         GD.Print("Baralho resetado!");
-        ClearCardContainer(); // Limpa o container de cartas
-        ReorganizarCartas();  // Reorganiza as cartas no container após o reset
+        ClearCardContainer();
     }
 
-    // Limpa o container de cartas
     private void ClearCardContainer()
     {
         foreach (Node child in _cardContainer.GetChildren())
-        {
-            child.QueueFree();  // Libera o recurso de cada carta
-        }
-    }
-
-    // Reorganiza as cartas dentro do container após o reset
-    private void ReorganizarCartas()
-    {
-        for (int i = 0; i < _cardContainer.GetChildCount(); i++)
-        {
-            var card = _cardContainer.GetChild(i) as Card;
-            if (card != null)
-            {
-                card.Position = new Vector2(i * 110, 0);  // Reposiciona no eixo X
-            }
-        }
+            child.QueueFree();
     }
 }
