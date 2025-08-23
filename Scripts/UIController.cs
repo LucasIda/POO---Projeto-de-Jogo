@@ -12,6 +12,9 @@ public partial class UIController : Control
     private List<CardData> _deck = new();
     private List<CardData> _discard = new();
 
+    // 🔹 Lista de cartas atualmente selecionadas
+    private List<Card> _selectedCards = new();
+
     public override void _Ready()
     {
         _cardContainer = GetNode<Control>(CardContainerPath);
@@ -59,6 +62,28 @@ public partial class UIController : Control
     {
         GD.Print($"Carta {clickedCard.Data.Name} foi clicada!");
         clickedCard.ToggleSelection();
+
+        if (clickedCard.IsSelected)
+        {
+            if (!_selectedCards.Contains(clickedCard))
+                _selectedCards.Add(clickedCard);
+        }
+        else
+        {
+            _selectedCards.Remove(clickedCard);
+        }
+
+        // 🔹 Chama o avaliador sempre que algo mudar
+        if (_selectedCards.Count > 0)
+        {
+            var selectedData = _selectedCards.Select(c => c.Data).ToList();
+            var hand = HandEvaluator.EvaluateHand(selectedData);
+            GD.Print($"Mão atual: {hand}");
+        }
+        else
+        {
+            GD.Print("Nenhuma carta selecionada.");
+        }
     }
 
     private void OnReturnPressed()
@@ -86,6 +111,9 @@ public partial class UIController : Control
                     card.Position = new Vector2(i * 110, 0);
             }
         }
+
+        // 🔹 Também limpa lista de selecionadas caso devolva uma que estava marcada
+        _selectedCards.RemoveAll(c => !IsInstanceValid(c));
     }
 
     private void OnResetPressed()
@@ -98,6 +126,7 @@ public partial class UIController : Control
 
         GD.Print("Baralho resetado!");
         ClearCardContainer();
+        _selectedCards.Clear();
     }
 
     private void ClearCardContainer()
