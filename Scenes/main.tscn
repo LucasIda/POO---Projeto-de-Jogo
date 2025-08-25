@@ -77,13 +77,13 @@ anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -250.0
 offset_top = -90.0
-offset_right = 250.0
+offset_right = 500.0
 grow_horizontal = 2
 grow_vertical = 0
 pivot_offset = Vector2(250, 90)
 
 [node name="Panel" type="ColorRect" parent="."]
-layout_mode = 0
+layout_mode = 1
 offset_right = 257.0
 offset_bottom = 648.0
 color = Color(0, 0, 0, 0.517647)
@@ -211,8 +211,8 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -13.0
 offset_top = -11.0
-offset_right = 19.0
-offset_bottom = 21.0
+offset_right = 12.0
+offset_bottom = 14.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.8, 0.8)
