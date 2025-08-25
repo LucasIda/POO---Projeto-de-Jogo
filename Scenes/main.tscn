@@ -105,7 +105,7 @@ custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_kry3j")
 
-[node name="Label" type="Label" parent="Panel/ScoreBox/Chip"]
+[node name="ChipLabel" type="Label" parent="Panel/ScoreBox/Chip"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -125,7 +125,7 @@ custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_kry3j")
 
-[node name="Label" type="Label" parent="Panel/ScoreBox/Mult"]
+[node name="MultLabel" type="Label" parent="Panel/ScoreBox/Mult"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

@@ -8,10 +8,11 @@ public partial class UIController : Control
     [Export] private PackedScene CardScene;
     [Export] private NodePath CardContainerPath;
     [Export] private NodePath HandNameLabelPath;
-
+    
     private Control _cardContainer;
     private Label _handNameLabel;
-
+    private Label _chipsLabel;
+    private Label _multLabel;
     private List<CardData> _deck = new();
     private List<CardData> _discard = new();
 
@@ -20,6 +21,9 @@ public partial class UIController : Control
     public override void _Ready()
     {
         _cardContainer = GetNode<Control>(CardContainerPath);
+
+        _chipsLabel = GetNode<Label>("Panel/ScoreBox/Chip/ChipLabel");
+        _multLabel = GetNode<Label>("Panel/ScoreBox/Mult/MultLabel");
 
         _handNameLabel = GetNodeOrNull<Label>(HandNameLabelPath);
         if (_handNameLabel == null)
@@ -148,8 +152,12 @@ public partial class UIController : Control
             int mult = HandValue.GetMultiplier(hand);
             int score = HandValue.GetScore(hand);
 
-            _handNameLabel.Text = $"Mão: {hand} | Chips: {chips} | Mult: {mult} | Pontos: {score}";
-            GD.Print($"Mão atual: {hand} | Chips: {chips} | Mult: {mult} | Pontos: {score}");
+            _handNameLabel.Text = $"{hand}";
+            GD.Print($"Mão atual: {hand}");
+            GD.Print($"Hand avaliada: {hand}, Chips: {chips}, Mult: {mult} = {score}");
+
+            _chipsLabel.Text = $"{chips}";
+            _multLabel.Text = $"{mult}";
         }
         else
         {
