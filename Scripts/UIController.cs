@@ -8,24 +8,29 @@ public partial class UIController : Control
     [Export] private PackedScene CardScene;
     [Export] private NodePath CardContainerPath;
     [Export] private NodePath HandNameLabelPath;
-    
+    [Export] private Button _playButton;
+    [Export] private Label _roundScoreLabel;
+
     private Control _cardContainer;
     private Label _handNameLabel;
     private Label _chipsLabel;
     private Label _multLabel;
+
     private List<CardData> _deck = new();
     private List<CardData> _discard = new();
-
     private List<Card> _selectedCards = new();
+    private List<Card> _discardPile = new();
+    
+    private int _roundScore = 0;
 
     public override void _Ready()
     {
         _cardContainer = GetNode<Control>(CardContainerPath);
-
         _chipsLabel = GetNode<Label>("Panel/ScoreBox/Chip/ChipLabel");
         _multLabel = GetNode<Label>("Panel/ScoreBox/Mult/MultLabel");
-
+        _roundScoreLabel = GetNode<Label>("Panel/RoundScore/ScorePanel/HBoxContainer/ScoreLabel");
         _handNameLabel = GetNodeOrNull<Label>(HandNameLabelPath);
+
         if (_handNameLabel == null)
             _handNameLabel = GetNodeOrNull<Label>("Panel/HandData/HandName");
 
@@ -38,7 +43,46 @@ public partial class UIController : Control
         GetNode<Button>("VBoxContainer/DrawButton").Pressed += OnDrawPressed;
         GetNode<Button>("VBoxContainer/ReturnButton").Pressed += OnReturnPressed;
         GetNode<Button>("VBoxContainer/ResetButton").Pressed += OnResetPressed;
+        GetNode<Button>("VBoxContainer/PlayButton").Pressed += OnPlayPressed;
     }
+
+    private void OnPlayPressed()
+    {
+        if (_selectedCards.Count == 0)
+            return;
+
+        // Verifica se todos os CardData são válidos
+        var selectedData = _selectedCards.Select(c => c.Data).Where(d => d != null).ToList();
+        if (selectedData.Count == 0)
+            return; // Nenhum CardData válido, sai da função
+
+        // Avalia a mão
+        var hand = HandChecker.EvaluateHand(selectedData);
+
+        int chips = HandValue.GetChips(hand);
+        int mult = HandValue.GetMultiplier(hand);
+        int score = HandValue.GetScore(hand);
+
+        _roundScore += score;
+        if (_roundScoreLabel != null)
+            _roundScoreLabel.Text = $"{_roundScore}";
+
+        // Move cartas para o descarte
+        foreach (var card in _selectedCards)
+        {
+            if (card != null)
+            {
+                _discardPile.Add(card);
+                card.QueueFree();
+            }
+        }
+        _selectedCards.Clear();
+
+        // Comprar cartas novas
+        DrawCards(selectedData.Count);
+        UpdateCurrentHandLabel();
+    }
+
 
     private void OnDrawPressed()
     {
@@ -68,6 +112,15 @@ public partial class UIController : Control
         _cardContainer.AddChild(card);
 
         GD.Print($"Carta sacada: {cardData.Name}");
+    }
+
+    private void DrawCards(int count)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            if (_deck.Count > 0)
+                DrawCard();
+        }
     }
 
     private void OnCardClicked(Card clickedCard)
@@ -162,6 +215,8 @@ public partial class UIController : Control
         else
         {
             _handNameLabel.Text = "";
+            _chipsLabel.Text = "0";
+            _multLabel.Text = "0";
             GD.Print("Nenhuma carta selecionada.");
         }
     }

@@ -68,6 +68,10 @@ text = "Return"
 layout_mode = 2
 text = "Reset"
 
+[node name="PlayButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Play"
+
 [node name="CardContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 7
@@ -218,7 +222,7 @@ grow_vertical = 2
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("4_jjvhh")
 
-[node name="Label" type="Label" parent="Panel/RoundScore/ScorePanel/HBoxContainer"]
+[node name="ScoreLabel" type="Label" parent="Panel/RoundScore/ScorePanel/HBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "0"
