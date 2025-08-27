@@ -41,7 +41,7 @@ public partial class UIController : Control
         _deck = _deck.OrderBy(x => GD.Randi()).ToList();
 
         GetNode<Button>("VBoxContainer/DrawButton").Pressed += OnDrawPressed;
-        GetNode<Button>("VBoxContainer/ReturnButton").Pressed += OnReturnPressed;
+        GetNode<Button>("VBoxContainer/DiscardButton").Pressed += OnDiscardPressed;
         GetNode<Button>("VBoxContainer/ResetButton").Pressed += OnResetPressed;
         GetNode<Button>("VBoxContainer/PlayButton").Pressed += OnPlayPressed;
     }
@@ -140,33 +140,37 @@ public partial class UIController : Control
         UpdateCurrentHandLabel();
     }
 
-    private void OnReturnPressed()
+    private void OnSwitchPressed()
+    {
+        
+    }
+
+    private void OnDiscardPressed()
     {
         if (_discard.Count == 0)
         {
-            GD.Print("Não há cartas para devolver.");
             return;
         }
 
-        CardData lastCard = _discard.Last();
-        _discard.RemoveAt(_discard.Count - 1);
-        _deck.Insert(0, lastCard);
+        int discardCount = _selectedCards.Count;
 
-        GD.Print($"Devolveu: {lastCard.Name}");
+        GD.Print("Cartas descartadas:");
 
-        if (_cardContainer.GetChildCount() > 0)
+        foreach (var card in _selectedCards)
         {
-            Node lastChild = _cardContainer.GetChild(_cardContainer.GetChildCount() - 1);
-            lastChild.QueueFree();
-
-            for (int i = 0; i < _cardContainer.GetChildCount(); i++)
+            if (card != null)
             {
-                if (_cardContainer.GetChild(i) is Card card)
-                    card.Position = new Vector2(i * 110, 0);
+                _discardPile.Add(card);
+                GD.Print($" - {card.Data.Rank} of {card.Data.Suit}");
+                card.QueueFree();
             }
         }
+        _selectedCards.Clear();
 
-        _selectedCards.RemoveAll(c => !IsInstanceValid(c));
+        int availableToDraw = Math.Min(discardCount, _deck.Count);
+
+        if (availableToDraw > 0)
+            DrawCards(availableToDraw);
 
         UpdateCurrentHandLabel();
     }

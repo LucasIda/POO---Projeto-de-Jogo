@@ -60,17 +60,21 @@ offset_bottom = 251.0
 layout_mode = 2
 text = "Draw"
 
-[node name="ReturnButton" type="Button" parent="VBoxContainer"]
+[node name="DiscardButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
-text = "Return"
+text = "Discard"
+
+[node name="PlayButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Play"
 
 [node name="ResetButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 text = "Reset"
 
-[node name="PlayButton" type="Button" parent="VBoxContainer"]
+[node name="SwitchButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
-text = "Play"
+text = "Switch"
 
 [node name="CardContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
@@ -230,5 +234,5 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [connection signal="pressed" from="VBoxContainer/DrawButton" to="." method="_on_draw_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/ReturnButton" to="." method="_on_return_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/DiscardButton" to="." method="_on_return_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/ResetButton" to="." method="_on_reset_button_pressed"]
