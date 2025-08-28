@@ -78,10 +78,6 @@ text = "Play"
 layout_mode = 2
 text = "Reset"
 
-[node name="SwitchButton" type="Button" parent="VBoxContainer"]
-layout_mode = 2
-text = "Switch"
-
 [node name="CardContainer" type="Control" parent="."]
 layout_mode = 1
 anchors_preset = 7

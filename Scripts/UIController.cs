@@ -35,15 +35,16 @@ public partial class UIController : Control
         RoundScoreLabel = GetNode<Label>("Panel/RoundScore/ScorePanel/HBoxContainer/ScoreLabel");
         _handNameLabel = GetNodeOrNull<Label>(HandNameLabelPath) ?? GetNode<Label>("Panel/HandData/HandName");
 
-        UpdateCurrentHandLabel(); // estado inicial
-        // Inicializa deck
+        UpdateCurrentHandLabel();
+
         InitDeck();
-        // Conectar botões
+
         if (DrawButton != null) DrawButton.Pressed += () => DrawCards(1);
         if (DiscardButton != null) DiscardButton.Pressed += OnDiscardPressed;
         if (PlayButton != null) PlayButton.Pressed += OnPlayPressed;
         if (ResetButton != null) ResetButton.Pressed += OnResetPressed;
     }
+
     private void InitDeck()
     {
         string basePath = "res://Sprites/Cartas/";
@@ -58,13 +59,10 @@ public partial class UIController : Control
         GD.Randomize();
         _deck = _deck.OrderBy(x => GD.Randi()).ToList();
     }
+
     private void DrawCard()
     {
-        if (_deck.Count == 0)
-        {
-            GD.Print("O baralho acabou!");
-            return;
-        }
+        if (_deck.Count == 0) return;
 
         CardData cardData = _deck[0];
         _deck.RemoveAt(0);
@@ -72,20 +70,19 @@ public partial class UIController : Control
         var card = CardScene.Instantiate<Card>();
         card.SetCard(cardData, GD.Load<Texture2D>(cardData.TexturePath));
         card.OnCardClicked += OnCardClicked;
+        card.OnDragging += OnCardDragging;
+        card.OnDragEnded += OnCardDragEnded;
 
         _hand.Add(card);
         _cardContainer.AddChild(card);
 
         UpdateHandVisuals();
-
-        GD.Print($"Carta sacada: {cardData.Name}");
     }
 
     private void DrawCards(int count)
     {
-        for (int i = 0; i < count; i++)
-            if (_deck.Count > 0)
-                DrawCard();
+        for (int i = 0; i < count && _deck.Count > 0; i++)
+            DrawCard();
     }
 
     private void OnCardClicked(Card clickedCard)
@@ -120,35 +117,34 @@ public partial class UIController : Control
             _discardPile.Add(card);
             card.QueueFree();
         }
+        DrawCards(selectedData.Count);
         _selectedCards.Clear();
 
-        DrawCards(selectedData.Count);
-        UpdateCurrentHandLabel();
         UpdateHandVisuals();
+        UpdateCurrentHandLabel();
     }
 
     private void OnDiscardPressed()
     {
         if (_selectedCards.Count == 0) return;
 
-        GD.Print("Cartas descartadas:");
+        int toDraw = Math.Min(_selectedCards.Count, _deck.Count);
+
         foreach (var card in _selectedCards)
         {
             _hand.Remove(card);
             _discard.Add(card.Data);
             _discardPile.Add(card);
-            GD.Print($" - {card.Data.Rank} of {card.Data.Suit}");
             card.QueueFree();
         }
 
-        int toDraw = Math.Min(_selectedCards.Count, _deck.Count);
         _selectedCards.Clear();
 
         if (toDraw > 0)
             DrawCards(toDraw);
 
-        UpdateCurrentHandLabel();
         UpdateHandVisuals();
+        UpdateCurrentHandLabel();
     }
 
     private void OnResetPressed()
@@ -157,13 +153,13 @@ public partial class UIController : Control
         _discard.Clear();
         GD.Randomize();
         _deck = _deck.OrderBy(x => GD.Randi()).ToList();
-        GD.Print("Baralho resetado!");
+
         ClearCardContainer();
         _hand.Clear();
         _selectedCards.Clear();
         _discardPile.Clear();
         _roundScore = 0;
-        RoundScoreLabel.Text = $"{_roundScore}";
+        RoundScoreLabel.Text = "0";
         UpdateCurrentHandLabel();
     }
 
@@ -175,9 +171,13 @@ public partial class UIController : Control
 
     private void UpdateHandVisuals()
     {
-        float spacing = 57; // ajusta o espaçamento horizontal
+        float spacing = 57;
         for (int i = 0; i < _hand.Count; i++)
+        {
+        if (!_hand[i].IsDragging)
             _hand[i].Position = new Vector2(i * spacing, 0);
+
+        }
     }
 
     private void UpdateCurrentHandLabel()
@@ -195,15 +195,23 @@ public partial class UIController : Control
             _handNameLabel.Text = $"{handEval}";
             _chipsLabel.Text = $"{chips}";
             _multLabel.Text = $"{mult}";
-
-            GD.Print($"Mão atual: {handEval}, Chips: {chips}, Mult: {mult}, Score: {score}");
         }
         else
         {
             _handNameLabel.Text = "";
             _chipsLabel.Text = "0";
             _multLabel.Text = "0";
-            GD.Print("Nenhuma carta selecionada.");
         }
+    }
+
+    private void OnCardDragging(Card card, Vector2 delta)
+    {
+        // Implementar lógica adicional se necessário
+    }
+
+    private void OnCardDragEnded(Card card)
+    {
+        _hand = _hand.OrderBy(c => c.Position.X).ToList();
+        UpdateHandVisuals();
     }
 }
