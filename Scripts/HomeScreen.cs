@@ -2,33 +2,33 @@ using Godot;
 
 public partial class HomeScreen : Control
 {
-    private Button _startBtn, _rankingBtn, _quitBtn;
+	private Button _startBtn, _rankingBtn, _quitBtn;
 
-    public override void _Ready()
-    {
-        // Ajuste estes caminhos aos nomes reais na sua árvore!
-        _startBtn   = GetNodeOrNull<Button>("MarginContainer/HBoxContainer/VBoxContainer/start_btn");
-        _rankingBtn = GetNodeOrNull<Button>("MarginContainer/HBoxContainer/VBoxContainer/ranking_btn");
-        _quitBtn    = GetNodeOrNull<Button>("MarginContainer/HBoxContainer/VBoxContainer/quit_btn");
+	public override void _Ready()
+	{
+		// Ajuste estes caminhos aos nomes reais na sua árvore!
+		_startBtn   = GetNodeOrNull<Button>("MarginContainer/HBoxContainer/VBoxContainer/start_btn");
+		_rankingBtn = GetNodeOrNull<Button>("MarginContainer/HBoxContainer/VBoxContainer/ranking_btn");
+		_quitBtn    = GetNodeOrNull<Button>("MarginContainer/HBoxContainer/VBoxContainer/quit_btn");
 
-        if (_startBtn == null || _rankingBtn == null || _quitBtn == null)
-        {
-            GD.PushError("Caminhos dos botões estão incorretos/vazios. Revise os nomes e hierarquia.");
-            return; // evita NullReference
-        }
+		if (_startBtn == null || _rankingBtn == null || _quitBtn == null)
+		{
+			GD.PushError("Caminhos dos botões estão incorretos/vazios. Revise os nomes e hierarquia.");
+			return; // evita NullReference
+		}
 
-        _startBtn.Pressed   += OnStartBtnPressed;
-        _rankingBtn.Pressed += OnRankingBtnPressed;
-        _quitBtn.Pressed    += OnQuitBtnPressed;
-    }
+		_startBtn.Pressed   += OnStartBtnPressed;
+		_rankingBtn.Pressed += OnRankingBtnPressed;
+		_quitBtn.Pressed    += OnQuitBtnPressed;
+	}
 
-    private void OnStartBtnPressed()
-    {
-        var err = GetTree().ChangeSceneToFile("res://Scenes/main.tscn");
-        if (err != Error.Ok) GD.PushError($"Falha ao trocar de cena: {err}");
-    }
+	private void OnStartBtnPressed()
+	{
+		var err = GetTree().ChangeSceneToFile("res://Scenes/main.tscn");
+		if (err != Error.Ok) GD.PushError($"Falha ao trocar de cena: {err}");
+	}
 
-    private void OnRankingBtnPressed() { /* abrir ranking quando existir */ }
+	private void OnRankingBtnPressed() { /* abrir ranking quando existir */ }
 
-    private void OnQuitBtnPressed() => GetTree().Quit();
+	private void OnQuitBtnPressed() => GetTree().Quit();
 }
