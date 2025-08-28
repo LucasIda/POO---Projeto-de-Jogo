@@ -38,7 +38,7 @@ texture_margin_top = 9.0
 texture_margin_right = 9.0
 texture_margin_bottom = 9.0
 
-[node name="Main" type="Control"]
+[node name="Main" type="Control" node_paths=PackedStringArray("DrawButton", "DiscardButton", "PlayButton", "ResetButton", "RoundScoreLabel")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -48,6 +48,12 @@ grow_vertical = 2
 script = ExtResource("1_jjgbg")
 CardScene = ExtResource("2_bo1nx")
 CardContainerPath = NodePath("CardContainer")
+HandNameLabelPath = NodePath("Panel/HandData/HandName")
+DrawButton = NodePath("VBoxContainer/DrawButton")
+DiscardButton = NodePath("VBoxContainer/DiscardButton")
+PlayButton = NodePath("VBoxContainer/PlayButton")
+ResetButton = NodePath("VBoxContainer/ResetButton")
+RoundScoreLabel = NodePath("Panel/RoundScore/ScorePanel/HBoxContainer/ScoreLabel")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 0
@@ -76,7 +82,7 @@ text = "Reset"
 layout_mode = 2
 text = "Switch"
 
-[node name="CardContainer" type="HBoxContainer" parent="."]
+[node name="CardContainer" type="Control" parent="."]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
