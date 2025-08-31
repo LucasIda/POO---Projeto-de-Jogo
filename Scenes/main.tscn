@@ -1,9 +1,16 @@
-[gd_scene load_steps=11 format=3 uid="uid://mirandkx0nvm"]
+[gd_scene load_steps=13 format=3 uid="uid://mirandkx0nvm"]
 
 [ext_resource type="Script" uid="uid://mydm023cvu67" path="res://Scripts/UIController.cs" id="1_jjgbg"]
 [ext_resource type="PackedScene" uid="uid://b4guub2w3vtjd" path="res://Scenes/card.tscn" id="2_bo1nx"]
 [ext_resource type="Texture2D" uid="uid://c45vitmn4egvr" path="res://Sprites/Icons/score_icon.png" id="3_8gbba"]
+[ext_resource type="Script" uid="uid://ccnb15pqo64by" path="res://Scripts/DeckView.cs" id="3_kry3j"]
 [ext_resource type="Texture2D" uid="uid://xd340x8pwlkx" path="res://Sprites/Icons/stake.png" id="4_jjvhh"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kry3j"]
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jjvhh"]
 atlas = ExtResource("3_8gbba")
@@ -85,12 +92,40 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -250.0
+offset_left = -309.0
 offset_top = -90.0
-offset_right = 500.0
+offset_right = 441.0
 grow_horizontal = 2
 grow_vertical = 0
-pivot_offset = Vector2(250, 90)
+
+[node name="DeckView" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 976.0
+offset_top = 421.0
+offset_right = 1039.0
+offset_bottom = 508.0
+script = ExtResource("3_kry3j")
+
+[node name="TextureRect" type="Panel" parent="DeckView"]
+modulate = Color(0.647059, 0.647059, 0.647059, 1)
+self_modulate = Color(0.647059, 0.647059, 0.647059, 1)
+layout_mode = 0
+offset_left = -34.0
+offset_top = -43.0
+offset_right = 29.0
+offset_bottom = 44.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_kry3j")
+
+[node name="CardBack" type="Sprite2D" parent="DeckView"]
+centered = false
+offset = Vector2(3, 4)
+
+[node name="CountLabel" type="Label" parent="DeckView"]
+layout_mode = 0
+offset_left = -27.0
+offset_top = 95.0
+offset_right = 53.0
+offset_bottom = 118.0
 
 [node name="Panel" type="ColorRect" parent="."]
 layout_mode = 1
