@@ -12,6 +12,8 @@ public partial class UIController : Control
     [Export] private Button DiscardButton;
     [Export] private Button PlayButton;
     [Export] private Button ResetButton;
+    [Export] private Button SuitSortButton;
+    [Export] private Button RankSortButton;
     [Export] private Label RoundScoreLabel;
     [Export] private NodePath DeckViewPath;
 
@@ -47,6 +49,8 @@ public partial class UIController : Control
         if (DiscardButton != null) DiscardButton.Pressed += OnDiscardPressed;
         if (PlayButton != null) PlayButton.Pressed += OnPlayPressed;
         if (ResetButton != null) ResetButton.Pressed += OnResetPressed;
+        if (SuitSortButton != null) SuitSortButton.Pressed += SortBySuit;
+        if (RankSortButton != null) RankSortButton.Pressed += SortByRank;
     }
 
     private void InitDeck()
@@ -62,13 +66,12 @@ public partial class UIController : Control
         }
         GD.Randomize();
         _deck = _deck.OrderBy(x => GD.Randi()).ToList();
-
         _totalDeckCount = _deck.Count;
     }
 
     private void DrawCard()
     {
-        if (_deck.Count == 0)         
+        if (_deck.Count == 0)
             return;
 
         CardData cardData = _deck[0];
@@ -83,7 +86,7 @@ public partial class UIController : Control
         _hand.Add(card);
         _cardContainer.AddChild(card);
 
-        _deckView.UpdateCount(_deck.Count, _totalDeckCount); // Atualiza sprites do deck
+        _deckView.UpdateCount(_deck.Count, _totalDeckCount);
         UpdateHandVisuals();
         GD.Print($"Carta sacada: {cardData.Name}");
     }
@@ -188,8 +191,6 @@ public partial class UIController : Control
 
         GD.Print($"Deck resetado. Total de cartas no deck: {_deck.Count}");
     }
-
-
     private void ClearCardContainer()
     {
         foreach (Node child in _cardContainer.GetChildren())
@@ -231,14 +232,49 @@ public partial class UIController : Control
         }
     }
 
-    private void OnCardDragging(Card card, Vector2 delta)
-    {
-        // Implementar lógica adicional se necessário
-    }
+    private void OnCardDragging(Card card, Vector2 delta) { }
 
     private void OnCardDragEnded(Card card)
     {
         _hand = _hand.OrderBy(c => c.Position.X).ToList();
+        UpdateHandVisuals();
+    }
+
+    // (com ordem decrescente dentro de cada naipe)
+    private void SortBySuit()
+    {
+        var suitOrder = new Dictionary<Suit, int>
+        {
+            { Suit.Clubs, 0 },
+            { Suit.Hearts, 1 },
+            { Suit.Spades, 2 },
+            { Suit.Diamonds, 3 }
+        };
+
+        _hand = _hand
+            .OrderBy(c => suitOrder[c.Data.Suit])         // prioridade pelo naipe
+            .ThenByDescending(c => (int)c.Data.Rank)      // ordem decrescente dentro do naipe
+            .ToList();
+
+        UpdateHandVisuals();
+    }
+
+    // (AS maior → 2 menor, com tie-breaker por suit)
+    private void SortByRank()
+    {
+        var suitOrder = new Dictionary<Suit, int>
+        {
+            { Suit.Clubs, 0 },
+            { Suit.Hearts, 1 },
+            { Suit.Spades, 2 },
+            { Suit.Diamonds, 3 }
+        };
+
+        _hand = _hand
+            .OrderByDescending(c => (int)c.Data.Rank)     // rank maior primeiro
+            .ThenBy(c => suitOrder[c.Data.Suit])          // desempate pelo suit
+            .ToList();
+
         UpdateHandVisuals();
     }
 }

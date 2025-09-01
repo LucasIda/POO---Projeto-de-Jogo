@@ -45,7 +45,7 @@ texture_margin_top = 9.0
 texture_margin_right = 9.0
 texture_margin_bottom = 9.0
 
-[node name="Main" type="Control" node_paths=PackedStringArray("DrawButton", "DiscardButton", "PlayButton", "ResetButton", "RoundScoreLabel")]
+[node name="Main" type="Control" node_paths=PackedStringArray("DrawButton", "DiscardButton", "PlayButton", "ResetButton", "SuitSortButton", "RankSortButton", "RoundScoreLabel")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -60,6 +60,8 @@ DrawButton = NodePath("VBoxContainer/DrawButton")
 DiscardButton = NodePath("VBoxContainer/DiscardButton")
 PlayButton = NodePath("VBoxContainer/PlayButton")
 ResetButton = NodePath("VBoxContainer/ResetButton")
+SuitSortButton = NodePath("HBoxContainer/SuitSortButton")
+RankSortButton = NodePath("HBoxContainer/RankSortButton")
 RoundScoreLabel = NodePath("Panel/RoundScore/ScorePanel/HBoxContainer/ScoreLabel")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
@@ -97,6 +99,25 @@ offset_top = -90.0
 offset_right = 441.0
 grow_horizontal = 2
 grow_vertical = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+offset_left = 305.0
+offset_top = 503.0
+offset_right = 372.0
+offset_bottom = 503.0
+
+[node name="SortLabel" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+text = "Sort By: "
+
+[node name="SuitSortButton" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+text = "Suit"
+
+[node name="RankSortButton" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+text = "Rank"
 
 [node name="DeckView" type="Control" parent="."]
 anchors_preset = 0
@@ -269,7 +290,3 @@ theme_override_font_sizes/font_size = 16
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[connection signal="pressed" from="VBoxContainer/DrawButton" to="." method="_on_draw_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/DiscardButton" to="." method="_on_return_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/ResetButton" to="." method="_on_reset_button_pressed"]
