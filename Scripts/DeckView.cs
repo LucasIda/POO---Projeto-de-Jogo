@@ -14,6 +14,7 @@ public partial class DeckView : Control
     private Control _stackContainer; // Container para as sprites
     private Label _countLabel;
     private Texture2D _cardTexture;
+    private Panel _shadowPanel; // Panel que representa a sombra
 
     public override void _Ready()
     {
@@ -25,17 +26,22 @@ public partial class DeckView : Control
             return;
         }
 
+        // Pega o Panel de sombra (mesmo chamado TextureRect na cena)
+        _shadowPanel = GetNodeOrNull<Panel>("TextureRect");
+        if (_shadowPanel == null)
+            GD.PrintErr("Panel de sombra (TextureRect) não encontrado!");
+
         // Cria container para a pilha
         _stackContainer = new Control();
         AddChild(_stackContainer);
         _stackContainer.SetZIndex(0);
 
-        // Label para contagem, posicionada abaixo da pilha
-        _countLabel = GetNodeOrNull<Label>("CardCountLabel");
+        // Label para contagem
+        _countLabel = GetNodeOrNull<Label>("CountLabel");
         if (_countLabel == null)
         {
             _countLabel = new Label();
-            _countLabel.Position = new Vector2(0, 60); // abaixo da pilha
+            _countLabel.Position = new Vector2(0, 60);
             AddChild(_countLabel);
         }
         _countLabel.SetZIndex(1);
@@ -67,6 +73,15 @@ public partial class DeckView : Control
         UpdateLabel();
     }
 
+    // Reset deck para o total definido
+    public void ResetDeck(int totalCount)
+    {
+        _totalCards = totalCount;
+        _cardsRemaining = totalCount;
+        RedrawStack();
+        UpdateLabel();
+    }
+
     private void RedrawStack()
     {
         // Limpa sprites antigas
@@ -79,14 +94,12 @@ public partial class DeckView : Control
 
         // Calcula o número de layers proporcional às cartas restantes
         int layers = Mathf.CeilToInt((_cardsRemaining / (float)_totalCards) * MaxLayers);
-        layers = Mathf.Max(layers, 1); // garante pelo menos 1 layer visível
-
-        float smoothOffset = LayerOffset / 2f;
+        layers = Mathf.Max(layers, 1);
 
         for (int i = 0; i < layers; i++)
         {
-            float xOffset = i * LayerOffset/4;
-            float yOffset = -i * LayerOffset/2;
+            float xOffset = i * LayerOffset / 4;
+            float yOffset = -i * LayerOffset / 2;
 
             var sprite = new Sprite2D
             {
@@ -99,19 +112,26 @@ public partial class DeckView : Control
         }
     }
 
-
     private void UpdateLabel()
     {
         if (_countLabel != null)
             _countLabel.Text = $"{_cardsRemaining}/{_totalCards}";
+
+        UpdateShadowVisibility();
     }
 
-    // Reset deck para o total definido
-    public void ResetDeck(int totalCount)
-    {
-        _totalCards = totalCount;
-        _cardsRemaining = totalCount;
-        RedrawStack();
-        UpdateLabel();
-    }
+    private void UpdateShadowVisibility()
+{
+    if (_shadowPanel == null) return;
+
+    // Opacidade proporcional à quantidade de cartas
+    float opacity = _cardsRemaining / (float)_totalCards;
+
+    // Garante que fique no intervalo 0..1
+    opacity = Mathf.Clamp(opacity, 0f, 1f);
+
+    // Aplica a opacidade no Panel
+    _shadowPanel.Modulate = new Color(0.6f, 0.6f, 0.6f, opacity);
+}
+
 }
