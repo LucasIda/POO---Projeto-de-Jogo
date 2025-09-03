@@ -32,6 +32,7 @@ public partial class UIController : Control
     private int _roundScore = 0;
     private int _totalDeckCount;
     private const int MaxHandSize = 8;
+    private const int MaxSelectedCards = 5;
 
     public override void _Ready()
     {
@@ -129,12 +130,22 @@ public partial class UIController : Control
 
     private void OnCardClicked(Card clickedCard)
     {
-        clickedCard.ToggleSelection();
-
-        if (clickedCard.IsSelected && !_selectedCards.Contains(clickedCard))
-            _selectedCards.Add(clickedCard);
-        else if (!clickedCard.IsSelected)
+        if (clickedCard.IsSelected)
+        {
+            clickedCard.ToggleSelection();
             _selectedCards.Remove(clickedCard);
+        }
+        else
+        {
+            if (_selectedCards.Count >= MaxSelectedCards)
+            {
+                GD.Print($"Você só pode selecionar até {MaxSelectedCards} cartas.");
+                return;
+            }
+
+            clickedCard.ToggleSelection();
+            _selectedCards.Add(clickedCard);
+        }
 
         UpdateCurrentHandLabel();
     }
