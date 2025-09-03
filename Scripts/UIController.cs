@@ -16,12 +16,15 @@ public partial class UIController : Control
     [Export] private Button RankSortButton;
     [Export] private Label RoundScoreLabel;
     [Export] private NodePath DeckViewPath;
+    [Export] private Label DiscardLeftLabel;
+    [Export] private Label PlayLeftLabel;
 
     private Control _cardContainer;
     private DeckView _deckView;
     private Label _handNameLabel;
     private Label _chipsLabel;
     private Label _multLabel;
+    
 
     private List<CardData> _deck = new();
     private List<CardData> _discard = new();
@@ -31,6 +34,12 @@ public partial class UIController : Control
 
     private int _roundScore = 0;
     private int _totalDeckCount;
+    private const int MaxHandSize = 8;
+    private const int MaxSelectedCards = 5;
+    private const int MaxDiscards = 3;
+    private const int MaxPlays = 4;
+    private int _discardCount = 0;
+    private int _playCount = 0;
 
     public override void _Ready()
     {
@@ -40,17 +49,24 @@ public partial class UIController : Control
         RoundScoreLabel = GetNode<Label>("Panel/RoundScore/ScorePanel/HBoxContainer/ScoreLabel");
         _handNameLabel = GetNodeOrNull<Label>(HandNameLabelPath) ?? GetNode<Label>("Panel/HandData/HandName");
         _deckView = GetNode<DeckView>("DeckView");
+        DiscardLeftLabel = GetNode<Label>("Panel/PlayDiscardCount/Discard/DiscardLeftLabel");
+        PlayLeftLabel = GetNode<Label>("Panel/PlayDiscardCount/Play/PlayLeftLabel");
 
         InitDeck();
         _deckView.UpdateCount(_deck.Count, _totalDeckCount); // Atualiza visual do deck ao iniciar
         UpdateCurrentHandLabel();
 
         if (DrawButton != null) DrawButton.Pressed += () => DrawCards(1);
+        UpdateDrawButtonState();
         if (DiscardButton != null) DiscardButton.Pressed += OnDiscardPressed;
         if (PlayButton != null) PlayButton.Pressed += OnPlayPressed;
         if (ResetButton != null) ResetButton.Pressed += OnResetPressed;
         if (SuitSortButton != null) SuitSortButton.Pressed += SortBySuit;
         if (RankSortButton != null) RankSortButton.Pressed += SortByRank;
+
+        DrawCards(MaxHandSize);
+        UpdateHandVisuals();
+        UpdateActionCountersUI();
     }
 
     private void InitDeck()
@@ -71,6 +87,13 @@ public partial class UIController : Control
 
     private void DrawCard()
     {
+        if (_hand.Count >= MaxHandSize)
+        {
+            GD.Print("Mão cheia! Não é possível sacar mais cartas.");
+            UpdateDrawButtonState();
+            return;
+        }
+
         if (_deck.Count == 0)
             return;
 
@@ -88,6 +111,7 @@ public partial class UIController : Control
 
         _deckView.UpdateCount(_deck.Count, _totalDeckCount);
         UpdateHandVisuals();
+        UpdateDrawButtonState();
         GD.Print($"Carta sacada: {cardData.Name}");
     }
 
@@ -99,24 +123,51 @@ public partial class UIController : Control
             return;
         }
 
-        for (int i = 0; i < count && _deck.Count > 0; i++)
+        int spaceLeft = MaxHandSize - _hand.Count;
+        if (spaceLeft <= 0)
+        {
+            GD.Print("Mão cheia! Não é possível sacar mais cartas.");
+            UpdateDrawButtonState();
+            return;
+        }
+
+        int toDraw = Math.Min(count, Math.Min(spaceLeft, _deck.Count));
+        for (int i = 0; i < toDraw; i++)
             DrawCard();
+
+        UpdateDrawButtonState();
     }
 
     private void OnCardClicked(Card clickedCard)
     {
-        clickedCard.ToggleSelection();
-
-        if (clickedCard.IsSelected && !_selectedCards.Contains(clickedCard))
-            _selectedCards.Add(clickedCard);
-        else if (!clickedCard.IsSelected)
+        if (clickedCard.IsSelected)
+        {
+            clickedCard.ToggleSelection();
             _selectedCards.Remove(clickedCard);
+        }
+        else
+        {
+            if (_selectedCards.Count >= MaxSelectedCards)
+            {
+                GD.Print($"Você só pode selecionar até {MaxSelectedCards} cartas.");
+                return;
+            }
+
+            clickedCard.ToggleSelection();
+            _selectedCards.Add(clickedCard);
+        }
 
         UpdateCurrentHandLabel();
     }
 
     private void OnPlayPressed()
     {
+        if (_playCount >= MaxPlays)
+        {
+            GD.Print($"Você já jogou o máximo de {MaxPlays} vezes nesta rodada.");
+            return;
+        }
+
         if (_selectedCards.Count == 0) return;
         GD.Print("Cartas jogadas:");
 
@@ -140,17 +191,27 @@ public partial class UIController : Control
         }
 
         DrawCards(selectedData.Count);
+
+        _playCount++;
         _selectedCards.Clear();
         UpdateHandVisuals();
         UpdateCurrentHandLabel();
+        UpdateDrawButtonState();
+        UpdateActionCountersUI();
     }
 
     private void OnDiscardPressed()
     {
+        if (_discardCount >= MaxDiscards)
+        {
+            GD.Print($"Você já descartou o máximo de {MaxDiscards} vezes nesta rodada.");
+            return;
+        }
+
         if (_selectedCards.Count == 0) return;
         GD.Print("Cartas descartadas:");
 
-        int toDraw = Math.Min(_selectedCards.Count, _deck.Count);
+        int requested = _selectedCards.Count;
 
         foreach (var card in _selectedCards)
         {
@@ -163,11 +224,14 @@ public partial class UIController : Control
 
         _selectedCards.Clear();
 
-        if (toDraw > 0)
-            DrawCards(toDraw);
+        if (_deck.Count > 0)
+            DrawCards(requested);
 
+        _discardCount++;
         UpdateHandVisuals();
         UpdateCurrentHandLabel();
+        UpdateDrawButtonState();
+        UpdateActionCountersUI();
     }
 
     private void OnResetPressed()
@@ -186,10 +250,16 @@ public partial class UIController : Control
         _roundScore = 0;
         RoundScoreLabel.Text = "0";
 
+        _discardCount = 0;
+        _playCount = 0;
+
         _deckView.UpdateCount(_deck.Count, _totalDeckCount);
         UpdateCurrentHandLabel();
 
         GD.Print($"Deck resetado. Total de cartas no deck: {_deck.Count}");
+
+        UpdateDrawButtonState();
+        UpdateActionCountersUI();
     }
     private void ClearCardContainer()
     {
@@ -240,6 +310,18 @@ public partial class UIController : Control
         UpdateHandVisuals();
     }
 
+    private void UpdateActionCountersUI()
+    {
+        int discardsLeft = Math.Max(0, MaxDiscards - _discardCount);
+        int playsLeft = Math.Max(0, MaxPlays - _playCount);
+
+        if (DiscardLeftLabel != null) DiscardLeftLabel.Text = discardsLeft.ToString();
+        if (PlayLeftLabel != null) PlayLeftLabel.Text = playsLeft.ToString();
+
+        if (DiscardButton != null) DiscardButton.Disabled = discardsLeft <= 0;
+        if (PlayButton != null) PlayButton.Disabled = playsLeft <= 0;
+    }
+
     // (com ordem decrescente dentro de cada naipe)
     private void SortBySuit()
     {
@@ -276,5 +358,12 @@ public partial class UIController : Control
             .ToList();
 
         UpdateHandVisuals();
+    }
+
+    private void UpdateDrawButtonState()
+    {
+        if (DrawButton == null) return;
+
+        DrawButton.Disabled = _hand.Count >= MaxHandSize || _deck.Count == 0;
     }
 }
