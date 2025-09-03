@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://h771o0bra2aq" path="res://Sprites/Bg/bg_scenne.png" id="1_d6d8u"]
 [ext_resource type="Script" uid="uid://bkmvyuobxm5g3" path="res://Scripts/HomeScreen.cs" id="1_db1cy"]
-[ext_resource type="Texture2D" uid="uid://cee0h0x1tdd4u" path="res://Sprites/Bg/logo04.png" id="2_db1cy"]
+[ext_resource type="Texture2D" uid="uid://c0utgo7nib35b" path="res://Sprites/Bg/logo05.png" id="3_db1cy"]
 
 [node name="HomeScreen" type="Control"]
 layout_mode = 3
@@ -48,7 +48,7 @@ size_flags_vertical = 4
 
 [node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
-texture = ExtResource("2_db1cy")
+texture = ExtResource("3_db1cy")
 
 [node name="start_btn" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
