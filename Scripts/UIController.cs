@@ -53,6 +53,9 @@ public partial class UIController : Control
         if (ResetButton != null) ResetButton.Pressed += OnResetPressed;
         if (SuitSortButton != null) SuitSortButton.Pressed += SortBySuit;
         if (RankSortButton != null) RankSortButton.Pressed += SortByRank;
+
+        DrawCards(MaxHandSize);
+        UpdateHandVisuals();
     }
 
     private void InitDeck()
