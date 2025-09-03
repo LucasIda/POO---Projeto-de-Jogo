@@ -216,6 +216,58 @@ alignment = 1
 [node name="HandName" type="Label" parent="Panel/HandData"]
 layout_mode = 2
 
+[node name="PlayDiscardCount" type="HBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.652
+anchor_bottom = 0.652
+offset_left = 4.0
+offset_top = -43.496
+offset_right = 251.0
+offset_bottom = 61.504
+
+[node name="Play" type="Panel" parent="Panel/PlayDiscardCount"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+
+[node name="HandsCount" type="Label" parent="Panel/PlayDiscardCount/Play"]
+layout_mode = 0
+offset_right = 119.0
+offset_bottom = 35.0
+text = "Hands"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlayLeftLabel" type="Label" parent="Panel/PlayDiscardCount/Play"]
+layout_mode = 0
+offset_top = 38.0
+offset_right = 119.0
+offset_bottom = 104.0
+text = "4"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Discard" type="Panel" parent="Panel/PlayDiscardCount"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+
+[node name="DiscardCount" type="Label" parent="Panel/PlayDiscardCount/Discard"]
+layout_mode = 0
+offset_right = 118.0
+offset_bottom = 37.0
+text = "Discards"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DiscardLeftLabel" type="Label" parent="Panel/PlayDiscardCount/Discard"]
+layout_mode = 0
+offset_top = 39.0
+offset_right = 119.0
+offset_bottom = 103.0
+text = "3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="RoundScore" type="Panel" parent="Panel"]
 self_modulate = Color(0.137255, 0.137255, 0.137255, 1)
 layout_mode = 1

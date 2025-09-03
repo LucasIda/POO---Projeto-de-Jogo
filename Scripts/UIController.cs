@@ -16,12 +16,15 @@ public partial class UIController : Control
     [Export] private Button RankSortButton;
     [Export] private Label RoundScoreLabel;
     [Export] private NodePath DeckViewPath;
+    [Export] private Label DiscardLeftLabel;
+    [Export] private Label PlayLeftLabel;
 
     private Control _cardContainer;
     private DeckView _deckView;
     private Label _handNameLabel;
     private Label _chipsLabel;
     private Label _multLabel;
+    
 
     private List<CardData> _deck = new();
     private List<CardData> _discard = new();
@@ -33,6 +36,10 @@ public partial class UIController : Control
     private int _totalDeckCount;
     private const int MaxHandSize = 8;
     private const int MaxSelectedCards = 5;
+    private const int MaxDiscards = 3;
+    private const int MaxPlays = 4;
+    private int _discardCount = 0;
+    private int _playCount = 0;
 
     public override void _Ready()
     {
@@ -42,6 +49,8 @@ public partial class UIController : Control
         RoundScoreLabel = GetNode<Label>("Panel/RoundScore/ScorePanel/HBoxContainer/ScoreLabel");
         _handNameLabel = GetNodeOrNull<Label>(HandNameLabelPath) ?? GetNode<Label>("Panel/HandData/HandName");
         _deckView = GetNode<DeckView>("DeckView");
+        DiscardLeftLabel = GetNode<Label>("Panel/PlayDiscardCount/Discard/DiscardLeftLabel");
+        PlayLeftLabel = GetNode<Label>("Panel/PlayDiscardCount/Play/PlayLeftLabel");
 
         InitDeck();
         _deckView.UpdateCount(_deck.Count, _totalDeckCount); // Atualiza visual do deck ao iniciar
@@ -57,6 +66,7 @@ public partial class UIController : Control
 
         DrawCards(MaxHandSize);
         UpdateHandVisuals();
+        UpdateActionCountersUI();
     }
 
     private void InitDeck()
@@ -152,6 +162,12 @@ public partial class UIController : Control
 
     private void OnPlayPressed()
     {
+        if (_playCount >= MaxPlays)
+        {
+            GD.Print($"Você já jogou o máximo de {MaxPlays} vezes nesta rodada.");
+            return;
+        }
+
         if (_selectedCards.Count == 0) return;
         GD.Print("Cartas jogadas:");
 
@@ -176,14 +192,22 @@ public partial class UIController : Control
 
         DrawCards(selectedData.Count);
 
+        _playCount++;
         _selectedCards.Clear();
         UpdateHandVisuals();
         UpdateCurrentHandLabel();
         UpdateDrawButtonState();
+        UpdateActionCountersUI();
     }
 
     private void OnDiscardPressed()
     {
+        if (_discardCount >= MaxDiscards)
+        {
+            GD.Print($"Você já descartou o máximo de {MaxDiscards} vezes nesta rodada.");
+            return;
+        }
+
         if (_selectedCards.Count == 0) return;
         GD.Print("Cartas descartadas:");
 
@@ -203,9 +227,11 @@ public partial class UIController : Control
         if (_deck.Count > 0)
             DrawCards(requested);
 
+        _discardCount++;
         UpdateHandVisuals();
         UpdateCurrentHandLabel();
         UpdateDrawButtonState();
+        UpdateActionCountersUI();
     }
 
     private void OnResetPressed()
@@ -224,12 +250,16 @@ public partial class UIController : Control
         _roundScore = 0;
         RoundScoreLabel.Text = "0";
 
+        _discardCount = 0;
+        _playCount = 0;
+
         _deckView.UpdateCount(_deck.Count, _totalDeckCount);
         UpdateCurrentHandLabel();
 
         GD.Print($"Deck resetado. Total de cartas no deck: {_deck.Count}");
 
         UpdateDrawButtonState();
+        UpdateActionCountersUI();
     }
     private void ClearCardContainer()
     {
@@ -278,6 +308,18 @@ public partial class UIController : Control
     {
         _hand = _hand.OrderBy(c => c.Position.X).ToList();
         UpdateHandVisuals();
+    }
+
+    private void UpdateActionCountersUI()
+    {
+        int discardsLeft = Math.Max(0, MaxDiscards - _discardCount);
+        int playsLeft = Math.Max(0, MaxPlays - _playCount);
+
+        if (DiscardLeftLabel != null) DiscardLeftLabel.Text = discardsLeft.ToString();
+        if (PlayLeftLabel != null) PlayLeftLabel.Text = playsLeft.ToString();
+
+        if (DiscardButton != null) DiscardButton.Disabled = discardsLeft <= 0;
+        if (PlayButton != null) PlayButton.Disabled = playsLeft <= 0;
     }
 
     // (com ordem decrescente dentro de cada naipe)
