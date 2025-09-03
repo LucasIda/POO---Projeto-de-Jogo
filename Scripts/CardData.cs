@@ -4,14 +4,14 @@ using System.Collections.Generic;
 public enum Suit
 {
     Clubs,
+    Hearts,
     Spades,
-    Diamonds,
-    Hearts
+    Diamonds
 }
 
 public enum Rank
 {
-    Ace = 1,
+    Ace = 14,
     Two = 2,
     Three = 3,
     Four = 4,

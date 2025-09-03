@@ -1,9 +1,51 @@
-[gd_scene load_steps=3 format=3 uid="uid://mirandkx0nvm"]
+[gd_scene load_steps=13 format=3 uid="uid://mirandkx0nvm"]
 
 [ext_resource type="Script" uid="uid://mydm023cvu67" path="res://Scripts/UIController.cs" id="1_jjgbg"]
 [ext_resource type="PackedScene" uid="uid://b4guub2w3vtjd" path="res://Scenes/card.tscn" id="2_bo1nx"]
+[ext_resource type="Texture2D" uid="uid://c45vitmn4egvr" path="res://Sprites/Icons/score_icon.png" id="3_8gbba"]
+[ext_resource type="Script" uid="uid://ccnb15pqo64by" path="res://Scripts/DeckView.cs" id="3_kry3j"]
+[ext_resource type="Texture2D" uid="uid://xd340x8pwlkx" path="res://Sprites/Icons/stake.png" id="4_jjvhh"]
 
-[node name="Main" type="Control"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kry3j"]
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jjvhh"]
+atlas = ExtResource("3_8gbba")
+region = Rect2(48, 48, 48, 48)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kry3j"]
+texture = SubResource("AtlasTexture_jjvhh")
+texture_margin_left = 9.0
+texture_margin_top = 9.0
+texture_margin_right = 9.0
+texture_margin_bottom = 9.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kry3j"]
+atlas = ExtResource("3_8gbba")
+region = Rect2(48, 48, 48, 48)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_21xkr"]
+texture = SubResource("AtlasTexture_kry3j")
+texture_margin_left = 9.0
+texture_margin_top = 9.0
+texture_margin_right = 9.0
+texture_margin_bottom = 9.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6bp64"]
+atlas = ExtResource("3_8gbba")
+region = Rect2(48, 48, 48, 48)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_344ge"]
+texture = SubResource("AtlasTexture_6bp64")
+texture_margin_left = 9.0
+texture_margin_top = 9.0
+texture_margin_right = 9.0
+texture_margin_bottom = 9.0
+
+[node name="Main" type="Control" node_paths=PackedStringArray("DrawButton", "DiscardButton", "PlayButton", "ResetButton", "SuitSortButton", "RankSortButton", "RoundScoreLabel")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -13,40 +55,290 @@ grow_vertical = 2
 script = ExtResource("1_jjgbg")
 CardScene = ExtResource("2_bo1nx")
 CardContainerPath = NodePath("CardContainer")
+HandNameLabelPath = NodePath("Panel/HandData/HandName")
+DrawButton = NodePath("VBoxContainer/DrawButton")
+DiscardButton = NodePath("VBoxContainer/DiscardButton")
+PlayButton = NodePath("VBoxContainer/PlayButton")
+ResetButton = NodePath("VBoxContainer/ResetButton")
+SuitSortButton = NodePath("HBoxContainer/SuitSortButton")
+RankSortButton = NodePath("HBoxContainer/RankSortButton")
+RoundScoreLabel = NodePath("Panel/RoundScore/ScorePanel/HBoxContainer/ScoreLabel")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 0
-offset_left = 200.0
+offset_left = 506.0
 offset_top = 150.0
-offset_right = 240.0
-offset_bottom = 190.0
+offset_right = 567.0
+offset_bottom = 251.0
 
 [node name="DrawButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 text = "Draw"
 
-[node name="ReturnButton" type="Button" parent="VBoxContainer"]
+[node name="DiscardButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
-text = "Return"
+text = "Discard"
+
+[node name="PlayButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Play"
 
 [node name="ResetButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 text = "Reset"
 
-[node name="CardContainer" type="HBoxContainer" parent="."]
+[node name="CardContainer" type="Control" parent="."]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -250.0
+offset_left = -309.0
 offset_top = -90.0
-offset_right = 250.0
+offset_right = 441.0
 grow_horizontal = 2
 grow_vertical = 0
-pivot_offset = Vector2(250, 90)
 
-[connection signal="pressed" from="VBoxContainer/DrawButton" to="." method="_on_draw_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/ReturnButton" to="." method="_on_return_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/ResetButton" to="." method="_on_reset_button_pressed"]
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+offset_left = 305.0
+offset_top = 503.0
+offset_right = 372.0
+offset_bottom = 503.0
+
+[node name="SortLabel" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+text = "Sort By: "
+
+[node name="SuitSortButton" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+text = "Suit"
+
+[node name="RankSortButton" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+text = "Rank"
+
+[node name="DeckView" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 976.0
+offset_top = 421.0
+offset_right = 1039.0
+offset_bottom = 508.0
+script = ExtResource("3_kry3j")
+
+[node name="TextureRect" type="Panel" parent="DeckView"]
+modulate = Color(0.647059, 0.647059, 0.647059, 1)
+self_modulate = Color(0.647059, 0.647059, 0.647059, 1)
+layout_mode = 0
+offset_left = -34.0
+offset_top = -43.0
+offset_right = 29.0
+offset_bottom = 44.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_kry3j")
+
+[node name="CardBack" type="Sprite2D" parent="DeckView"]
+centered = false
+offset = Vector2(3, 4)
+
+[node name="CountLabel" type="Label" parent="DeckView"]
+layout_mode = 0
+offset_left = -27.0
+offset_top = 95.0
+offset_right = 53.0
+offset_bottom = 118.0
+
+[node name="Panel" type="ColorRect" parent="."]
+layout_mode = 1
+offset_right = 257.0
+offset_bottom = 648.0
+color = Color(0, 0, 0, 0.517647)
+
+[node name="ScoreBox" type="HBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 6.0
+offset_top = -36.0
+offset_right = 250.0
+offset_bottom = 34.0
+grow_vertical = 2
+
+[node name="Chip" type="Panel" parent="Panel/ScoreBox"]
+self_modulate = Color(0, 0.584314, 1, 1)
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_kry3j")
+
+[node name="ChipLabel" type="Label" parent="Panel/ScoreBox/Chip"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(60, 40)
+theme_override_font_sizes/font_size = 16
+text = "0
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Mult" type="Panel" parent="Panel/ScoreBox"]
+self_modulate = Color(1, 0, 0, 1)
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_kry3j")
+
+[node name="MultLabel" type="Label" parent="Panel/ScoreBox/Mult"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(60, 40)
+theme_override_font_sizes/font_size = 16
+text = "0
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HandData" type="HBoxContainer" parent="Panel"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 248.0
+offset_right = 250.0
+offset_bottom = 288.0
+alignment = 1
+
+[node name="HandName" type="Label" parent="Panel/HandData"]
+layout_mode = 2
+
+[node name="PlayDiscardCount" type="HBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.652
+anchor_bottom = 0.652
+offset_left = 4.0
+offset_top = -43.496
+offset_right = 251.0
+offset_bottom = 61.504
+
+[node name="Play" type="Panel" parent="Panel/PlayDiscardCount"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+
+[node name="HandsCount" type="Label" parent="Panel/PlayDiscardCount/Play"]
+layout_mode = 0
+offset_right = 119.0
+offset_bottom = 35.0
+text = "Hands"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlayLeftLabel" type="Label" parent="Panel/PlayDiscardCount/Play"]
+layout_mode = 0
+offset_top = 38.0
+offset_right = 119.0
+offset_bottom = 104.0
+text = "4"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Discard" type="Panel" parent="Panel/PlayDiscardCount"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+
+[node name="DiscardCount" type="Label" parent="Panel/PlayDiscardCount/Discard"]
+layout_mode = 0
+offset_right = 118.0
+offset_bottom = 37.0
+text = "Discards"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DiscardLeftLabel" type="Label" parent="Panel/PlayDiscardCount/Discard"]
+layout_mode = 0
+offset_top = 39.0
+offset_right = 119.0
+offset_bottom = 103.0
+text = "3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RoundScore" type="Panel" parent="Panel"]
+self_modulate = Color(0.137255, 0.137255, 0.137255, 1)
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -149.0
+offset_bottom = -89.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_21xkr")
+
+[node name="Label" type="Label" parent="Panel/RoundScore"]
+layout_mode = 0
+offset_left = 9.0
+offset_top = 1.0
+offset_right = 61.0
+offset_bottom = 60.0
+theme_override_font_sizes/font_size = 16
+text = "Round
+Score"
+
+[node name="ScorePanel" type="Panel" parent="Panel/RoundScore"]
+self_modulate = Color(0.239216, 0.239216, 0.239216, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.5
+offset_top = -24.0
+offset_right = 122.5
+offset_bottom = 26.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_344ge")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/RoundScore/ScorePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Control" type="Control" parent="Panel/RoundScore/ScorePanel/HBoxContainer"]
+custom_minimum_size = Vector2(26, 0)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Panel/RoundScore/ScorePanel/HBoxContainer/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -13.0
+offset_top = -11.0
+offset_right = 12.0
+offset_bottom = 14.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("4_jjvhh")
+
+[node name="ScoreLabel" type="Label" parent="Panel/RoundScore/ScorePanel/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
