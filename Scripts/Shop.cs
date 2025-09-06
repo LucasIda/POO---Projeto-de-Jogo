@@ -3,73 +3,109 @@ using System.Collections.Generic;
 
 public partial class Shop : CanvasLayer
 {
-	[Export] public NodePath ItemListPath;
-	[Export] public NodePath BuyBtnPath;
-	[Export] public NodePath CloseBtnPath;
-	[Export] public NodePath CoinsLabelPath;
+	[Export] public NodePath TopRowPath;
+	[Export] public NodePath BottomRowPath;
+	[Export] public NodePath CoinsPath;
+	[Export] public NodePath NextRoundBtnPath;
+	[Export] public NodePath RerollBtnPath;
+	[Export] public PackedScene ItemViewScene; // arraste res://Scenes/ShopItemView.tscn
+	[Export] public int RerollCost = 5;
+
+	private GridContainer _topRow, _bottomRow;
+	private Label _coins;
+	private Button _nextBtn, _rerollBtn;
 
 	public UIController Game;
-	private ItemList _itemList;
-	private Button _buyBtn, _closeBtn;
-	private Label _coinsLabel;
-	private List<IShopItem> _items = new();
+	private List<IShopItem> _catalog = new();
 
 	public override void _Ready()
 	{
-		_itemList = GetNode<ItemList>(ItemListPath);
-		_buyBtn = GetNode<Button>(BuyBtnPath);
-		_closeBtn = GetNode<Button>(CloseBtnPath);
-		_coinsLabel = GetNode<Label>(CoinsLabelPath);
+		_topRow    = GetNode<GridContainer>(TopRowPath);
+		_bottomRow = GetNode<GridContainer>(BottomRowPath);
+		_coins     = GetNode<Label>(CoinsPath);
+		_nextBtn   = GetNode<Button>(NextRoundBtnPath);
+		_rerollBtn = GetNode<Button>(RerollBtnPath);
 
-		_buyBtn.Pressed += OnBuyPressed;
-		_closeBtn.Pressed += OnClosePressed;
+		_nextBtn.Pressed  += OnNextRoundPressed;
+		_rerollBtn.Pressed += OnRerollPressed;
+
+		Hide(); // quem chama Open() é o controlador do jogo
 	}
 
+	// Abre a loja com catálogo
 	public void Open(UIController gameRef, List<IShopItem> items)
 	{
 		Game = gameRef;
-		_items = items ?? new List<IShopItem>();
-		_itemList?.Clear();
-
-		foreach (var it in _items)
-			_itemList.AddItem(it.TitleWithPrice());
-
-		UpdateCoinsLabel();
+		_catalog = items ?? new List<IShopItem>();
+		Populate();
+		UpdateCoins();
 		Show();
-		GetTree().Paused = true; // pausa o jogo por trás
+		GetTree().Paused = true;
 	}
 
-	private void OnBuyPressed()
+	private void Populate()
 	{
-		if (_items.Count == 0) return;
-		var idx = _itemList.GetSelectedItems();
-		if (idx.Length == 0) return;
+		foreach (var c in _topRow.GetChildren()) c.QueueFree();
+		foreach (var c in _bottomRow.GetChildren()) c.QueueFree();
 
-		var item = _items[idx[0]];
-		if (Game.Coins >= item.Price)
+		for (int i = 0; i < _catalog.Count; i++)
 		{
-			Game.Coins -= item.Price;
-			item.Apply(Game);
-			UpdateCoinsLabel();
-			GD.Print($"Comprou: {item.TitleWithPrice()}");
+			var view = ItemViewScene.Instantiate<ShopItemView>();
+			(i < 2 ? _topRow : _bottomRow).AddChild(view);
+			view.Bind(_catalog[i], null); // ícone entra depois
 		}
-		else
+	}
+
+	// Chamado pela BuyArea quando solta um card nela
+	public void TryBuy(ShopItemView view)
+	{
+		if (view == null || view.BoundItem == null) return;
+		var item = view.BoundItem;
+
+		if (Game != null && Game.Coins < item.Price)
 		{
 			GD.Print("Moedas insuficientes!");
+			return;
 		}
+
+		if (Game != null) Game.Coins -= item.Price;
+		item.Apply(Game);
+		view.QueueFree(); // remove da vitrine
+		UpdateCoins();
+		GD.Print($"Comprou: {item.DisplayName} por ${item.Price}");
 	}
 
-	private void OnClosePressed()
+	private void OnNextRoundPressed()
+	{
+		Close();
+		Game?.OnShopClosed();
+	}
+
+	private void OnRerollPressed()
+	{
+		if (Game != null && Game.Coins < RerollCost)
+		{
+			GD.Print("Sem moedas para Reroll!");
+			return;
+		}
+
+		if (Game != null) Game.Coins -= RerollCost;
+
+		// TODO: gerar novo catálogo; provisório = inverter
+		_catalog.Reverse();
+		Populate();
+		UpdateCoins();
+	}
+
+	public void Close()
 	{
 		Hide();
 		GetTree().Paused = false;
-		Game?.OnShopClosed();
 		QueueFree();
 	}
 
-	private void UpdateCoinsLabel()
+	private void UpdateCoins()
 	{
-		if (_coinsLabel != null)
-			_coinsLabel.Text = $"Moedas: {Game?.Coins ?? 0}";
+		_coins.Text = $"Moedas: {Game?.Coins ?? 0}";
 	}
 }

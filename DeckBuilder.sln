@@ -1,6 +1,10 @@
 ﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
+<<<<<<< Updated upstream
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeckBuilder", "DeckBuilder.csproj", "{ADA2855B-B28B-4119-BA0C-47A0DD58FD8A}"
+=======
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeckBuilder", "DeckBuilder.csproj", "{5AFAC5DA-1AC4-4F87-91D0-36BC684F9DB6}"
+>>>>>>> Stashed changes
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,11 +13,20 @@ Global
 	ExportRelease|Any CPU = ExportRelease|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+<<<<<<< Updated upstream
 		{ADA2855B-B28B-4119-BA0C-47A0DD58FD8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{ADA2855B-B28B-4119-BA0C-47A0DD58FD8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ADA2855B-B28B-4119-BA0C-47A0DD58FD8A}.ExportDebug|Any CPU.ActiveCfg = ExportDebug|Any CPU
 		{ADA2855B-B28B-4119-BA0C-47A0DD58FD8A}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
 		{ADA2855B-B28B-4119-BA0C-47A0DD58FD8A}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
 		{ADA2855B-B28B-4119-BA0C-47A0DD58FD8A}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+=======
+		{5AFAC5DA-1AC4-4F87-91D0-36BC684F9DB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5AFAC5DA-1AC4-4F87-91D0-36BC684F9DB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5AFAC5DA-1AC4-4F87-91D0-36BC684F9DB6}.ExportDebug|Any CPU.ActiveCfg = ExportDebug|Any CPU
+		{5AFAC5DA-1AC4-4F87-91D0-36BC684F9DB6}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
+		{5AFAC5DA-1AC4-4F87-91D0-36BC684F9DB6}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
+		{5AFAC5DA-1AC4-4F87-91D0-36BC684F9DB6}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+>>>>>>> Stashed changes
 	EndGlobalSection
 EndGlobal

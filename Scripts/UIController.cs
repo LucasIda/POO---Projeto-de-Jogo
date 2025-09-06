@@ -11,13 +11,14 @@ public partial class UIController : Control
 	private Control _cardContainer;
 	private List<CardData> _deck = new();
 	private List<CardData> _discard = new();
-	
-	// moedas do jogador e evitar abrir a loja duas vezes
-	public int Coins = 0;       
-	public bool ShopShown = false; 
 
-	// 🔹 Lista de cartas atualmente selecionadas
+	//  Lista de cartas atualmente selecionadas
 	private List<Card> _selectedCards = new();
+
+	// >>> LOJA: estado básico
+	public int Coins { get; set; } = 20;   // moedas usadas pela loja
+	public int Level { get; set; } = 0;    // nível/round atual
+	private bool _shopOpen = false;        // evita abrir duas lojas
 
 	public override void _Ready()
 	{
@@ -34,6 +35,9 @@ public partial class UIController : Control
 		GetNode<Button>("VBoxContainer/DrawButton").Pressed += OnDrawPressed;
 		GetNode<Button>("VBoxContainer/ReturnButton").Pressed += OnReturnPressed;
 		GetNode<Button>("VBoxContainer/ResetButton").Pressed += OnResetPressed;
+
+
+
 	}
 
 	private void OnDrawPressed()
@@ -77,7 +81,7 @@ public partial class UIController : Control
 			_selectedCards.Remove(clickedCard);
 		}
 
-		// 🔹 Chama o avaliador sempre que algo mudar
+		//  Chama o avaliador sempre que algo mudar
 		if (_selectedCards.Count > 0)
 		{
 			var selectedData = _selectedCards.Select(c => c.Data).ToList();
@@ -116,7 +120,7 @@ public partial class UIController : Control
 			}
 		}
 
-		// 🔹 Também limpa lista de selecionadas caso devolva uma que estava marcada
+		//  Também limpa lista de selecionadas caso devolva uma que estava marcada
 		_selectedCards.RemoveAll(c => !IsInstanceValid(c));
 	}
 
@@ -138,37 +142,55 @@ public partial class UIController : Control
 		foreach (Node child in _cardContainer.GetChildren())
 			child.QueueFree();
 	}
-	// Abre a cena da Loja (shop.tscn)
-private void OpenShop()
-{
-	var shopPacked = GD.Load<PackedScene>("res://Scenes/shop.tscn");
-	var shop = shopPacked.Instantiate<Shop>();
 
-	// Por enquanto sem itens (vamos adicionar depois)
-	var items = new System.Collections.Generic.List<IShopItem>();
 
-	AddChild(shop);
-	shop.Open(this, items); // 'this' é o UIController (Shop.cs espera isso)
-}
-
-// Chamado quando fecha a loja
-public void OnShopClosed()
-{
-	GD.Print("Loja fechada");
-	ShopShown = false; // libera para abrir de novo se você quiser
-}
-
-// Atalho: tecla L abre a loja
-public override void _UnhandledInput(InputEvent @event)
-{
-	if (@event is InputEventKey key && key.Pressed && !key.Echo)
+	// Chame isto quando terminar o 1º round/nível
+	public void OnRoundEnded()
 	{
-		if (key.Keycode == Key.L && !ShopShown)
-		{
-			ShopShown = true;
+		Level++;
+		if (Level >= 1 && !_shopOpen)
 			OpenShop();
-		}
+	}
+	public override void _Input(InputEvent e)
+	{
+   		 if (e is InputEventKey k && k.Pressed && !k.Echo && k.Keycode == Key.L)
+	{
+		GD.Print("L pressionado");
+		OnRoundEnded(); // abre a loja
 	}
 }
 
+	// chamado pelo Shop quando fecha (Next Round)
+	public void OnShopClosed()
+	{
+		_shopOpen = false;
+		GD.Print("Shop fechada — seguir para a próxima rodada.");
+		// TODO: retomar jogo, iniciar próxima rodada etc.
+	}
+
+	private void OpenShop()
+	{
+		var shopPacked = GD.Load<PackedScene>("res://Scenes/shop.tscn");
+		var shop = shopPacked.Instantiate<Shop>(); // precisa do Shop.cs
+		AddChild(shop);
+		_shopOpen = true;
+
+		// catálogo temporário (troque pelos itens reais que implementem IShopItem)
+		var catalog = new List<IShopItem>
+		{
+			new DemoItem("Empress", "Carta especial", 3),
+			new DemoItem("Joker", "Carta de joker", 2),
+			new DemoItem("Buffoon Pack", "Pacote comum", 7),
+			new DemoItem("Arcana Pack", "Pacote raro", 9),
+			new DemoItem("Voucher", "Bônus único", 10),
+		};
+
+		shop.Open(this, catalog);
+	}
+
+	//  abra a loja ao iniciar, só para teste
+	private void OpenShopForTest()
+	{
+		OnRoundEnded();
+	}
 }

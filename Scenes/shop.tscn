@@ -1,41 +1,85 @@
-[gd_scene load_steps=2 format=3 uid="uid://cgco5ioj1a0hd"]
+[gd_scene load_steps=5 format=3 uid="uid://ym0nxwxnt3m7"]
 
-[ext_resource type="Script" uid="uid://c6f67odpl7fwo" path="res://Scripts/Shop.cs" id="1_a0mxf"]
+[ext_resource type="Script" path="res://Scripts/Shop.cs" id="1_2shtd"]
+[ext_resource type="Script" uid="uid://b0yemvm0jkrjq" path="res://Scripts/BuyArea.cs" id="1_a0mxf"]
+[ext_resource type="PackedScene" uid="uid://cqdx8m2xdvmgs" path="res://Scenes/shop_item_view.tscn" id="2_io27d"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6mhmv"]
+bg_color = Color(5.96821e-06, 0.718475, 0.360876, 1)
 
 [node name="Shop" type="CanvasLayer"]
-script = ExtResource("1_a0mxf")
-ItemListPath = NodePath("Panel/VBoxContainer/ItemList")
-BuyBtnPath = NodePath("Panel/VBoxContainer/HBoxContainer/BuyBtn")
-CloseBtnPath = NodePath("Panel/VBoxContainer/HBoxContainer/CloseBtn")
-CoinsLabelPath = NodePath("Panel/VBoxContainer/CoinsLabel")
+process_mode = 3
+script = ExtResource("1_2shtd")
+TopRowPath = NodePath("Panel2/RootHBox/RightVBox/TopRow")
+BottomRowPath = NodePath("Panel2/RootHBox/RightVBox/BottomRow")
+CoinsPath = NodePath("Panel2/RootHBox/RightVBox/TopBar/Coins")
+NextRoundBtnPath = NodePath("Panel2/RootHBox/LeftVBox/NextRoundBtn")
+RerollBtnPath = NodePath("Panel2/RootHBox/RightVBox/RerollBtn")
+ItemViewScene = ExtResource("2_io27d")
 
-[node name="Panel" type="Panel" parent="."]
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="Panel2" type="Panel" parent="."]
+custom_minimum_size = Vector2(900, 520)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -481.0
+offset_top = -239.0
+offset_right = 419.0
+offset_bottom = 281.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+[node name="RootHBox" type="HBoxContainer" parent="Panel2"]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="Label" type="Label" parent="Panel/VBoxContainer"]
+[node name="LeftVBox" type="VBoxContainer" parent="Panel2/RootHBox"]
 layout_mode = 2
-text = "Loja"
+size_flags_horizontal = 3
 
-[node name="ItemList" type="ItemList" parent="Panel/VBoxContainer"]
+[node name="NextRoundBtn" type="Button" parent="Panel2/RootHBox/LeftVBox"]
+custom_minimum_size = Vector2(220, 100)
+layout_mode = 2
+text = "Next Round"
+
+[node name="RightVBox" type="VBoxContainer" parent="Panel2/RootHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RerollBtn" type="Button" parent="Panel2/RootHBox/RightVBox"]
+custom_minimum_size = Vector2(220, 100)
+layout_mode = 2
+text = "Reroll $5"
+
+[node name="TopBar" type="HBoxContainer" parent="Panel2/RootHBox/RightVBox"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Panel/VBoxContainer"]
+[node name="Title" type="Label" parent="Panel2/RootHBox/RightVBox/TopBar"]
 layout_mode = 2
+text = "SHOP"
 
-[node name="BuyBtn" type="Button" parent="Panel/VBoxContainer/HBoxContainer"]
+[node name="Spacer" type="Control" parent="Panel2/RootHBox/RightVBox/TopBar"]
 layout_mode = 2
-text = "Comprar"
+size_flags_horizontal = 3
 
-[node name="CloseBtn" type="Button" parent="Panel/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-text = "Fechar"
-
-[node name="CoinsLabel" type="Label" parent="Panel/VBoxContainer"]
+[node name="Coins" type="Label" parent="Panel2/RootHBox/RightVBox/TopBar"]
 layout_mode = 2
 text = "Moedas: 0"
+
+[node name="BuyArea" type="Panel" parent="Panel2/RootHBox/RightVBox"]
+custom_minimum_size = Vector2(300, 80)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_6mhmv")
+script = ExtResource("1_a0mxf")
+ShopPath = NodePath("../../../..")
+
+[node name="TopRow" type="GridContainer" parent="Panel2/RootHBox/RightVBox"]
+layout_mode = 2
+columns = 3
+
+[node name="BottomRow" type="GridContainer" parent="Panel2/RootHBox/RightVBox"]
+layout_mode = 2
+columns = 3

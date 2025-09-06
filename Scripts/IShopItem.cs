@@ -1,6 +1,7 @@
 public interface IShopItem
 {
-	string TitleWithPrice();
+	string DisplayName { get; }
+	string Description { get; }
 	int Price { get; }
 	void Apply(UIController game);
 }

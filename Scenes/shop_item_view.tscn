@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://cqdx8m2xdvmgs"]
+
+[ext_resource type="Script" uid="uid://pr3ysydjdpoe" path="res://Scripts/ShopItemView.cs" id="1_x5yyl"]
+
+[node name="ShopItemView" type="VBoxContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_x5yyl")
+IconPath = NodePath("Icon")
+PricePath = NodePath("Price")
+
+[node name="Icon" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(140, 160)
+layout_mode = 2
+stretch_mode = 5
+
+[node name="Price" type="Label" parent="."]
+layout_mode = 2
+text = "$0"
+horizontal_alignment = 1
