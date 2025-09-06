@@ -161,44 +161,48 @@ public partial class UIController : Control
     }
 
     private void OnPlayPressed()
+{
+    if (_playCount >= MaxPlays)
     {
-        if (_playCount >= MaxPlays)
-        {
-            GD.Print($"Você já jogou o máximo de {MaxPlays} vezes nesta rodada.");
-            return;
-        }
-
-        if (_selectedCards.Count == 0) return;
-        GD.Print("Cartas jogadas:");
-
-        var selectedData = _selectedCards.Select(c => c.Data).Where(d => d != null).ToList();
-        if (selectedData.Count == 0) return;
-
-        var handEval = HandChecker.EvaluateHand(selectedData);
-        int chips = HandValue.GetChips(handEval);
-        int mult = HandValue.GetMultiplier(handEval);
-        int score = HandValue.GetScore(handEval);
-
-        _roundScore += score;
-        RoundScoreLabel.Text = $"{_roundScore}";
-
-        foreach (var card in _selectedCards)
-        {
-            _hand.Remove(card);
-            _discardPile.Add(card);
-            GD.Print($" - {card.Data.Rank} of {card.Data.Suit}");
-            card.QueueFree();
-        }
-
-        DrawCards(selectedData.Count);
-
-        _playCount++;
-        _selectedCards.Clear();
-        UpdateHandVisuals();
-        UpdateCurrentHandLabel();
-        UpdateDrawButtonState();
-        UpdateActionCountersUI();
+        GD.Print($"Você já jogou o máximo de {MaxPlays} vezes nesta rodada.");
+        return;
     }
+
+    if (_selectedCards.Count == 0) return;
+    GD.Print("Cartas jogadas:");
+
+    var selectedData = _selectedCards.Select(c => c.Data).Where(d => d != null).ToList();
+    if (selectedData.Count == 0) return;
+
+    var handEval = HandChecker.EvaluateHand(selectedData);
+    int chips = HandValue.GetChips(handEval);
+    int mult = HandValue.GetMultiplier(handEval);
+    int score = HandValue.GetScore(handEval);
+
+    _roundScore += score;
+    RoundScoreLabel.Text = $"{_roundScore}";
+
+    // 👉 aqui é onde integramos com o GameManager
+    GetNode<GameManager>("GameManager").AddChips(score);
+
+    foreach (var card in _selectedCards)
+    {
+        _hand.Remove(card);
+        _discardPile.Add(card);
+        GD.Print($" - {card.Data.Rank} of {card.Data.Suit}");
+        card.QueueFree();
+    }
+
+    DrawCards(selectedData.Count);
+
+    _playCount++;
+    _selectedCards.Clear();
+    UpdateHandVisuals();
+    UpdateCurrentHandLabel();
+    UpdateDrawButtonState();
+    UpdateActionCountersUI();
+}
+
 
     private void OnDiscardPressed()
     {
@@ -237,6 +241,8 @@ public partial class UIController : Control
     private void OnResetPressed()
     {
         GD.Print("Resetando deck...");
+
+        GetNode<GameManager>("GameManager").ResetGlobalChips();
 
         _deck.Clear();
         InitDeck();

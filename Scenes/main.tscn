@@ -1,10 +1,11 @@
-[gd_scene load_steps=13 format=3 uid="uid://mirandkx0nvm"]
+[gd_scene load_steps=14 format=3 uid="uid://mirandkx0nvm"]
 
 [ext_resource type="Script" uid="uid://mydm023cvu67" path="res://Scripts/UIController.cs" id="1_jjgbg"]
 [ext_resource type="PackedScene" uid="uid://b4guub2w3vtjd" path="res://Scenes/card.tscn" id="2_bo1nx"]
 [ext_resource type="Texture2D" uid="uid://c45vitmn4egvr" path="res://Sprites/Icons/score_icon.png" id="3_8gbba"]
 [ext_resource type="Script" uid="uid://ccnb15pqo64by" path="res://Scripts/DeckView.cs" id="3_kry3j"]
 [ext_resource type="Texture2D" uid="uid://xd340x8pwlkx" path="res://Sprites/Icons/stake.png" id="4_jjvhh"]
+[ext_resource type="Script" uid="uid://dwfwkwk7xk0s2" path="res://Scripts/GameManager.cs" id="6_21xkr"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kry3j"]
 corner_radius_top_left = 8
@@ -342,3 +343,22 @@ theme_override_font_sizes/font_size = 16
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="GameManager" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("6_21xkr")
+ChipsLabelPath = NodePath("RequiredChips")
+AnteLabelPath = NodePath("Ante")
+
+[node name="RequiredChips" type="Label" parent="GameManager"]
+layout_mode = 0
+offset_top = 124.0
+offset_right = 257.0
+offset_bottom = 165.0
+
+[node name="Ante" type="Label" parent="GameManager"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
