@@ -103,10 +103,10 @@ grow_vertical = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
-offset_left = 305.0
-offset_top = 503.0
-offset_right = 372.0
-offset_bottom = 503.0
+offset_left = 290.0
+offset_top = 455.0
+offset_right = 447.0
+offset_bottom = 486.0
 
 [node name="SortLabel" type="Label" parent="HBoxContainer"]
 layout_mode = 2

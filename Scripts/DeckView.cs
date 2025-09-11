@@ -119,19 +119,18 @@ public partial class DeckView : Control
 
         UpdateShadowVisibility();
     }
-
+    
     private void UpdateShadowVisibility()
-{
-    if (_shadowPanel == null) return;
+    {
+        if (_shadowPanel == null) return;
 
-    // Opacidade proporcional à quantidade de cartas
-    float opacity = _cardsRemaining / (float)_totalCards;
+        // Opacidade proporcional à quantidade de cartas
+        float opacity = _cardsRemaining / (float)_totalCards;
 
-    // Garante que fique no intervalo 0..1
-    opacity = Mathf.Clamp(opacity, 0f, 1f);
+        // Garante que fique no intervalo 0..1
+        opacity = Mathf.Clamp(opacity, 0f, 1f);
 
-    // Aplica a opacidade no Panel
-    _shadowPanel.Modulate = new Color(0.6f, 0.6f, 0.6f, opacity);
-}
-
+        // Aplica a opacidade no Panel
+        _shadowPanel.Modulate = new Color(0.6f, 0.6f, 0.6f, opacity);
+    }
 }

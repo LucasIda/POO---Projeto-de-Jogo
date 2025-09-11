@@ -161,47 +161,49 @@ public partial class UIController : Control
     }
 
     private void OnPlayPressed()
-{
-    if (_playCount >= MaxPlays)
     {
-        GD.Print($"Você já jogou o máximo de {MaxPlays} vezes nesta rodada.");
-        return;
+        if (_playCount >= MaxPlays)
+        {
+            GD.Print($"Você já jogou o máximo de {MaxPlays} vezes nesta rodada.");
+            return;
+        }
+
+        if (_selectedCards.Count == 0) return;
+        GD.Print("Cartas jogadas:");
+
+        var selectedData = _selectedCards.Select(c => c.Data).Where(d => d != null).ToList();
+        if (selectedData.Count == 0) return;
+
+        var handEval = HandChecker.EvaluateHand(selectedData);
+
+        var result = HandValue.Evaluate(handEval, selectedData);
+
+        int chips = result.Chips;
+        int mult = result.Multiplier;
+        int score = result.Score;
+
+        _roundScore += score;
+        RoundScoreLabel.Text = $"{_roundScore}";
+        
+        GetNode<GameManager>("GameManager").AddChips(score);
+
+        foreach (var card in _selectedCards)
+        {
+            _hand.Remove(card);
+            _discardPile.Add(card);
+            GD.Print($" - {card.Data.Rank} of {card.Data.Suit}");
+            card.QueueFree();
+        }
+
+        DrawCards(selectedData.Count);
+
+        _playCount++;
+        _selectedCards.Clear();
+        UpdateHandVisuals();
+        UpdateCurrentHandLabel();
+        UpdateDrawButtonState();
+        UpdateActionCountersUI();
     }
-
-    if (_selectedCards.Count == 0) return;
-    GD.Print("Cartas jogadas:");
-
-    var selectedData = _selectedCards.Select(c => c.Data).Where(d => d != null).ToList();
-    if (selectedData.Count == 0) return;
-
-    var handEval = HandChecker.EvaluateHand(selectedData);
-    int chips = HandValue.GetChips(handEval);
-    int mult = HandValue.GetMultiplier(handEval);
-    int score = HandValue.GetScore(handEval);
-
-    _roundScore += score;
-    RoundScoreLabel.Text = $"{_roundScore}";
-
-    // 👉 aqui é onde integramos com o GameManager
-    GetNode<GameManager>("GameManager").AddChips(score);
-
-    foreach (var card in _selectedCards)
-    {
-        _hand.Remove(card);
-        _discardPile.Add(card);
-        GD.Print($" - {card.Data.Rank} of {card.Data.Suit}");
-        card.QueueFree();
-    }
-
-    DrawCards(selectedData.Count);
-
-    _playCount++;
-    _selectedCards.Clear();
-    UpdateHandVisuals();
-    UpdateCurrentHandLabel();
-    UpdateDrawButtonState();
-    UpdateActionCountersUI();
-}
 
 
     private void OnDiscardPressed()
@@ -266,6 +268,7 @@ public partial class UIController : Control
 
         UpdateDrawButtonState();
         UpdateActionCountersUI();
+        DrawCards(MaxHandSize);
     }
     private void ClearCardContainer()
     {
@@ -291,9 +294,13 @@ public partial class UIController : Control
         {
             var selectedData = _selectedCards.Select(c => c.Data).ToList();
             var handEval = HandChecker.EvaluateHand(selectedData);
-            int chips = HandValue.GetChips(handEval);
-            int mult = HandValue.GetMultiplier(handEval);
-            int score = HandValue.GetScore(handEval);
+
+            var result = HandValue.Evaluate(handEval, selectedData);
+
+            int chips = result.Chips;
+            int mult = result.Multiplier;
+            int score = result.Score;
+
 
             _handNameLabel.Text = $"{handEval}";
             _chipsLabel.Text = $"{chips}";
