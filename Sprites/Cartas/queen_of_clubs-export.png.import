@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bqljtc6lhad1n"
-path="res://.godot/imported/three_of_hearts.png-9ba8dffb2ff52633779494964c749ac3.ctex"
+uid="uid://5cbet7va11ea"
+path="res://.godot/imported/queen_of_clubs-export.png-11fbc8fa31a540dee720264578cc0d38.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Cartas/three_of_hearts.png"
-dest_files=["res://.godot/imported/three_of_hearts.png-9ba8dffb2ff52633779494964c749ac3.ctex"]
+source_file="res://Sprites/Cartas/queen_of_clubs-export.png"
+dest_files=["res://.godot/imported/queen_of_clubs-export.png-11fbc8fa31a540dee720264578cc0d38.ctex"]
 
 [params]
 
