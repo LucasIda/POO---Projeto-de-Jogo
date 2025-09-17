@@ -24,7 +24,7 @@ public partial class UIController : Control
     private Label _handNameLabel;
     private Label _chipsLabel;
     private Label _multLabel;
-    
+
 
     private List<CardData> _deck = new();
     private List<CardData> _discard = new();
@@ -63,6 +63,9 @@ public partial class UIController : Control
         if (ResetButton != null) ResetButton.Pressed += OnResetPressed;
         if (SuitSortButton != null) SuitSortButton.Pressed += SortBySuit;
         if (RankSortButton != null) RankSortButton.Pressed += SortByRank;
+
+        var gm = GetNode<GameManager>("GameManager");
+        gm.OnRoundAdvanced += HandleRoundAdvanced;
 
         DrawCards(MaxHandSize);
         UpdateHandVisuals();
@@ -184,20 +187,27 @@ public partial class UIController : Control
 
         _roundScore += score;
         RoundScoreLabel.Text = $"{_roundScore}";
-        
+
+        var gm = GetNode<GameManager>("GameManager");
+        int chipsBefore = gm.GetCurrentChips();
         GetNode<GameManager>("GameManager").AddChips(score);
+        int chipsAfter = gm.GetCurrentChips();
+
+        if (chipsAfter > chipsBefore)
+        {
+            _playCount++;
+        }
 
         foreach (var card in _selectedCards)
-        {
-            _hand.Remove(card);
-            _discardPile.Add(card);
-            GD.Print($" - {card.Data.Rank} of {card.Data.Suit}");
-            card.QueueFree();
-        }
+            {
+                _hand.Remove(card);
+                _discardPile.Add(card);
+                GD.Print($" - {card.Data.Rank} of {card.Data.Suit}");
+                card.QueueFree();
+            }
 
         DrawCards(selectedData.Count);
 
-        _playCount++;
         _selectedCards.Clear();
         UpdateHandVisuals();
         UpdateCurrentHandLabel();
@@ -379,4 +389,12 @@ public partial class UIController : Control
 
         DrawButton.Disabled = _hand.Count >= MaxHandSize || _deck.Count == 0;
     }
+    
+    private void HandleRoundAdvanced()
+    {
+    GD.Print("Reset automático porque avançou de ante/fase");
+
+    OnResetPressed();
+    }
+
 }

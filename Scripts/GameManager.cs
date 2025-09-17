@@ -15,6 +15,9 @@ public partial class GameManager : Control
     private int _requiredChips;
     private int _currentChips;
 
+    public event Action OnRoundAdvanced;
+
+
     private readonly int[,] AnteTable = new int[,]
     {
         { 300, 450, 600 },        // Ante 1: Small, Big, Boss
@@ -79,15 +82,21 @@ public partial class GameManager : Control
             }
         }
 
+        OnRoundAdvanced?.Invoke();
         StartRound();
     }
     public void ResetGlobalChips()
-{
-    _currentChips = 0;
-    //_currentAnte = 0; reseta antes
-    //_currentBlind = 0; reseta blinds
-    StartRound(); // reinicia o ante e atualiza labels
-    GD.Print("⚠️ Pontuação global resetada!");
-}
+    {
+        _currentChips = 0;
+        //_currentAnte = 0; reseta antes
+        //_currentBlind = 0; reseta blinds
+        StartRound(); // reinicia o ante e atualiza labels
+        GD.Print("⚠️ Pontuação global resetada!");
+    }
+
+    public int GetCurrentChips()
+    {
+    return _currentChips;
+    }
 
 }
