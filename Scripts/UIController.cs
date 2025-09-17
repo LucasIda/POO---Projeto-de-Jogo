@@ -18,6 +18,8 @@ public partial class UIController : Control
     [Export] private NodePath DeckViewPath;
     [Export] private Label DiscardLeftLabel;
     [Export] private Label PlayLeftLabel;
+    [Export] private NodePath JokerContainerPath;
+    [Export] private PackedScene JokerScene;  // Carta curinga
 
     private Control _cardContainer;
     private DeckView _deckView;
@@ -40,6 +42,8 @@ public partial class UIController : Control
     private const int MaxPlays = 4;
     private int _discardCount = 0;
     private int _playCount = 0;
+    private Control _jokerContainer;
+    private List<JokerData> _jokers = new();
 
     public override void _Ready()
     {
@@ -51,8 +55,9 @@ public partial class UIController : Control
         _deckView = GetNode<DeckView>("DeckView");
         DiscardLeftLabel = GetNode<Label>("Panel/PlayDiscardCount/Discard/DiscardLeftLabel");
         PlayLeftLabel = GetNode<Label>("Panel/PlayDiscardCount/Play/PlayLeftLabel");
-
+        _jokerContainer = GetNode<Control>(JokerContainerPath);
         InitDeck();
+        InitJokers();
         _deckView.UpdateCount(_deck.Count, _totalDeckCount); // Atualiza visual do deck ao iniciar
         UpdateCurrentHandLabel();
 
@@ -141,79 +146,83 @@ public partial class UIController : Control
         UpdateDrawButtonState();
     }
 
-    private void OnCardClicked(Card clickedCard)
+    private void OnCardClicked(BaseCard clickedCard)
     {
-        if (clickedCard.IsSelected)
+        if (clickedCard is Card normalCard)
         {
-            clickedCard.ToggleSelection();
-            _selectedCards.Remove(clickedCard);
-        }
-        else
-        {
-            if (_selectedCards.Count >= MaxSelectedCards)
+            if (normalCard.IsSelected)
             {
-                GD.Print($"Você só pode selecionar até {MaxSelectedCards} cartas.");
-                return;
+                normalCard.ToggleSelection();
+                _selectedCards.Remove(normalCard);
+            }
+            else
+            {
+                if (_selectedCards.Count >= MaxSelectedCards)
+                {
+                    GD.Print($"Você só pode selecionar até {MaxSelectedCards} cartas.");
+                    return;
+                }
+
+                normalCard.ToggleSelection();
+                _selectedCards.Add(normalCard);
             }
 
-            clickedCard.ToggleSelection();
-            _selectedCards.Add(clickedCard);
+            UpdateCurrentHandLabel();
+        }
+        else if (clickedCard is JokerCard joker)
+        {
+            joker.ActivateEffect();
         }
 
-        UpdateCurrentHandLabel();
     }
 
     private void OnPlayPressed()
+{
+    if (_playCount >= MaxPlays)
+        return;
+    if (_selectedCards.Count == 0) return;
+
+    var selectedData = _selectedCards.OfType<Card>().Select(c => c.Data).ToList();
+    var handEval = HandChecker.EvaluateHand(selectedData);
+
+    // Pega curingas ativos
+    var activeJokers = _jokerContainer.GetChildren().OfType<JokerCard>()
+                         .Where(j => j.IsVisible()) // ou IsActive
+                         .ToList();
+
+    // Avalia mão com curingas
+    var result = HandValue.Evaluate(handEval, selectedData, activeJokers);
+
+    int score = result.Score;
+
+    // Atualiza UI local
+    _roundScore += score;
+    RoundScoreLabel.Text = $"{_roundScore}";
+
+    GD.Print($"Jogada: {handEval}, Chips: {result.Chips}, Mult: {result.Multiplier}, Score: {score}");
+
+    // **Adiciona os chips ao GameManager** (agora o efeito do curinga conta para blinds)
+    var gm = GetNode<GameManager>("GameManager");
+    gm.AddChips(score);
+
+    // Remove cartas jogadas
+    foreach (var card in _selectedCards)
     {
-        if (_playCount >= MaxPlays)
-        {
-            GD.Print($"Você já jogou o máximo de {MaxPlays} vezes nesta rodada.");
-            return;
-        }
-
-        if (_selectedCards.Count == 0) return;
-        GD.Print("Cartas jogadas:");
-
-        var selectedData = _selectedCards.Select(c => c.Data).Where(d => d != null).ToList();
-        if (selectedData.Count == 0) return;
-
-        var handEval = HandChecker.EvaluateHand(selectedData);
-
-        var result = HandValue.Evaluate(handEval, selectedData);
-
-        int chips = result.Chips;
-        int mult = result.Multiplier;
-        int score = result.Score;
-
-        _roundScore += score;
-        RoundScoreLabel.Text = $"{_roundScore}";
-
-        var gm = GetNode<GameManager>("GameManager");
-        int chipsBefore = gm.GetCurrentChips();
-        GetNode<GameManager>("GameManager").AddChips(score);
-        int chipsAfter = gm.GetCurrentChips();
-
-        if (chipsAfter > chipsBefore)
-        {
-            _playCount++;
-        }
-
-        foreach (var card in _selectedCards)
-            {
-                _hand.Remove(card);
-                _discardPile.Add(card);
-                GD.Print($" - {card.Data.Rank} of {card.Data.Suit}");
-                card.QueueFree();
-            }
-
-        DrawCards(selectedData.Count);
-
-        _selectedCards.Clear();
-        UpdateHandVisuals();
-        UpdateCurrentHandLabel();
-        UpdateDrawButtonState();
-        UpdateActionCountersUI();
+        _hand.Remove(card);
+        _discardPile.Add(card);
+        card.QueueFree();
     }
+
+    DrawCards(selectedData.Count);
+    _selectedCards.Clear();
+    UpdateHandVisuals();
+    UpdateCurrentHandLabel();
+    UpdateDrawButtonState();
+    UpdateActionCountersUI();
+    _playCount++;
+}
+
+
 
 
     private void OnDiscardPressed()
@@ -297,40 +306,47 @@ public partial class UIController : Control
     }
 
     private void UpdateCurrentHandLabel()
+{
+    if (_handNameLabel == null) return;
+
+    if (_selectedCards.Count > 0)
     {
-        if (_handNameLabel == null) return;
+        // Pega apenas as cartas normais selecionadas
+        var selectedCardsData = _selectedCards
+            .OfType<Card>()
+            .Select(c => c.Data)
+            .ToList();
 
-        if (_selectedCards.Count > 0)
-        {
-            var selectedData = _selectedCards.Select(c => c.Data).ToList();
-            var handEval = HandChecker.EvaluateHand(selectedData);
+        // Avalia a mão com as cartas normais (sem curinga)
+        var handEval = HandChecker.EvaluateHand(selectedCardsData);
+        var result = HandValue.Evaluate(handEval, selectedCardsData, null); // null = sem curingas
 
-            var result = HandValue.Evaluate(handEval, selectedData);
+        // Atualiza labels apenas com o valor base
+        _handNameLabel.Text = $"{handEval}";
+        _chipsLabel.Text = $"{result.Chips}";
+        _multLabel.Text = $"{result.Multiplier}";
 
-            int chips = result.Chips;
-            int mult = result.Multiplier;
-            int score = result.Score;
-
-
-            _handNameLabel.Text = $"{handEval}";
-            _chipsLabel.Text = $"{chips}";
-            _multLabel.Text = $"{mult}";
-            GD.Print($"Mão atual: {handEval}, Chips: {chips}, Mult: {mult}, Score: {score}");
-        }
-        else
-        {
-            _handNameLabel.Text = "";
-            _chipsLabel.Text = "0";
-            _multLabel.Text = "0";
-        }
+        GD.Print($"Mão atual: {handEval}, Chips: {result.Chips}, Mult: {result.Multiplier}");
     }
-
-    private void OnCardDragging(Card card, Vector2 delta) { }
-
-    private void OnCardDragEnded(Card card)
+    else
     {
-        _hand = _hand.OrderBy(c => c.Position.X).ToList();
-        UpdateHandVisuals();
+        _handNameLabel.Text = "";
+        _chipsLabel.Text = "0";
+        _multLabel.Text = "0";
+    }
+}
+
+
+
+    private void OnCardDragging(BaseCard card, Vector2 delta) { }
+
+    private void OnCardDragEnded(BaseCard card)
+    {
+        if (card is Card)
+        {
+            _hand = _hand.OrderBy(c => c.Position.X).ToList();
+            UpdateHandVisuals();
+        }
     }
 
     private void UpdateActionCountersUI()
@@ -389,12 +405,37 @@ public partial class UIController : Control
 
         DrawButton.Disabled = _hand.Count >= MaxHandSize || _deck.Count == 0;
     }
-    
+
     private void HandleRoundAdvanced()
     {
-    GD.Print("Reset automático porque avançou de ante/fase");
+        GD.Print("Reset automático porque avançou de ante/fase");
 
-    OnResetPressed();
+        OnResetPressed();
     }
+    private void InitJokers()
+{
+    // Pega o container de curingas no editor
+    var jokerContainer = GetNode<Control>("JokerContainer");
+
+    _jokers = JokerDatabase.GenerateJokers();
+
+    foreach (var jokerData in _jokers)
+    {
+        // Cria dinamicamente o nó
+        var jokerCard = new JokerCard();
+        
+        // Inicializa o curinga
+        var texture = GD.Load<Texture2D>(jokerData.TexturePath);
+        jokerCard.SetJoker(jokerData.Name, texture, jokerData.Multiplier);
+
+        // Adiciona o callback
+        jokerCard.OnCardClicked += OnCardClicked;
+
+        // Adiciona ao container no Godot
+        jokerContainer.AddChild(jokerCard);
+    }
+}
+
+
 
 }

@@ -1,9 +1,9 @@
-using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public static class HandChecker{
+public static class HandChecker
+{
     public enum HandType
     {
         HighCard,
@@ -26,111 +26,75 @@ public static class HandChecker{
         if (selectedCards == null || selectedCards.Count == 0)
             return HandType.HighCard;
 
-        bool isFlush = false;
-        bool isStraight = false;
-        bool hasPair = false;
-        bool hasTwoPair = false;
-        bool hasThreeOfAKind = false;
-        bool hasFourOfAKind = false;
-        bool hasFiveOfAKind = false;
-        bool isRoyal = false;
-
-        // ====== Contar ranks ======
         var ranks = selectedCards.Select(c => c.Rank).ToList();
         var uniqueRanks = ranks.Distinct().ToList();
 
-        int pairCount = 0;
-        foreach (var rank in uniqueRanks)
-        {
-            int count = ranks.Count(r => r == rank);
-            if (count == 2) { hasPair = true; pairCount++; }
-            if (count == 3) hasThreeOfAKind = true;
-            if (count == 4) hasFourOfAKind = true;
-            if (count == 5) hasFiveOfAKind = true;
-        }
-        if (pairCount >= 2) hasTwoPair = true;
+        bool hasPair = ranks.GroupBy(r => r).Any(g => g.Count() == 2);
+        bool hasTwoPair = ranks.GroupBy(r => r).Count(g => g.Count() == 2) >= 2;
+        bool hasThreeOfAKind = ranks.GroupBy(r => r).Any(g => g.Count() == 3);
+        bool hasFourOfAKind = ranks.GroupBy(r => r).Any(g => g.Count() == 4);
+        bool hasFiveOfAKind = ranks.GroupBy(r => r).Any(g => g.Count() == 5);
 
-        // ====== Flush ======
-        foreach (Suit suit in Enum.GetValues(typeof(Suit)))
-        {
-            int suitCount = selectedCards.Count(c => c.Suit == suit);
-            if (suitCount == selectedCards.Count && selectedCards.Count >= 5)
-                isFlush = true;
-        }
+        bool isFlush = selectedCards.GroupBy(c => c.Suit)
+                            .Any(g => g.Count() >= 5);
+        bool isStraight = CheckStraight(uniqueRanks);
+        bool isRoyal = uniqueRanks.Contains(Rank.Ten) &&
+                       uniqueRanks.Contains(Rank.Jack) &&
+                       uniqueRanks.Contains(Rank.Queen) &&
+                       uniqueRanks.Contains(Rank.King) &&
+                       uniqueRanks.Contains(Rank.Ace);
 
-        // ====== Straight (mínimo 5 ranks distintos) ======
-        if (uniqueRanks.Count >= 5)
-        {
-            var orderedRanks = uniqueRanks.OrderBy(r => (int)r).ToList();
-            int consecutive = 1;
+        // Prioridade das mãos: mais forte primeiro
+        if (isFlush && hasFiveOfAKind) return HandType.FlushFive;
+        if (isFlush && hasThreeOfAKind && hasPair) return HandType.FlushHouse;
+        if (isFlush && isRoyal) return HandType.RoyalFlush;
+        if (isFlush && isStraight) return HandType.StraightFlush;
+        if (hasFiveOfAKind) return HandType.FiveOfAKind;
+        if (hasFourOfAKind) return HandType.FourOfAKind;
+        if (hasThreeOfAKind && hasPair) return HandType.FullHouse;
+        if (isFlush) return HandType.Flush;
+        if (isStraight) return HandType.Straight;
+        if (hasThreeOfAKind) return HandType.ThreeOfAKind;
+        if (hasTwoPair) return HandType.TwoPair;
+        if (hasPair) return HandType.Pair;
 
-            for (int i = 1; i < orderedRanks.Count; i++)
+        return HandType.HighCard;
+    }
+
+    private static bool CheckStraight(List<Rank> uniqueRanks)
+    {
+        var ordered = uniqueRanks.OrderBy(r => (int)r).ToList();
+        int consecutive = 1;
+
+        for (int i = 1; i < ordered.Count; i++)
+        {
+            if ((int)ordered[i] == (int)ordered[i - 1] + 1)
             {
-                if ((int)orderedRanks[i] == (int)orderedRanks[i - 1] + 1)
+                consecutive++;
+                if (consecutive >= 5) return true;
+            }
+            else
+            {
+                consecutive = 1;
+            }
+        }
+
+        // Tratamento especial Ás baixo (A-2-3-4-5)
+        if (uniqueRanks.Contains(Rank.Ace))
+        {
+            var lowAceOrdered = ordered.Select(r => r == Rank.Ace ? 1 : (int)r).OrderBy(r => r).ToList();
+            consecutive = 1;
+            for (int i = 1; i < lowAceOrdered.Count; i++)
+            {
+                if (lowAceOrdered[i] == lowAceOrdered[i - 1] + 1)
                 {
                     consecutive++;
-                    if (consecutive >= 5)
-                    {
-                        isStraight = true;
-                        break;
-                    }
+                    if (consecutive >= 5) return true;
                 }
-                else
-                {
-                    consecutive = 1;
-                }
-            }
-
-            // Tratamento especial: Ás pode ser "1" ou "14" (A-2-3-4-5 ou 10-J-Q-K-A)
-            if (uniqueRanks.Contains(Rank.Ace))
-            {
-                var lowAceRanks = orderedRanks.Select(r => r == Rank.Ace ? 14 : (int)r).OrderBy(r => r).ToList();
-                consecutive = 1;
-                for (int i = 1; i < lowAceRanks.Count; i++)
-                {
-                    if (lowAceRanks[i] == lowAceRanks[i - 1] + 1)
-                    {
-                        consecutive++;
-                        if (consecutive >= 5)
-                        {
-                            isStraight = true;
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        consecutive = 1;
-                    }
-                }
+                else consecutive = 1;
             }
         }
 
-        // ====== Royal ======
-        if (uniqueRanks.Contains(Rank.Ten) &&
-            uniqueRanks.Contains(Rank.Jack) &&
-            uniqueRanks.Contains(Rank.Queen) &&
-            uniqueRanks.Contains(Rank.King) &&
-            uniqueRanks.Contains(Rank.Ace))
-        {
-            isRoyal = true;
-        }
-
-        // ====== Definir mão ======
-        HandType currentHand = HandType.HighCard;
-
-        if (hasPair) currentHand = HandType.Pair;
-        if (hasTwoPair) currentHand = HandType.TwoPair;
-        if (hasThreeOfAKind) currentHand = HandType.ThreeOfAKind;
-        if (isStraight) currentHand = HandType.Straight;
-        if (isFlush) currentHand = HandType.Flush;
-        if (hasPair && hasThreeOfAKind) currentHand = HandType.FullHouse;
-        if (hasFourOfAKind) currentHand = HandType.FourOfAKind;
-        if (isFlush && isStraight) currentHand = HandType.StraightFlush;
-        if (isFlush && isRoyal) currentHand = HandType.RoyalFlush;
-        if (hasFiveOfAKind) currentHand = HandType.FiveOfAKind;
-        if (isFlush && hasThreeOfAKind && hasPair) currentHand = HandType.FlushHouse;
-        if (isFlush && hasFiveOfAKind) currentHand = HandType.FlushFive;
-
-        return currentHand;
+        return false;
     }
 }
