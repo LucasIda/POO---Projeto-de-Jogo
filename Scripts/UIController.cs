@@ -218,8 +218,8 @@ public partial class UIController : Control
     UpdateHandVisuals();
     UpdateCurrentHandLabel();
     UpdateDrawButtonState();
-    UpdateActionCountersUI();
     _playCount++;
+    UpdateActionCountersUI();
 }
 
 
