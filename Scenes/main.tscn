@@ -105,6 +105,7 @@ offset_right = 567.0
 offset_bottom = 251.0
 
 [node name="DrawButton" type="Button" parent="VBoxContainer"]
+visible = false
 layout_mode = 2
 text = "Draw"
 
@@ -117,6 +118,7 @@ layout_mode = 2
 text = "Play"
 
 [node name="ResetButton" type="Button" parent="VBoxContainer"]
+visible = false
 layout_mode = 2
 text = "Reset"
 
