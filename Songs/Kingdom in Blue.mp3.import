@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://ciieeg7yxqqqu"
+path="res://.godot/imported/Kingdom in Blue.mp3-392556c5d2269c558145c0fedb74bc47.mp3str"
+
+[deps]
+
+source_file="res://Songs/Kingdom in Blue.mp3"
+dest_files=["res://.godot/imported/Kingdom in Blue.mp3-392556c5d2269c558145c0fedb74bc47.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

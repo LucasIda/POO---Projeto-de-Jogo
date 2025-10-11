@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dlp8a7f7bkq0k"
+path="res://.godot/imported/Better Days.mp3-dd374e05a992f656b91e91177aa33b80.mp3str"
+
+[deps]
+
+source_file="res://Songs/Better Days.mp3"
+dest_files=["res://.godot/imported/Better Days.mp3-dd374e05a992f656b91e91177aa33b80.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
