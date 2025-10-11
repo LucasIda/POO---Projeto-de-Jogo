@@ -1,68 +1,26 @@
 using Godot;
 using System;
 
-public partial class Card : TextureRect
+public partial class Card : BaseCard
 {
     public CardData Data { get; private set; }
-    public bool IsSelected { get; private set; }
-    private bool _isDragging;
-    public bool IsDragging => _isDragging;
 
-    public delegate void CardClicked(Card clickedCard);
-    public event CardClicked OnCardClicked;
-
-    public delegate void CardDrag(Card card, Vector2 delta);
-    public event CardDrag OnDragging;
-
-    public delegate void CardDragEnd(Card card);
-    public event CardDragEnd OnDragEnded;
-
-    private Vector2 _dragOffset;
     private PanelContainer tooltip;
 
     public void SetCard(CardData data, Texture2D texture)
     {
         Data = data;
-        Texture = texture;
-
-        // Conectar eventos de mouse
-        Connect("gui_input", new Callable(this, nameof(OnCardInput)));
-        MouseEntered += OnMouseEntered;
-        MouseExited += OnMouseExited;
+        Initialize(data.Name, texture);
     }
 
-    private void OnCardInput(InputEvent @event)
+    public int GetChipValue()
     {
-        if (@event is InputEventMouseButton mouseEvent)
+        return Data.Rank switch
         {
-            if (mouseEvent.ButtonIndex == MouseButton.Left)
-            {
-                if (mouseEvent.Pressed)
-                {
-                    OnCardClicked?.Invoke(this);
-                    _dragOffset = GetGlobalMousePosition() - GlobalPosition;
-                    _isDragging = true;
-                }
-                else
-                {
-                    _isDragging = false;
-                    OnDragEnded?.Invoke(this);
-                }
-            }
-        }
-        else if (@event is InputEventMouseMotion motion && _isDragging)
-        {
-            GlobalPosition = GetGlobalMousePosition() - _dragOffset;
-            OnDragging?.Invoke(this, motion.Relative);
-        }
-    }
-
-    public void ToggleSelection()
-    {
-        IsSelected = !IsSelected;
-        Modulate = IsSelected
-            ? new Color(1, 1, 1, 0.5f)
-            : new Color(1, 1, 1, 1);
+            Rank.Ace => 11,
+            Rank.Ten or Rank.Jack or Rank.Queen or Rank.King => 10,
+            _ => (int)Data.Rank
+        };
     }
 
     private void OnMouseEntered()
@@ -79,9 +37,10 @@ public partial class Card : TextureRect
     {
         if (tooltip != null) return;
 
+        // Caixa branca
         tooltip = new PanelContainer
         {
-            Modulate = new Color(0, 0, 0, 0.85f),
+            Modulate = new Color(255, 255, 255, 1), // branco sólido
             SizeFlagsHorizontal = Control.SizeFlags.ShrinkCenter,
             SizeFlagsVertical = Control.SizeFlags.ShrinkCenter
         };
@@ -97,16 +56,23 @@ public partial class Card : TextureRect
         };
         vbox.AddThemeConstantOverride("separation", 4);
 
+        // Letras pretas usando Modulate
         var nameLabel = new Label { Text = $"Nome: {Data.Name}" };
+        nameLabel.Modulate = Colors.Black;
+
         var chipLabel = new Label { Text = $"Chips: {GetChipValue()}" };
+        chipLabel.Modulate = Colors.Black;
 
         vbox.AddChild(nameLabel);
         vbox.AddChild(chipLabel);
 
         tooltip.AddChild(vbox);
         AddChild(tooltip);
-        tooltip.Position = new Vector2(0, -tooltip.Size.Y - 10);
+
+        tooltip.CallDeferred("set_position", new Vector2(0, -tooltip.Size.Y - 10));
     }
+
+
 
     private void HideTooltip()
     {
@@ -114,13 +80,10 @@ public partial class Card : TextureRect
         tooltip = null;
     }
 
-    private int GetChipValue()
+    public override void _Ready()
     {
-        return Data.Rank switch
-        {
-            Rank.Ace => 11,
-            Rank.Ten or Rank.Jack or Rank.Queen or Rank.King => 10,
-            _ => (int)Data.Rank
-        };
+        base._Ready();
+        MouseEntered += OnMouseEntered;
+        MouseExited += OnMouseExited;
     }
 }

@@ -33,11 +33,25 @@ public class CardData
     public string Name => $"{Rank} of {Suit}";
     public string TexturePath { get; private set; }
 
+    public int ChipValue { get; private set; }
     public CardData(Suit suit, Rank rank, string texturePath)
     {
         Suit = suit;
         Rank = rank;
         TexturePath = texturePath;
+
+        ChipValue = CalculateChipValue(rank);
+    }
+    private int CalculateChipValue(Rank rank)
+    {
+        return rank switch
+        {
+            Rank.Ace => 11,
+            Rank.King => 10,
+            Rank.Queen => 10,
+            Rank.Jack => 10,
+            _ => (int)rank,
+        };
     }
 }
 

@@ -1,10 +1,26 @@
-[gd_scene load_steps=13 format=3 uid="uid://mirandkx0nvm"]
+[gd_scene load_steps=16 format=3 uid="uid://mirandkx0nvm"]
 
 [ext_resource type="Script" uid="uid://mydm023cvu67" path="res://Scripts/UIController.cs" id="1_jjgbg"]
 [ext_resource type="PackedScene" uid="uid://b4guub2w3vtjd" path="res://Scenes/card.tscn" id="2_bo1nx"]
+[ext_resource type="Shader" uid="uid://c7klo0jc8650v" path="res://Shaders/background.gdshader" id="3_6bp64"]
 [ext_resource type="Texture2D" uid="uid://c45vitmn4egvr" path="res://Sprites/Icons/score_icon.png" id="3_8gbba"]
 [ext_resource type="Script" uid="uid://ccnb15pqo64by" path="res://Scripts/DeckView.cs" id="3_kry3j"]
 [ext_resource type="Texture2D" uid="uid://xd340x8pwlkx" path="res://Sprites/Icons/stake.png" id="4_jjvhh"]
+[ext_resource type="Script" uid="uid://dwfwkwk7xk0s2" path="res://Scripts/GameManager.cs" id="6_21xkr"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_344ge"]
+shader = ExtResource("3_6bp64")
+shader_parameter/spin_rotation_speed = 2.0
+shader_parameter/move_speed = 7.0
+shader_parameter/offset = Vector2(0, 0)
+shader_parameter/colour_1 = Color(0.871, 0.267, 0.231, 1)
+shader_parameter/colour_2 = Color(0, 0.42, 0.706, 1)
+shader_parameter/colour_3 = Color(0.086, 0.137, 0.145, 1)
+shader_parameter/contrast = 3.5
+shader_parameter/lighting = 0.4
+shader_parameter/spin_amount = 0.25
+shader_parameter/pixel_filter = 740.0
+shader_parameter/is_rotating = false
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kry3j"]
 corner_radius_top_left = 8
@@ -63,6 +79,23 @@ ResetButton = NodePath("VBoxContainer/ResetButton")
 SuitSortButton = NodePath("HBoxContainer/SuitSortButton")
 RankSortButton = NodePath("HBoxContainer/RankSortButton")
 RoundScoreLabel = NodePath("Panel/RoundScore/ScorePanel/HBoxContainer/ScoreLabel")
+JokerContainerPath = NodePath("JokerContainer")
+
+[node name="Background" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_344ge")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -576.0
+offset_top = -324.0
+offset_right = 576.0
+offset_bottom = 324.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(576, 324)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 0
@@ -72,6 +105,7 @@ offset_right = 567.0
 offset_bottom = 251.0
 
 [node name="DrawButton" type="Button" parent="VBoxContainer"]
+visible = false
 layout_mode = 2
 text = "Draw"
 
@@ -84,6 +118,7 @@ layout_mode = 2
 text = "Play"
 
 [node name="ResetButton" type="Button" parent="VBoxContainer"]
+visible = false
 layout_mode = 2
 text = "Reset"
 
@@ -102,10 +137,10 @@ grow_vertical = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
-offset_left = 305.0
-offset_top = 503.0
-offset_right = 372.0
-offset_bottom = 503.0
+offset_left = 290.0
+offset_top = 455.0
+offset_right = 447.0
+offset_bottom = 486.0
 
 [node name="SortLabel" type="Label" parent="HBoxContainer"]
 layout_mode = 2
@@ -342,3 +377,29 @@ theme_override_font_sizes/font_size = 16
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="GameManager" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("6_21xkr")
+ChipsLabelPath = NodePath("RequiredChips")
+AnteLabelPath = NodePath("Ante")
+
+[node name="RequiredChips" type="Label" parent="GameManager"]
+layout_mode = 0
+offset_top = 124.0
+offset_right = 257.0
+offset_bottom = 165.0
+
+[node name="Ante" type="Label" parent="GameManager"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="JokerContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 392.0
+offset_top = 18.0
+offset_right = 904.0
+offset_bottom = 115.0

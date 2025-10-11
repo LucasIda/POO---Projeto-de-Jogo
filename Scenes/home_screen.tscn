@@ -23,6 +23,10 @@ grow_vertical = 2
 texture = ExtResource("1_d6d8u")
 expand_mode = 2
 
+[node name="MusicManager" type="Node" parent="."]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="MusicManager"]
+
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15

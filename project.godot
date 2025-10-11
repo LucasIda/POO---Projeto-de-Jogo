@@ -14,6 +14,15 @@ config/name="DeckBuilder"
 run/main_scene="uid://bsxgkgm6by51o"
 config/features=PackedStringArray("4.4", "C#", "GL Compatibility")
 
+[autoload]
+
+MusicManager="*res://Scripts/MusicManager.cs"
+
+[display]
+
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+
 [dotnet]
 
 project/assembly_name="DeckBuilder"
