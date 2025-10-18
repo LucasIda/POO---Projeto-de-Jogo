@@ -43,7 +43,7 @@ public partial class UIController : Control
     private int _discardCount = 0;
     private int _playCount = 0;
     private Control _jokerContainer;
-    private List<JokerData> _jokers = new();
+    private List<JokerCard> _jokers = new();
 
     public override void _Ready()
     {
@@ -171,56 +171,58 @@ public partial class UIController : Control
         }
         else if (clickedCard is JokerCard joker)
         {
-            joker.ActivateEffect();
+           
+            GD.Print($"Joker clicado: {joker.Name}");
+          
         }
 
     }
 
     private void OnPlayPressed()
-{
-    if (_playCount >= MaxPlays)
-        return;
-    if (_selectedCards.Count == 0) return;
-
-    var selectedData = _selectedCards.OfType<Card>().Select(c => c.Data).ToList();
-    var handEval = HandChecker.EvaluateHand(selectedData);
-
-    // Pega curingas ativos
-    var activeJokers = _jokerContainer.GetChildren().OfType<JokerCard>()
-                         .Where(j => j.IsVisible()) // ou IsActive
-                         .ToList();
-
-    // Avalia mão com curingas
-    var result = HandValue.Evaluate(handEval, selectedData, activeJokers);
-
-    int score = result.Score;
-
-    // Atualiza UI local
-    _roundScore += score;
-    RoundScoreLabel.Text = $"{_roundScore}";
-
-    GD.Print($"Jogada: {handEval}, Chips: {result.Chips}, Mult: {result.Multiplier}, Score: {score}");
-
-    // **Adiciona os chips ao GameManager** (agora o efeito do curinga conta para blinds)
-    var gm = GetNode<GameManager>("GameManager");
-    gm.AddChips(score);
-
-    // Remove cartas jogadas
-    foreach (var card in _selectedCards)
     {
-        _hand.Remove(card);
-        _discardPile.Add(card);
-        card.QueueFree();
-    }
+        if (_playCount >= MaxPlays)
+            return;
+        if (_selectedCards.Count == 0) return;
+        _playCount++;
 
-    DrawCards(selectedData.Count);
-    _selectedCards.Clear();
-    UpdateHandVisuals();
-    UpdateCurrentHandLabel();
-    UpdateDrawButtonState();
-    _playCount++;
-    UpdateActionCountersUI();
-}
+        var selectedData = _selectedCards.OfType<Card>().Select(c => c.Data).ToList();
+        var handEval = HandChecker.EvaluateHand(selectedData);
+
+        // Pega curingas ativos
+        var activeJokers = _jokerContainer.GetChildren().OfType<JokerCard>()
+                             .Where(j => j.IsVisible()) // ou IsActive
+                             .ToList();
+
+        // Avalia mão com curingas
+        var result = HandValue.Evaluate(handEval, selectedData, activeJokers);
+        int score = result.Score;
+        var baseResult = HandValue.Evaluate(handEval, selectedData, null);
+
+        // Atualiza UI local
+        _roundScore += score;
+        RoundScoreLabel.Text = $"{_roundScore}";
+
+        GD.Print($"[OnPlayPressed] Jogada: {handEval}, Chips: {baseResult.ChipsBase}, Mult: {baseResult.MultBase}, Score: {baseResult.Score}");
+
+        // **Adiciona os chips ao GameManager** (agora o efeito do curinga conta para blinds)
+        var gm = GetNode<GameManager>("GameManager");
+        gm.AddChips(score);
+
+        // Remove cartas jogadas
+        foreach (var card in _selectedCards)
+        {
+            _hand.Remove(card);
+            _discardPile.Add(card);
+            card.QueueFree();
+        }
+
+        DrawCards(selectedData.Count);
+        _selectedCards.Clear();
+        UpdateHandVisuals();
+        UpdateCurrentHandLabel();
+        UpdateDrawButtonState();
+        UpdateActionCountersUI();
+    }
 
 
 
@@ -305,36 +307,37 @@ public partial class UIController : Control
         }
     }
 
-    private void UpdateCurrentHandLabel()
-{
-    if (_handNameLabel == null) return;
-
-    if (_selectedCards.Count > 0)
+       private void UpdateCurrentHandLabel()
     {
-        // Pega apenas as cartas normais selecionadas
-        var selectedCardsData = _selectedCards
-            .OfType<Card>()
-            .Select(c => c.Data)
-            .ToList();
+        if (_handNameLabel == null || _chipsLabel == null || _multLabel == null)
+        {
+            GD.PrintErr("Erro: Um ou mais labels (HandNameLabel, ChipsLabel, MultLabel) não estão configurados.");
+            return;
+        }
 
-        // Avalia a mão com as cartas normais (sem curinga)
-        var handEval = HandChecker.EvaluateHand(selectedCardsData);
-        var result = HandValue.Evaluate(handEval, selectedCardsData, null); // null = sem curingas
+        if (_selectedCards.Count > 0)
+        {
+            var selectedCardsData = _selectedCards
+                .OfType<Card>()
+                .Select(c => c.Data)
+                .ToList();
 
-        // Atualiza labels apenas com o valor base
-        _handNameLabel.Text = $"{handEval}";
-        _chipsLabel.Text = $"{result.Chips}";
-        _multLabel.Text = $"{result.Multiplier}";
+            var handEval = HandChecker.EvaluateHand(selectedCardsData);
+            var result = HandValue.Evaluate(handEval, selectedCardsData, null); // Sem curingas
 
-        GD.Print($"Mão atual: {handEval}, Chips: {result.Chips}, Mult: {result.Multiplier}");
+            _handNameLabel.Text = $"{handEval}";
+            _chipsLabel.Text = $"{result.ChipsBase}";
+            _multLabel.Text = $"{result.MultBase}";
+
+            GD.Print($"[UpdateCurrentHandLabel] Mão atual: {handEval}, Chips: {result.ChipsBase}, Mult: {result.MultBase}");
+        }
+        else
+        {
+            _handNameLabel.Text = "";
+            _chipsLabel.Text = "0";
+            _multLabel.Text = "0";
+        }
     }
-    else
-    {
-        _handNameLabel.Text = "";
-        _chipsLabel.Text = "0";
-        _multLabel.Text = "0";
-    }
-}
 
 
 
@@ -413,29 +416,19 @@ public partial class UIController : Control
         OnResetPressed();
     }
     private void InitJokers()
-{
-    // Pega o container de curingas no editor
-    var jokerContainer = GetNode<Control>("JokerContainer");
-
-    _jokers = JokerDatabase.GenerateJokers();
-
-    foreach (var jokerData in _jokers)
     {
-        // Cria dinamicamente o nó
-        var jokerCard = new JokerCard();
-        
-        // Inicializa o curinga
-        var texture = GD.Load<Texture2D>(jokerData.TexturePath);
-        jokerCard.SetJoker(jokerData.Name, texture, jokerData.Multiplier);
-
-        // Adiciona o callback
-        jokerCard.OnCardClicked += OnCardClicked;
-
-        // Adiciona ao container no Godot
-        jokerContainer.AddChild(jokerCard);
+    _jokerContainer = GetNode<Control>(JokerContainerPath);
+    if (_jokerContainer == null)
+    {
+        GD.PrintErr("JokerContainer não encontrado!");
+        return;
     }
-}
 
-
-
-}
+    _jokers = JokerFactory.CreateJokers();
+    foreach (var joker in _jokers)
+    {
+        joker.OnCardClicked += OnCardClicked;
+        _jokerContainer.AddChild(joker);
+    }
+    }
+ }

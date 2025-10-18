@@ -1,19 +1,24 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class JokerCard : BaseCard
 {
-    public int Multiplier { get; private set; }
+    private List<IJokerEffect> _effects = new();
 
-    public void SetJoker(string name, Texture2D texture, int multiplier)
+    public void AddEffect(IJokerEffect effect)
     {
-        Multiplier = multiplier;
-        Initialize(name, texture);
+        _effects.Add(effect);
     }
 
-    public void ActivateEffect()
+    public void ActivateEffects(HandValue.HandResult result)
     {
-        GD.Print($"Curinga {Name} ativado! Multiplicador: {Multiplier}x");
-        // Aqui você implementa o efeito real do curinga
+        foreach (var effect in _effects)
+            effect.Apply(result);
+    }
+
+    public override string ToString()
+    {
+        return $"Joker: {Name} ({_effects.Count} effects)";
     }
 }

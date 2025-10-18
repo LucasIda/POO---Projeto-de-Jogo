@@ -5,17 +5,17 @@ using System.Linq;
 public static class HandValue
 {
     public class HandResult
-    {
-        public int Chips { get; }
-        public int Multiplier { get; }
-        public int Score => Chips * Multiplier;
+{
+    public int ChipsBase { get; set; }
+    public int MultBase { get; set; }
+    public int Score => ChipsBase * MultBase;
 
-        public HandResult(int chips, int multiplier)
-        {
-            Chips = chips;
-            Multiplier = multiplier;
-        }
+    public HandResult(int chips, int mult)
+    {
+        ChipsBase = chips;
+        MultBase = mult;
     }
+}
 
     private static readonly Dictionary<HandChecker.HandType, (int Chips, int Mult)> HandTable = new()
     {
@@ -39,22 +39,16 @@ public static class HandValue
     {
         var (baseChips, mult) = HandTable.TryGetValue(handType, out var data) ? data : (0, 1);
 
-        // Soma o ChipValue das cartas relevantes
-        var relevantCards = GetRelevantCards(handType, cards);
-        int chipsFromCards = relevantCards.Sum(c => c.ChipValue);
+        int chipsFromCards = GetRelevantCards(handType, cards).Sum(c => c.ChipValue);
+        var result = new HandResult(baseChips + chipsFromCards, mult);
 
-        int totalChips = baseChips + chipsFromCards;
+    if (jokers != null)
+    {
+        foreach (var joker in jokers)
+            joker.ActivateEffects(result);
+    }
 
-        int totalMultiplier = mult;
-
-        // Aplica efeito dos curingas
-        if (jokers != null && jokers.Count > 0)
-        {
-            foreach (var joker in jokers)
-                totalMultiplier *= joker.Multiplier;
-        }
-
-        return new HandResult(totalChips, totalMultiplier);
+    return result;
     }
 
     private static List<CardData> GetRelevantCards(HandChecker.HandType handType, List<CardData> cards)
