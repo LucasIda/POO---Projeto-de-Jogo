@@ -5,6 +5,7 @@ public partial class GameManager : Control
 {
     [Export] private NodePath ChipsLabelPath;
     [Export] private NodePath AnteLabelPath;
+    [Export] private PackedScene LojaScene;
 
     private Label _chipsLabel;
     private Label _anteLabel;
@@ -16,6 +17,7 @@ public partial class GameManager : Control
     private int _currentChips;
 
     public event Action OnRoundAdvanced;
+    private Control _lojaInstance;
 
 
     private readonly int[,] AnteTable = new int[,]
@@ -62,7 +64,7 @@ public partial class GameManager : Control
         if (_currentChips >= _requiredChips)
         {
             GD.Print("🎉 Parabéns, você completou a meta!");
-            NextRound();
+            MostrarLoja();
         }
     }
 
@@ -83,8 +85,8 @@ public partial class GameManager : Control
         }
 
         OnRoundAdvanced?.Invoke();
-        StartRound();
     }
+
     public void ResetGlobalChips()
     {
         _currentChips = 0;
@@ -96,7 +98,33 @@ public partial class GameManager : Control
 
     public int GetCurrentChips()
     {
-    return _currentChips;
+        return _currentChips;
     }
 
+    private void MostrarLoja()
+    {
+        if (LojaScene == null)
+        {
+            GD.PrintErr("⚠️ LojaScene não atribuída no GameManager!");
+            StartRound();
+            return;
+        }
+
+        // Instancia a loja
+        _lojaInstance = LojaScene.Instantiate<Control>();
+        AddChild(_lojaInstance); // ← adiciona sobre a cena principal
+
+        // Procura botão "Seguir"
+        var seguirBtn = _lojaInstance.GetNodeOrNull<Button>("PanelContainer/HBoxContainer/PassButton");
+        if (seguirBtn != null)
+        {
+            seguirBtn.Pressed += () =>
+            {
+                NextRound(); // inicia próxima fase normalmente
+                _lojaInstance.QueueFree(); // fecha o modal
+            };
+        }
+
+        GD.Print("🛍️ Loja exibida sobre o jogo.");
+    }
 }
