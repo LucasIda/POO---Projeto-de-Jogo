@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://mirandkx0nvm"]
+[gd_scene load_steps=17 format=3 uid="uid://mirandkx0nvm"]
 
 [ext_resource type="Script" uid="uid://mydm023cvu67" path="res://Scripts/UIController.cs" id="1_jjgbg"]
 [ext_resource type="PackedScene" uid="uid://b4guub2w3vtjd" path="res://Scenes/card.tscn" id="2_bo1nx"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://ccnb15pqo64by" path="res://Scripts/DeckView.cs" id="3_kry3j"]
 [ext_resource type="Texture2D" uid="uid://xd340x8pwlkx" path="res://Sprites/Icons/stake.png" id="4_jjvhh"]
 [ext_resource type="Script" uid="uid://dwfwkwk7xk0s2" path="res://Scripts/GameManager.cs" id="6_21xkr"]
+[ext_resource type="PackedScene" uid="uid://cidvrmdx83kvj" path="res://Scenes/loja.tscn" id="8_344ge"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_344ge"]
 shader = ExtResource("3_6bp64")
@@ -385,6 +386,7 @@ offset_bottom = 40.0
 script = ExtResource("6_21xkr")
 ChipsLabelPath = NodePath("RequiredChips")
 AnteLabelPath = NodePath("Ante")
+LojaScene = ExtResource("8_344ge")
 
 [node name="RequiredChips" type="Label" parent="GameManager"]
 layout_mode = 0

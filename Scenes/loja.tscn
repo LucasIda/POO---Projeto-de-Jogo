@@ -1,0 +1,46 @@
+[gd_scene load_steps=2 format=3 uid="uid://cidvrmdx83kvj"]
+
+[ext_resource type="Script" uid="uid://dfycyqg1pe01a" path="res://Scripts/ShopController.cs" id="1_6ihgo"]
+
+[node name="Loja" type="Control"]
+light_mask = 513
+visibility_layer = 513
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_6ihgo")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 0
+offset_left = 264.0
+offset_top = 409.0
+offset_right = 920.0
+offset_bottom = 647.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="BuyButton" type="Button" parent="PanelContainer/HBoxContainer"]
+layout_mode = 2
+text = "Comprar"
+
+[node name="RerollButton" type="Button" parent="PanelContainer/HBoxContainer"]
+layout_mode = 2
+text = "Atualizar"
+
+[node name="PassButton" type="Button" parent="PanelContainer/HBoxContainer"]
+layout_mode = 2
+text = "Próximo Round
+"
+
+[node name="JokerList" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 272.0
+offset_top = 503.0
+offset_right = 914.0
+offset_bottom = 632.0
