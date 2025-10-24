@@ -74,8 +74,8 @@ CardScene = ExtResource("2_bo1nx")
 CardContainerPath = NodePath("CardContainer")
 HandNameLabelPath = NodePath("Panel/HandData/HandName")
 DrawButton = NodePath("VBoxContainer/DrawButton")
-DiscardButton = NodePath("VBoxContainer/DiscardButton")
-PlayButton = NodePath("VBoxContainer/PlayButton")
+DiscardButton = NodePath("DiscardButton")
+PlayButton = NodePath("PlayButton")
 ResetButton = NodePath("VBoxContainer/ResetButton")
 SuitSortButton = NodePath("HBoxContainer/SuitSortButton")
 RankSortButton = NodePath("HBoxContainer/RankSortButton")
@@ -85,38 +85,49 @@ JokerContainerPath = NodePath("JokerContainer")
 [node name="Background" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_344ge")
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -576.0
-offset_top = -324.0
-offset_right = 576.0
-offset_bottom = 324.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(576, 324)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 0
-offset_left = 506.0
-offset_top = 150.0
-offset_right = 567.0
-offset_bottom = 251.0
+[node name="PlayButton" type="Button" parent="."]
+layout_mode = 2
+offset_left = 1353.0
+offset_top = 995.0
+offset_right = 1473.0
+offset_bottom = 1065.0
+size_flags_horizontal = 8
+text = "Play"
+
+[node name="DiscardButton" type="Button" parent="."]
+layout_mode = 2
+offset_left = 836.0
+offset_top = 995.0
+offset_right = 956.0
+offset_bottom = 1065.0
+size_flags_horizontal = 0
+text = "Discard"
+
+[node name="VBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -484.0
+offset_top = -1060.0
+offset_right = -117.0
+offset_bottom = -990.0
+grow_horizontal = 2
+grow_vertical = 0
 
 [node name="DrawButton" type="Button" parent="VBoxContainer"]
 visible = false
 layout_mode = 2
 text = "Draw"
-
-[node name="DiscardButton" type="Button" parent="VBoxContainer"]
-layout_mode = 2
-text = "Discard"
-
-[node name="PlayButton" type="Button" parent="VBoxContainer"]
-layout_mode = 2
-text = "Play"
 
 [node name="ResetButton" type="Button" parent="VBoxContainer"]
 visible = false
@@ -130,18 +141,20 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -309.0
-offset_top = -90.0
-offset_right = 441.0
+offset_left = -517.0
+offset_top = -275.0
+offset_right = 233.0
+offset_bottom = -185.0
 grow_horizontal = 2
 grow_vertical = 0
+scale = Vector2(2, 2)
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
-offset_left = 290.0
-offset_top = 455.0
-offset_right = 447.0
-offset_bottom = 486.0
+offset_left = 1067.0
+offset_top = 1010.0
+offset_right = 1224.0
+offset_bottom = 1041.0
 
 [node name="SortLabel" type="Label" parent="HBoxContainer"]
 layout_mode = 2
@@ -157,10 +170,11 @@ text = "Rank"
 
 [node name="DeckView" type="Control" parent="."]
 anchors_preset = 0
-offset_left = 976.0
-offset_top = 421.0
-offset_right = 1039.0
-offset_bottom = 508.0
+offset_left = 1765.0
+offset_top = 709.0
+offset_right = 1828.0
+offset_bottom = 796.0
+scale = Vector2(2, 2)
 script = ExtResource("3_kry3j")
 
 [node name="TextureRect" type="Panel" parent="DeckView"]
@@ -179,15 +193,16 @@ offset = Vector2(3, 4)
 
 [node name="CountLabel" type="Label" parent="DeckView"]
 layout_mode = 0
-offset_left = -27.0
-offset_top = 95.0
-offset_right = 53.0
-offset_bottom = 118.0
+offset_left = -24.5
+offset_top = 44.5
+offset_right = 55.5
+offset_bottom = 67.5
 
 [node name="Panel" type="ColorRect" parent="."]
 layout_mode = 1
 offset_right = 257.0
 offset_bottom = 648.0
+scale = Vector2(1.7, 1.7)
 color = Color(0, 0, 0, 0.517647)
 
 [node name="ScoreBox" type="HBoxContainer" parent="Panel"]
@@ -400,8 +415,13 @@ offset_right = 40.0
 offset_bottom = 23.0
 
 [node name="JokerContainer" type="HBoxContainer" parent="."]
-layout_mode = 0
-offset_left = 392.0
-offset_top = 18.0
-offset_right = 904.0
-offset_bottom = 115.0
+layout_direction = 1
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -256.0
+offset_right = 256.0
+offset_bottom = 97.0
+grow_horizontal = 2
+scale = Vector2(2, 2)
