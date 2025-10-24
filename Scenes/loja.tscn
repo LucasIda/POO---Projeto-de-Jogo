@@ -15,10 +15,10 @@ script = ExtResource("1_6ihgo")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 1
-offset_left = 264.0
-offset_top = 409.0
-offset_right = 920.0
-offset_bottom = 647.0
+offset_left = 441.0
+offset_top = 575.0
+offset_right = 1639.0
+offset_bottom = 1076.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer"]
 layout_mode = 2
@@ -40,7 +40,7 @@ text = "Próximo Round
 
 [node name="JokerList" type="Control" parent="."]
 anchors_preset = 0
-offset_left = 272.0
-offset_top = 503.0
-offset_right = 914.0
-offset_bottom = 632.0
+offset_left = 458.0
+offset_top = 728.0
+offset_right = 1622.0
+offset_bottom = 1064.0
