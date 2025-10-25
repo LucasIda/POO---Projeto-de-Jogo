@@ -9,9 +9,17 @@ border_width_top = 12
 border_width_right = 12
 border_width_bottom = 12
 border_color = Color(0.756863, 0.266667, 0.231373, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_axrhv"]
 bg_color = Color(0.295745, 0.116533, 0.104905, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rplu7"]
 bg_color = Color(0.756863, 0.266667, 0.231373, 1)
@@ -25,6 +33,10 @@ shadow_offset = Vector2(0, 10)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tff05"]
 bg_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hrbp5"]
 bg_color = Color(0.0768358, 0.0768358, 0.0768358, 1)
@@ -33,9 +45,17 @@ border_width_top = 4
 border_width_right = 4
 border_width_bottom = 4
 border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_as23m"]
 bg_color = Color(0.250153, 0.239873, 0.224429, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_een1g"]
 bg_color = Color(0.682353, 0.666667, 0.643137, 1)
@@ -43,9 +63,17 @@ border_width_left = 4
 border_width_top = 4
 border_width_right = 4
 border_width_bottom = 4
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bhqh7"]
 bg_color = Color(0.0784314, 0.0784314, 0.0784314, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c4b86"]
 bg_color = Color(0.756863, 0.266667, 0.231373, 1)
@@ -54,6 +82,10 @@ border_width_top = 4
 border_width_right = 4
 border_width_bottom = 4
 border_color = Color(0.568627, 0.180392, 0.156863, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x5u2t"]
 bg_color = Color(0.0784314, 0.0784314, 0.0784314, 1)
@@ -62,6 +94,10 @@ border_width_top = 4
 border_width_right = 4
 border_width_bottom = 4
 border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -209,10 +245,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -469.0
-offset_top = -33.0
-offset_right = 469.0
-offset_bottom = 33.0
+offset_left = -468.5
+offset_top = -28.5
+offset_right = 470.5
+offset_bottom = 34.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_as23m")
