@@ -447,6 +447,17 @@ public partial class UIController : Control
             {
                 joker.GetParent().RemoveChild(joker);
             }
+            // 1. Reseta os 'Size Flags' (tira o 'Expand' da loja)
+            //    Define para 'Fill' em ambos para o FlowContainer controlar.
+            joker.SizeFlagsHorizontal = Control.SizeFlags.Fill;
+            joker.SizeFlagsVertical = Control.SizeFlags.Fill; 
+
+            // 2. Reseta o 'CustomMinimumSize' (permite encolher)
+            joker.CustomMinimumSize = Vector2.Zero;
+            
+            // O modo 'KeepAspectCentered' (valor 5) não encolhe.
+            // O modo 'KeepAspect' (valor 4) PERMITE encolher.
+            joker.StretchMode = TextureRect.StretchModeEnum.KeepAspect;
             
             _jokerContainer.AddChild(joker);
             joker.OnCardClicked += OnCardClicked; // Reconecta o clique

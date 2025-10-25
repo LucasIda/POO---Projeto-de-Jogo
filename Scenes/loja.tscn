@@ -43,8 +43,11 @@ text = "Próximo Round
 
 [node name="JokerList" type="HBoxContainer" parent="."]
 layout_mode = 0
-offset_left = 458.0
-offset_top = 728.0
-offset_right = 1622.0
-offset_bottom = 1064.0
+offset_left = 526.0
+offset_top = 725.0
+offset_right = 1209.0
+offset_bottom = 875.0
+scale = Vector2(1.5, 1.5)
 mouse_filter = 2
+theme_override_constants/separation = 75
+alignment = 1

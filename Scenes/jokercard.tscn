@@ -5,5 +5,7 @@
 [node name="Card" type="TextureRect"]
 offset_right = 40.0
 offset_bottom = 40.0
+size_flags_vertical = 4
 mouse_filter = 0
+stretch_mode = 4
 script = ExtResource("1_pmbxp")
