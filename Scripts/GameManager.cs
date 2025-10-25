@@ -1,11 +1,13 @@
 using Godot;
 using System;
-
+using System.Collections.Generic;
+using System.Linq;
 public partial class GameManager : Control
 {
     [Export] private NodePath ChipsLabelPath;
     [Export] private NodePath AnteLabelPath;
     [Export] private PackedScene LojaScene;
+    [Export] private PackedScene JokerScene;
 
     private Label _chipsLabel;
     private Label _anteLabel;
@@ -19,6 +21,13 @@ public partial class GameManager : Control
     public event Action OnRoundAdvanced;
     private Control _lojaInstance;
 
+    public List<JokerCard> MasterJokerPool { get; private set; } = new();
+    
+    // A lista de curingas que o jogador possui
+    public List<JokerCard> PlayerJokerInventory { get; private set; } = new();
+
+    // Evento para notificar o UIController que os curingas mudaram
+    public event Action OnPlayerInventoryChanged;
 
     private readonly int[,] AnteTable = new int[,]
     {
@@ -38,6 +47,10 @@ public partial class GameManager : Control
     {
         _chipsLabel = GetNode<Label>(ChipsLabelPath);
         _anteLabel = GetNode<Label>(AnteLabelPath);
+
+        // Cria todos os curingas UMA VEZ e guarda no pool mestre
+        MasterJokerPool = JokerFactory.CreateJokers(JokerScene);
+        GD.Print($"GameManager: Criados {MasterJokerPool.Count} curingas para o MasterPool.");
 
         StartRound();
     }
@@ -61,7 +74,11 @@ public partial class GameManager : Control
         _currentChips += amount;
         GD.Print($"Chips atuais: {_currentChips}/{_requiredChips}");
 
-        if (_currentChips >= _requiredChips)
+        // Pega o estado atual da loja
+        bool shopIsOpen = (_lojaInstance != null && IsInstanceValid(_lojaInstance));
+
+        // Correção: Esta é uma ÚNICA declaração 'if'
+        if (_currentChips >= _requiredChips && !shopIsOpen)
         {
             GD.Print("🎉 Parabéns, você completou a meta!");
             MostrarLoja();
@@ -101,8 +118,15 @@ public partial class GameManager : Control
         return _currentChips;
     }
 
-    private void MostrarLoja()
+private void MostrarLoja()
     {
+        // Se a loja já estiver aberta, não faça nada.
+        if (_lojaInstance != null && IsInstanceValid(_lojaInstance))
+        {
+            GD.Print("Loja já está visível.");
+            return; 
+        }
+
         if (LojaScene == null)
         {
             GD.PrintErr("⚠️ LojaScene não atribuída no GameManager!");
@@ -112,16 +136,41 @@ public partial class GameManager : Control
 
         // Instancia a loja
         _lojaInstance = LojaScene.Instantiate<Control>();
-        AddChild(_lojaInstance); // ← adiciona sobre a cena principal
+        
+        // --- A PRIMEIRA CHAMADA AddChild() ESTÁ CORRETA ---
+        AddChild(_lojaInstance); // Adiciona sobre a cena principal
+
+        // Tenta pegar o script ShopController da instância da loja
+        var shopController = _lojaInstance as ShopController;
+        if (shopController != null)
+        {
+            shopController.Initialize(MasterJokerPool, PlayerJokerInventory);
+        }
+        else
+        {
+            GD.PrintErr("A cena da Loja (loja.tscn) não tem o script ShopController.cs anexado ao seu nó raiz.");
+        }
+
+        // --- A SEGUNDA CHAMADA (linha 155) FOI REMOVIDA DAQUI ---
 
         // Procura botão "Seguir"
         var seguirBtn = _lojaInstance.GetNodeOrNull<Button>("PanelContainer/HBoxContainer/PassButton");
+        // ... (o resto do método continua igual) ...
         if (seguirBtn != null)
         {
             seguirBtn.Pressed += () =>
             {
-                NextRound(); // inicia próxima fase normalmente
-                _lojaInstance.QueueFree(); // fecha o modal
+                if (shopController != null)
+                {
+                    MasterJokerPool = shopController.GetUpdatedMasterPool();
+                    PlayerJokerInventory = shopController.GetUpdatedInventory();
+                    OnPlayerInventoryChanged?.Invoke(); 
+                    GD.Print($"Loja fechada. Inventário: {PlayerJokerInventory.Count}, Pool: {MasterJokerPool.Count}");
+                }
+
+                NextRound(); 
+                _lojaInstance.QueueFree(); 
+                _lojaInstance = null; 
             };
         }
 
