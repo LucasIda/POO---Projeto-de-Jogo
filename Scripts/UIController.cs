@@ -57,7 +57,6 @@ public partial class UIController : Control
         PlayLeftLabel = GetNode<Label>("Panel/PlayDiscardCount/Play/PlayLeftLabel");
         _jokerContainer = GetNode<Control>(JokerContainerPath);
         InitDeck();
-        InitJokers();
         _deckView.UpdateCount(_deck.Count, _totalDeckCount); // Atualiza visual do deck ao iniciar
         UpdateCurrentHandLabel();
 
@@ -71,6 +70,12 @@ public partial class UIController : Control
 
         var gm = GetNode<GameManager>("GameManager");
         gm.OnRoundAdvanced += HandleRoundAdvanced;
+
+        // Conecta-se ao evento do GameManager para saber quando atualizar os curingas
+        gm.OnPlayerInventoryChanged += UpdateJokerDisplay;
+
+        // Atualiza a exibição dos curingas (que estará vazia no início)
+        UpdateJokerDisplay();
 
         DrawCards(MaxHandSize);
         UpdateHandVisuals();
@@ -415,20 +420,48 @@ public partial class UIController : Control
 
         OnResetPressed();
     }
-    private void InitJokers()
+    private void UpdateJokerDisplay()
     {
-    _jokerContainer = GetNode<Control>(JokerContainerPath);
-    if (_jokerContainer == null)
-    {
-        GD.PrintErr("JokerContainer não encontrado!");
-        return;
-    }
+        if (_jokerContainer == null) return;
 
-    _jokers = JokerFactory.CreateJokers();
-    foreach (var joker in _jokers)
-    {
-        joker.OnCardClicked += OnCardClicked;
-        _jokerContainer.AddChild(joker);
-    }
+        // 1. Limpa os filhos atuais E DESINSCREVE OS EVENTOS
+        foreach (var joker in _jokers)
+        {
+            if (joker.GetParent() == _jokerContainer)
+            {
+                _jokerContainer.RemoveChild(joker);
+            }
+            // Desconecta o clique para evitar duplicação na próxima rodada
+            joker.OnCardClicked -= OnCardClicked; 
+        }
+
+        // 2. Pega a lista atualizada do GameManager
+        var gm = GetNode<GameManager>("GameManager");
+        _jokers = gm.PlayerJokerInventory; // Pega a referência da lista do GM
+
+        // 3. Adiciona os curingas do inventário ao container
+        foreach (var joker in _jokers)
+        {
+            // Garante que o curinga não é filho de outro nó (como a loja)
+            if (joker.GetParent() != null)
+            {
+                joker.GetParent().RemoveChild(joker);
+            }
+            // 1. Reseta os 'Size Flags' (tira o 'Expand' da loja)
+            //    Define para 'Fill' em ambos para o FlowContainer controlar.
+            joker.SizeFlagsHorizontal = Control.SizeFlags.Fill;
+            joker.SizeFlagsVertical = Control.SizeFlags.Fill; 
+
+            // 2. Reseta o 'CustomMinimumSize' (permite encolher)
+            joker.CustomMinimumSize = Vector2.Zero;
+            
+            // O modo 'KeepAspectCentered' (valor 5) não encolhe.
+            // O modo 'KeepAspect' (valor 4) PERMITE encolher.
+            joker.StretchMode = TextureRect.StretchModeEnum.KeepAspect;
+            
+            _jokerContainer.AddChild(joker);
+            joker.OnCardClicked += OnCardClicked; // Reconecta o clique
+        }
+        GD.Print($"UIController: Exibindo {_jokers.Count} curingas.");
     }
  }
