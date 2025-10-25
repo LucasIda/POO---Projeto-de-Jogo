@@ -304,6 +304,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="painel_jogarf" type="Panel" parent="painel_principal"]
+layout_mode = 0
 offset_left = 67.5
 offset_top = 557.0
 offset_right = 533.5
@@ -319,6 +320,7 @@ offset_bottom = 637.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_c4b86")
 
 [node name="fim_textom_fundo" type="Label" parent="painel_principal/painel_jogar"]
+layout_mode = 0
 offset_left = 35.0
 offset_top = 19.0
 offset_right = 429.0
@@ -330,6 +332,7 @@ text = "Jogar Novamente!"
 horizontal_alignment = 1
 
 [node name="fim_textom" type="Label" parent="painel_principal/painel_jogar"]
+layout_mode = 0
 offset_left = 35.0
 offset_top = 14.0
 offset_right = 429.0
@@ -340,7 +343,16 @@ theme_override_font_sizes/font_size = 50
 text = "Jogar Novamente!"
 horizontal_alignment = 1
 
+[node name="botão_jogar" type="Button" parent="painel_principal"]
+layout_mode = 0
+offset_left = 68.0
+offset_top = 557.0
+offset_right = 534.0
+offset_bottom = 637.0
+theme_type_variation = &"FlatButton"
+
 [node name="painel_menuf" type="Panel" parent="painel_principal"]
+layout_mode = 0
 offset_left = 577.0
 offset_top = 557.0
 offset_right = 1045.0
@@ -356,6 +368,7 @@ offset_bottom = 637.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_x5u2t")
 
 [node name="fim_textom_fundo" type="Label" parent="painel_principal/painel_menu"]
+layout_mode = 0
 offset_left = 22.0
 offset_top = 24.0
 offset_right = 448.0
@@ -367,6 +380,7 @@ text = "Voltar para o Menu"
 horizontal_alignment = 1
 
 [node name="fim_textom" type="Label" parent="painel_principal/painel_menu"]
+layout_mode = 0
 offset_left = 22.0
 offset_top = 19.0
 offset_right = 448.0
@@ -376,3 +390,11 @@ theme_override_fonts/font = ExtResource("1_tff05")
 theme_override_font_sizes/font_size = 50
 text = "Voltar para o Menu"
 horizontal_alignment = 1
+
+[node name="botão_menu" type="Button" parent="painel_principal"]
+layout_mode = 0
+offset_left = 577.0
+offset_top = 557.0
+offset_right = 1043.0
+offset_bottom = 637.0
+theme_type_variation = &"FlatButton"
