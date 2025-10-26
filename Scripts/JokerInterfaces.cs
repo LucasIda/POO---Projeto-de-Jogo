@@ -2,16 +2,19 @@ using Godot;
 
 public interface IJokerEffect
 {
+    string Description { get; }
     void Apply(HandValue.HandResult result);
 }
 
 public class EffectAddChips : IJokerEffect
 {
     private int _chips;
+    public string Description { get; }
 
-    public EffectAddChips(int chips)
+    public EffectAddChips(int chips, string description)
     {
         _chips = chips;
+        Description = description;
     }
 
     public void Apply(HandValue.HandResult result)
@@ -25,10 +28,12 @@ public class EffectAddChips : IJokerEffect
 public class EffectAddMultiplier : IJokerEffect
 {
     private int _multiplier;
+    public string Description { get; }
 
-    public EffectAddMultiplier(int multiplier)
+    public EffectAddMultiplier(int multiplier, string description)
     {
         _multiplier = multiplier;
+        Description = description;
     }
 
     public void Apply(HandValue.HandResult result)
@@ -42,10 +47,12 @@ public class EffectAddMultiplier : IJokerEffect
 public class EffectMultiplyMultiplier : IJokerEffect
 {
     private float _factor;
+    public string Description { get; }
 
-    public EffectMultiplyMultiplier(float factor)
+    public EffectMultiplyMultiplier(float factor, string description)
     {
         _factor = factor;
+        Description = description;
     }
 
     public void Apply(HandValue.HandResult result)

@@ -424,44 +424,66 @@ public partial class UIController : Control
     {
         if (_jokerContainer == null) return;
 
-        // 1. Limpa os filhos atuais E DESINSCREVE OS EVENTOS
         foreach (var joker in _jokers)
         {
             if (joker.GetParent() == _jokerContainer)
             {
                 _jokerContainer.RemoveChild(joker);
             }
-            // Desconecta o clique para evitar duplicação na próxima rodada
-            joker.OnCardClicked -= OnCardClicked; 
+            joker.OnCardClicked -= OnCardClicked;
+
+            joker.OnDragEnded -= OnJokerDragEnded;
         }
 
-        // 2. Pega a lista atualizada do GameManager
         var gm = GetNode<GameManager>("GameManager");
-        _jokers = gm.PlayerJokerInventory; // Pega a referência da lista do GM
+        _jokers = gm.PlayerJokerInventory;
 
-        // 3. Adiciona os curingas do inventário ao container
         foreach (var joker in _jokers)
         {
-            // Garante que o curinga não é filho de outro nó (como a loja)
             if (joker.GetParent() != null)
             {
                 joker.GetParent().RemoveChild(joker);
             }
-            // 1. Reseta os 'Size Flags' (tira o 'Expand' da loja)
-            //    Define para 'Fill' em ambos para o FlowContainer controlar.
             joker.SizeFlagsHorizontal = Control.SizeFlags.Fill;
-            joker.SizeFlagsVertical = Control.SizeFlags.Fill; 
+            joker.SizeFlagsVertical = Control.SizeFlags.Fill;
 
-            // 2. Reseta o 'CustomMinimumSize' (permite encolher)
             joker.CustomMinimumSize = Vector2.Zero;
-            
-            // O modo 'KeepAspectCentered' (valor 5) não encolhe.
-            // O modo 'KeepAspect' (valor 4) PERMITE encolher.
+
             joker.StretchMode = TextureRect.StretchModeEnum.KeepAspect;
-            
+
             _jokerContainer.AddChild(joker);
-            joker.OnCardClicked += OnCardClicked; // Reconecta o clique
+            joker.OnCardClicked += OnCardClicked;
+            joker.OnDragEnded += OnJokerDragEnded;
+
+            joker.IsDraggable = true;
+            
+            joker.TooltipDisplayDirection = TooltipDirection.Below;
         }
         GD.Print($"UIController: Exibindo {_jokers.Count} curingas.");
+    }
+
+    private void OnJokerDragEnded(BaseCard card)
+    {
+        if (card is JokerCard)
+        {
+            _jokers = _jokers.OrderBy(j => j.Position.X).ToList();
+
+            var gm = GetNode<GameManager>("GameManager");
+            gm.SetPlayerJokerOrder(_jokers); 
+            
+            UpdateJokerVisuals();
+        }
+    }
+    
+    private void UpdateJokerVisuals()
+    {
+        // Itera sobre a lista _jokers (que acabou de ser reordenada)
+        // e os re-adiciona ao container. O FlowContainer
+        // vai redesenhá-los na nova ordem.
+        foreach (var joker in _jokers)
+        {
+            _jokerContainer.RemoveChild(joker);
+            _jokerContainer.AddChild(joker);
+        }
     }
  }
