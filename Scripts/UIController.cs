@@ -454,8 +454,10 @@ public partial class UIController : Control
             _jokerContainer.AddChild(joker);
             joker.OnCardClicked += OnCardClicked;
             joker.OnDragEnded += OnJokerDragEnded;
-            
+
             joker.IsDraggable = true;
+            
+            joker.TooltipDisplayDirection = TooltipDirection.Below;
         }
         GD.Print($"UIController: Exibindo {_jokers.Count} curingas.");
     }

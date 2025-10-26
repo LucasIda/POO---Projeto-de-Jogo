@@ -76,6 +76,8 @@ public partial class ShopController : Control
             joker.OnCardClicked += OnJokerClicked;
 
             joker.IsDraggable = false;
+
+            joker.TooltipDisplayDirection = TooltipDirection.Above;
         }
         
         UpdateShopJokerState();

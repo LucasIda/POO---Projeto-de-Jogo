@@ -18,20 +18,23 @@ public static class JokerFactory
         // Em vez de 'new JokerCard()', usamos 'jokerScene.Instantiate<JokerCard>()'
         var clown = jokerScene.Instantiate<JokerCard>();
         clown.Initialize("Clown", GD.Load<Texture2D>("res://Sprites/Jokers/Clown.png"));
-        clown.AddEffect(new EffectAddMultiplier(2));
+        clown.Rarity = JokerRarity.Common;
+        clown.AddEffect(new EffectAddMultiplier(2, "Double your base multiplier"));
         list.Add(clown);
 
        
         // Coin Master
         var coinMaster = jokerScene.Instantiate<JokerCard>();
         coinMaster.Initialize("Coin Master", GD.Load<Texture2D>("res://Sprites/Jokers/CoinMaster.png"));
-        coinMaster.AddEffect(new EffectAddChips(50));
+        coinMaster.Rarity = JokerRarity.Uncommon;
+        coinMaster.AddEffect(new EffectAddChips(50, "Add 50 chips to your base chips"));
         list.Add(coinMaster);
 
         // Doubler
         var doubler = jokerScene.Instantiate<JokerCard>();
         doubler.Initialize("Doubler", GD.Load<Texture2D>("res://Sprites/Jokers/Doubler.png"));
-        doubler.AddEffect(new EffectMultiplyMultiplier(1.5f));
+        doubler.Rarity = JokerRarity.Rare;
+        doubler.AddEffect(new EffectMultiplyMultiplier(1.5f, "Increase your base multiplier by 50%"));
         list.Add(doubler);
 
         return list;
