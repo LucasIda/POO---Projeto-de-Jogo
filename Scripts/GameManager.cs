@@ -8,6 +8,7 @@ public partial class GameManager : Control
     [Export] private NodePath AnteLabelPath;
     [Export] private PackedScene LojaScene;
     [Export] private PackedScene JokerScene;
+    [Export] private Label PlayerCoin;
 
     private Label _chipsLabel;
     private Label _anteLabel;
@@ -49,6 +50,8 @@ public partial class GameManager : Control
 
         MasterJokerPool = JokerFactory.CreateJokers(JokerScene);
         GD.Print($"GameManager: Criados {MasterJokerPool.Count} curingas para o MasterPool.");
+
+        PlayerCoin.Text = PlayerCoins.ToString();
 
         StartRound();
     }
@@ -118,6 +121,8 @@ public partial class GameManager : Control
         
         GD.Print($"Total de Moedas Final: {PlayerCoins}");
         GD.Print("------------------------------------------");
+
+        PlayerCoin.Text = PlayerCoins.ToString();
     }
 
     public void AddCoins(int amount)

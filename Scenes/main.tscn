@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://mirandkx0nvm"]
+[gd_scene load_steps=19 format=3 uid="uid://mirandkx0nvm"]
 
 [ext_resource type="Script" uid="uid://mydm023cvu67" path="res://Scripts/UIController.cs" id="1_jjgbg"]
 [ext_resource type="PackedScene" uid="uid://b4guub2w3vtjd" path="res://Scenes/card.tscn" id="2_bo1nx"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://ccnb15pqo64by" path="res://Scripts/DeckView.cs" id="3_kry3j"]
 [ext_resource type="Texture2D" uid="uid://xd340x8pwlkx" path="res://Sprites/Icons/stake.png" id="4_jjvhh"]
 [ext_resource type="Script" uid="uid://dwfwkwk7xk0s2" path="res://Scripts/GameManager.cs" id="6_21xkr"]
+[ext_resource type="Texture2D" uid="uid://bw1e37mfhgn1t" path="res://Sprites/Icons/coin.png" id="7_hptm8"]
 [ext_resource type="PackedScene" uid="uid://cidvrmdx83kvj" path="res://Scenes/loja.tscn" id="8_344ge"]
 [ext_resource type="PackedScene" uid="uid://d1ogvkc66i3p6" path="res://Scenes/jokercard.tscn" id="9_ynf5e"]
 
@@ -395,7 +396,29 @@ text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="GameManager" type="Control" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel"]
+layout_mode = 0
+offset_left = 45.8824
+offset_top = 501.176
+offset_right = 192.882
+offset_bottom = 573.176
+
+[node name="TextureRect" type="TextureRect" parent="Panel/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("7_hptm8")
+expand_mode = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+alignment = 1
+
+[node name="PlayerCoin" type="Label" parent="Panel/HBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="GameManager" type="Control" parent="." node_paths=PackedStringArray("PlayerCoin")]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
@@ -404,6 +427,7 @@ ChipsLabelPath = NodePath("RequiredChips")
 AnteLabelPath = NodePath("Ante")
 LojaScene = ExtResource("8_344ge")
 JokerScene = ExtResource("9_ynf5e")
+PlayerCoin = NodePath("../Panel/HBoxContainer/HBoxContainer/PlayerCoin")
 
 [node name="RequiredChips" type="Label" parent="GameManager"]
 layout_mode = 0
