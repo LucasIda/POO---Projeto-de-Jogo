@@ -453,8 +453,9 @@ public partial class UIController : Control
 
             _jokerContainer.AddChild(joker);
             joker.OnCardClicked += OnCardClicked;
-            
             joker.OnDragEnded += OnJokerDragEnded;
+            
+            joker.IsDraggable = true;
         }
         GD.Print($"UIController: Exibindo {_jokers.Count} curingas.");
     }
@@ -463,10 +464,11 @@ public partial class UIController : Control
     {
         if (card is JokerCard)
         {
-            // 1. Reordena a lista lógica '_jokers' com base na nova posição X
             _jokers = _jokers.OrderBy(j => j.Position.X).ToList();
 
-            // 2. Chama o novo método visual para aplicar a ordem
+            var gm = GetNode<GameManager>("GameManager");
+            gm.SetPlayerJokerOrder(_jokers); 
+            
             UpdateJokerVisuals();
         }
     }

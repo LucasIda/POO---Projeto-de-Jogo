@@ -50,7 +50,6 @@ public partial class ShopController : Control
 
     private void PopulateShop()
     {
-        // 1. Limpa os filhos antigos
         foreach (Node child in _jokerListContainer.GetChildren().ToList()) //
         {
             _jokerListContainer.RemoveChild(child);
@@ -61,9 +60,8 @@ public partial class ShopController : Control
                 if (joker.IsSelected) joker.ToggleSelection();
             }
         }
-        _currentDisplay.Clear(); //
+        _currentDisplay.Clear();
 
-        // 2. Pega os curingas disponíveis
         var availablePool = _shopMasterPool
             .Where(joker => !_playerInventory.Any(owned => owned.Name == joker.Name))
             .ToList();
@@ -71,33 +69,29 @@ public partial class ShopController : Control
         int count = Math.Min(availablePool.Count, ShopDisplayCount);
         _currentDisplay = availablePool.Take(count).ToList();
 
-        // 3. Adiciona APENAS os curingas
         foreach (var joker in _currentDisplay)
         {
             _shopMasterPool.Remove(joker); 
             _jokerListContainer.AddChild(joker);
-            joker.OnCardClicked += OnJokerClicked; //
+            joker.OnCardClicked += OnJokerClicked;
+
+            joker.IsDraggable = false;
         }
         
-        // --- 4. ATUALIZA A UI (NOVO) ---
         UpdateShopJokerState();
     }
 
-    // --- 2. MODIFIQUE O OnJokerClicked ---
     private void OnJokerClicked(BaseCard clickedCard)
     {
-        // Se o jogador já tem 5, ele não pode selecionar um novo.
-        // (Ele ainda pode des-selecionar)
         if (!clickedCard.IsSelected && _playerInventory.Count >= MaxJokerSlots)
         {
             GD.Print("Inventário de Curingas cheio! (5/5)");
             return;
         }
         
-        clickedCard.ToggleSelection(); //
+        clickedCard.ToggleSelection();
     }
 
-    // --- 3. MODIFIQUE O OnBuyPressed ---
     private void OnBuyPressed()
     {
         var boughtJokers = _currentDisplay.Where(j => j.IsSelected).ToList(); //
@@ -108,27 +102,25 @@ public partial class ShopController : Control
             return;
         }
         
-        // VERIFICAÇÃO DE LIMITE
         if (_playerInventory.Count + boughtJokers.Count > MaxJokerSlots)
         {
             GD.Print($"ERRO: Você não pode comprar! Você tem {_playerInventory.Count}/5 e está tentando comprar {boughtJokers.Count}.");
-            return; // Bloqueia a compra
+            return;
         }
         
         foreach (var joker in boughtJokers)
         {
             GD.Print($"Jogador comprou {joker.Name}.");
             
-            _playerInventory.Add(joker); //
-            _currentDisplay.Remove(joker); //
+            _playerInventory.Add(joker);
+            _currentDisplay.Remove(joker);
             
-            joker.OnCardClicked -= OnJokerClicked; //
+            joker.OnCardClicked -= OnJokerClicked;
             if (joker.IsSelected) joker.ToggleSelection(); 
 
-            _jokerListContainer.RemoveChild(joker); //
+            _jokerListContainer.RemoveChild(joker);
         }
         
-        // ATUALIZA A UI (NOVO)
         UpdateShopJokerState();
     }
 
@@ -136,33 +128,26 @@ public partial class ShopController : Control
     {
         foreach (var joker in _currentDisplay)
         {
-            _shopMasterPool.Add(joker); //
+            _shopMasterPool.Add(joker);
         }
         
         GD.Print("Loja atualizada (reroll).");
-        PopulateShop(); //
+        PopulateShop();
     }
 
-    // --- 4. ADICIONE ESTE MÉTODO INTEIRO ---
-    /// <summary>
-    /// Desabilita os curingas da loja se o inventário estiver cheio.
-    /// </summary>
     private void UpdateShopJokerState()
     {
         bool isFull = _playerInventory.Count >= MaxJokerSlots;
 
-        // Itera sobre os curingas que ainda estão na loja
         foreach (var joker in _currentDisplay)
         {
             if (isFull && !joker.IsSelected)
             {
-                // Desabilita (cinza)
                 joker.MouseFilter = MouseFilterEnum.Ignore;
                 joker.Modulate = new Color(0.5f, 0.5f, 0.5f); 
             }
             else
             {
-                // Habilita (normal)
                 joker.MouseFilter = MouseFilterEnum.Stop; 
                 joker.Modulate = new Color(1f, 1f, 1f);
             }

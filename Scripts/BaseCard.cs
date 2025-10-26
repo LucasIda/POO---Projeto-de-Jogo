@@ -9,6 +9,7 @@ public abstract partial class BaseCard : TextureRect
     public bool IsSelected { get; private set; }
     private bool _isDragging;
     public bool IsDragging => _isDragging;
+    public bool IsDraggable { get; set; } = true;
 
     public delegate void CardClicked(BaseCard clickedCard);
     public event CardClicked OnCardClicked;
@@ -39,6 +40,12 @@ public abstract partial class BaseCard : TextureRect
                 if (mouseEvent.Pressed)
                 {
                     OnCardClicked?.Invoke(this);
+
+                    if (!IsDraggable)
+                    {
+                        return;
+                    }
+
                     _dragOffset = GetGlobalMousePosition() - GlobalPosition;
                     _isDragging = true;
                 }
