@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://mirandkx0nvm"]
+[gd_scene load_steps=32 format=3 uid="uid://mirandkx0nvm"]
 
 [ext_resource type="Script" uid="uid://mydm023cvu67" path="res://Scripts/UIController.cs" id="1_jjgbg"]
 [ext_resource type="PackedScene" uid="uid://b4guub2w3vtjd" path="res://Scenes/card.tscn" id="2_bo1nx"]
@@ -14,7 +14,7 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_344ge"]
 shader = ExtResource("3_6bp64")
 shader_parameter/spin_rotation_speed = 2.0
-shader_parameter/move_speed = 7.0
+shader_parameter/move_speed = 2.0
 shader_parameter/offset = Vector2(0, 0)
 shader_parameter/colour_1 = Color(0.871, 0.267, 0.231, 1)
 shader_parameter/colour_2 = Color(0, 0.42, 0.706, 1)
@@ -53,6 +53,20 @@ corner_radius_bottom_left = 8
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fdnlq"]
 bg_color = Color(0.168627, 0.168627, 0.168627, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hptm8"]
+bg_color = Color(0.0923971, 0.0923971, 0.092397, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ee4r6"]
+bg_color = Color(0.194349, 0.194349, 0.194349, 1)
 corner_radius_top_left = 6
 corner_radius_top_right = 6
 corner_radius_bottom_right = 6
@@ -196,7 +210,7 @@ PlayButton = NodePath("PlayButton")
 ResetButton = NodePath("VBoxContainer/ResetButton")
 SuitSortButton = NodePath("HBoxContainer/SuitSortButton")
 RankSortButton = NodePath("HBoxContainer/RankSortButton")
-RoundScoreLabel = NodePath("Panel/RoundScore/ScorePanel/HBoxContainer/ScoreLabel")
+RoundScoreLabel = NodePath("base/painel_rodada/Panel/RoundScoreLab")
 JokerContainerPath = NodePath("JokerContainer")
 
 [node name="Background" type="ColorRect" parent="."]
@@ -341,46 +355,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_6iyac")
 
-[node name="rodadaf" type="Label" parent="base/painel_rodada"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -159.5
-offset_top = -169.5
-offset_right = 165.5
-offset_bottom = -69.5
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(0, 0, 0, 0.490196)
-theme_override_fonts/font = ExtResource("5_hptm8")
-theme_override_font_sizes/font_size = 100
-text = "Ante"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="rodada" type="Label" parent="base/painel_rodada"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -162.5
-offset_top = -174.5
-offset_right = 162.5
-offset_bottom = -74.5
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("5_hptm8")
-theme_override_font_sizes/font_size = 100
-text = "Ante"
-horizontal_alignment = 1
-vertical_alignment = 1
-
 [node name="descri" type="Label" parent="base/painel_rodada"]
 layout_mode = 1
 anchors_preset = 8
@@ -389,9 +363,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -176.0
-offset_top = -63.5
+offset_top = -185.5
 offset_right = 168.0
-offset_bottom = 17.5
+offset_bottom = -104.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -405,16 +379,16 @@ vertical_alignment = 1
 layout_mode = 1
 anchors_preset = -1
 offset_left = 20.0
-offset_top = 208.0
+offset_top = 86.0
 offset_right = 343.0
-offset_bottom = 218.0
+offset_bottom = 96.0
 
 [node name="painel_p_necessario" type="Panel" parent="base/painel_rodada"]
 layout_mode = 0
 offset_left = 15.0
-offset_top = 253.0
+offset_top = 114.0
 offset_right = 353.0
-offset_bottom = 382.0
+offset_bottom = 243.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_fdnlq")
 
 [node name="pont_necessariof" type="Label" parent="base/painel_rodada/painel_p_necessario"]
@@ -474,6 +448,63 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("5_hptm8")
 theme_override_font_sizes/font_size = 75
 text = "Pontos"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Panel" type="Panel" parent="base/painel_rodada"]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 255.0
+offset_right = 353.0
+offset_bottom = 367.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_hptm8")
+
+[node name="Panel" type="Panel" parent="base/painel_rodada/Panel"]
+layout_mode = 0
+offset_left = 124.0
+offset_top = 13.0
+offset_right = 324.0
+offset_bottom = 101.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_ee4r6")
+
+[node name="RoundScore" type="Label" parent="base/painel_rodada/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -165.0
+offset_top = -40.0
+offset_right = -49.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("5_hptm8")
+theme_override_font_sizes/font_size = 30
+text = "Ponto da
+Ante"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RoundScoreLab" type="Label" parent="base/painel_rodada/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -52.0
+offset_top = -30.0
+offset_right = 164.0
+offset_bottom = 46.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("5_hptm8")
+theme_override_font_sizes/font_size = 55
+text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -826,6 +857,26 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("5_hptm8")
 theme_override_font_sizes/font_size = 20
 text = "Dinheiro"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="pont_dinf" type="Label" parent="base/painel_info/painel_economia"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -73.0
+offset_top = -15.5
+offset_right = 77.0
+offset_bottom = 50.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("5_hptm8")
+theme_override_font_sizes/font_size = 55
+text = "*M"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -1195,6 +1246,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="GameManager" type="Control" parent="."]
+visible = false
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0

@@ -50,7 +50,7 @@ public partial class UIController : Control
         _cardContainer = GetNode<Control>(CardContainerPath);
         _chipsLabel = GetNode<Label>("base/painel_pontuacao/painel_chips/pont_chips");
         _multLabel = GetNode<Label>("base/painel_pontuacao/painel_mult/pont_mult");
-        RoundScoreLabel = GetNode<Label>("Panel/RoundScore/ScorePanel/HBoxContainer/ScoreLabel");
+        RoundScoreLabel = GetNode<Label>("base/painel_rodada/Panel/RoundScoreLab");
         _handNameLabel = GetNodeOrNull<Label>(HandNameLabelPath) ?? GetNode<Label>("Panel/HandData/HandName");
         _deckView = GetNode<DeckView>("DeckView");
         DiscardLeftLabel = GetNode<Label>("base/painel_info/painel_descarte/pont_descarte");
