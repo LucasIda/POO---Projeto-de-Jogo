@@ -684,6 +684,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="painel_descarte" type="Panel" parent="base/painel_info"]
+layout_mode = 0
 offset_left = 119.0
 offset_top = 12.0
 offset_right = 227.0
@@ -771,6 +772,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="painel_economia" type="Panel" parent="base/painel_info"]
+layout_mode = 0
 offset_left = 235.0
 offset_top = 12.0
 offset_right = 356.0

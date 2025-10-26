@@ -58,10 +58,10 @@ public partial class GameManager : Control
         _requiredChips = AnteTable[_currentAnte, _currentBlind];
 
         if (_chipsLabel != null)
-            _chipsLabel.Text = $"Chips necessários = {_requiredChips}";
+            _chipsLabel.Text = $"{_requiredChips}";
 
         if (_anteLabel != null)
-            _anteLabel.Text = $"Ante {_currentAnte + 1} - {BlindNames[_currentBlind]}";
+            _anteLabel.Text = $"{_currentAnte + 1} {BlindNames[_currentBlind]}";
 
         GD.Print($"🔹 Iniciando {_anteLabel.Text}, meta = {_requiredChips}");
     }
