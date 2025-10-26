@@ -95,19 +95,19 @@ pivot_offset = Vector2(576, 324)
 
 [node name="PlayButton" type="Button" parent="."]
 layout_mode = 2
-offset_left = 1353.0
+offset_left = 847.0
 offset_top = 995.0
-offset_right = 1473.0
+offset_right = 967.0
 offset_bottom = 1065.0
 size_flags_horizontal = 8
 text = "Play"
 
 [node name="DiscardButton" type="Button" parent="."]
 layout_mode = 2
-offset_left = 836.0
-offset_top = 995.0
-offset_right = 956.0
-offset_bottom = 1065.0
+offset_left = 1325.0
+offset_top = 994.0
+offset_right = 1445.0
+offset_bottom = 1064.0
 size_flags_horizontal = 0
 text = "Discard"
 

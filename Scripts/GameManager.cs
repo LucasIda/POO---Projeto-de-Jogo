@@ -14,6 +14,7 @@ public partial class GameManager : Control
 
     private int _currentAnte = 0;   // Índice de ante (0 = Ante 1, 1 = Ante 2...)
     private int _currentBlind = 0;  // Índice de blind (0 = Small, 1 = Big, 2 = Boss)
+    public int PlayerCoins { get; private set; } = 4;
 
     private int _requiredChips;
     private int _currentChips;
@@ -79,6 +80,53 @@ public partial class GameManager : Control
             MostrarLoja();
         }
     }
+    private void CalculateEndOfRoundBonuses()
+    {
+        GD.Print("--- Calculando Bônus de Fim de Rodada ---");
+        GD.Print($"Moedas Iniciais: {PlayerCoins}");
+
+        var uiController = GetParent<UIController>();
+        if (uiController == null)
+        {
+            GD.PrintErr("GameManager não conseguiu encontrar o UIController para calcular bônus.");
+            return;
+        }
+
+        int interestBonus = PlayerCoins / 5;
+        AddCoins(interestBonus);
+        GD.Print($"Bônus de Juros (1 por 5): +{interestBonus} moedas");
+
+        int playsLeft = uiController.GetPlaysLeft();
+        AddCoins(playsLeft);
+        GD.Print($"Bônus de Jogadas Restantes: +{playsLeft} moedas");
+
+        int blindBonus = 0;
+        switch (_currentBlind)
+        {
+            case 0: // Small Blind
+                blindBonus = 4;
+                break;
+            case 1: // Big Blind
+                blindBonus = 5;
+                break;
+            case 2: // Boss Blind
+                blindBonus = 6;
+                break;
+        }
+        AddCoins(blindBonus);
+        GD.Print($"Bônus do Blind ({BlindNames[_currentBlind]}): +{blindBonus} moedas");
+        
+        GD.Print($"Total de Moedas Final: {PlayerCoins}");
+        GD.Print("------------------------------------------");
+    }
+
+    public void AddCoins(int amount)
+    {
+        if (amount > 0)
+        {
+            PlayerCoins += amount;
+        }
+    }
 
     private void NextRound()
     {
@@ -118,6 +166,8 @@ public partial class GameManager : Control
             GD.Print("Loja já está visível.");
             return;
         }
+
+        CalculateEndOfRoundBonuses();
 
         if (LojaScene == null)
         {
