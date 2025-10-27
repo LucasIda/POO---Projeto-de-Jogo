@@ -19,8 +19,18 @@ public enum JokerRarity
 public partial class JokerCard : BaseCard
 {
     private List<IJokerEffect> _effects = new();
+    public int Cost { get; private set; }
 
-    public JokerRarity Rarity { get; set; } = JokerRarity.Common;
+    private JokerRarity _rarity;
+    public JokerRarity Rarity
+    {
+        get { return _rarity; }
+        set
+        {
+            _rarity = value;
+            Cost = CalculateCostFromRarity(_rarity);
+        }
+    }
 
     private PanelContainer tooltip;
 
@@ -80,6 +90,10 @@ public partial class JokerCard : BaseCard
         var rarityLabel = new Label { Text = $"Raridade: {Rarity}" };
         rarityLabel.Modulate = Colors.Black;
         vbox.AddChild(rarityLabel);
+
+        var costLabel = new Label { Text = $"Custo: {Cost} moedas" };
+        costLabel.Modulate = Colors.Black;
+        vbox.AddChild(costLabel);
         
         foreach(var effect in _effects)
         {
@@ -114,5 +128,25 @@ public partial class JokerCard : BaseCard
         base._Ready();
         MouseEntered += OnMouseEntered;
         MouseExited += OnMouseExited;
+
+        Rarity = JokerRarity.Common;
+    }
+
+    private int CalculateCostFromRarity(JokerRarity rarity)
+    {
+        switch (rarity)
+        {
+            case JokerRarity.Common:
+                return 5;
+            case JokerRarity.Uncommon:
+                return 7;
+            case JokerRarity.Rare:
+                return 9;
+            case JokerRarity.Legendary:
+                return 11;
+            default:
+                GD.PrintErr($"Raridade desconhecida: {rarity}. Usando custo padrão (5).");
+                return 5; 
+        }
     }
 }
