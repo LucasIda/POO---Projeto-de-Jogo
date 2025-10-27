@@ -51,7 +51,7 @@ public partial class GameManager : Control
         MasterJokerPool = JokerFactory.CreateJokers(JokerScene);
         GD.Print($"GameManager: Criados {MasterJokerPool.Count} curingas para o MasterPool.");
 
-        PlayerCoin.Text = PlayerCoins.ToString();
+        PlayerCoin.Text = $"$ {PlayerCoins.ToString()}";
 
         StartRound();
     }
@@ -122,7 +122,7 @@ public partial class GameManager : Control
         GD.Print($"Total de Moedas Final: {PlayerCoins}");
         GD.Print("------------------------------------------");
 
-        PlayerCoin.Text = PlayerCoins.ToString();
+        PlayerCoin.Text = $"$ {PlayerCoins.ToString()}";
     }
 
     public void AddCoins(int amount)
@@ -234,6 +234,6 @@ public partial class GameManager : Control
         PlayerCoins -= amount;
         GD.Print($"Gastou {amount} moedas. Saldo restante: {PlayerCoins}");
 
-        PlayerCoin.Text = PlayerCoins.ToString();
+        PlayerCoin.Text = $"$ {PlayerCoins.ToString()}";
     }
 }

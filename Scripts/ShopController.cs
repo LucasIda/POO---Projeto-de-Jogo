@@ -9,11 +9,11 @@ public partial class ShopController : Control
     [Export] private NodePath BuyButtonPath;
     [Export] private NodePath RerollButtonPath;
     [Export] private Label ShopCost;
+    [Export] private Label RerollCostLabel;
     
     private const int ShopDisplayCount = 3;
-    
-    // --- 1. ADICIONE A CONSTANTE DO LIMITE ---
     private const int MaxJokerSlots = 5;
+    private int _currentRerollCost = 2;
 
     private HBoxContainer _jokerListContainer;
     private Button _buyButton;
@@ -45,8 +45,9 @@ public partial class ShopController : Control
         _rerollButton.Pressed += OnRerollPressed;
 
         await ToSignal(GetTree(), "process_frame");
-        
+
         PopulateShop();
+        UpdateRerollCostLabel();
     }
 
     private void PopulateShop()
@@ -152,6 +153,25 @@ public partial class ShopController : Control
 
     private void OnRerollPressed()
     {
+        var gameManager = GetParent<GameManager>();
+        if (gameManager == null)
+        {
+            GD.PrintErr("ShopController não conseguiu encontrar o GameManager!");
+            return;
+        }
+
+        if (gameManager.PlayerCoins < _currentRerollCost)
+        {
+            GD.Print($"Moedas insuficientes para atualizar! Você tem {gameManager.PlayerCoins}, mas precisa de {_currentRerollCost}.");
+            return;
+        }
+
+        gameManager.SpendCoins(_currentRerollCost);
+
+        _currentRerollCost += 1;
+
+        UpdateRerollCostLabel();
+        
         foreach (var joker in _currentDisplay)
         {
             _shopMasterPool.Add(joker);
@@ -205,7 +225,7 @@ public partial class ShopController : Control
     private void UpdateTotalCostLabel()
     {
         var selectedJokers = _currentDisplay.Where(j => j.IsSelected).ToList();
-        
+
         int totalCost = selectedJokers.Sum(joker => joker.Cost);
 
         if (ShopCost != null)
@@ -218,6 +238,15 @@ public partial class ShopController : Control
             {
                 ShopCost.Text = $"$ 0";
             }
+        }
+    }
+    
+    private void UpdateRerollCostLabel()
+    {
+        if (RerollCostLabel != null)
+        {
+            // Exibe o custo ao lado do botão "Atualizar"
+            RerollCostLabel.Text = $"$ {_currentRerollCost}";
         }
     }
 }
