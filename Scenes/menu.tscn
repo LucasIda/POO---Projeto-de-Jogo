@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bri2q221f0pb4"]
+[gd_scene load_steps=15 format=3 uid="uid://bri2q221f0pb4"]
 
 [ext_resource type="FontFile" uid="uid://dkobr42y6m63l" path="res://Font/Pixellari.ttf" id="1_1rerr"]
 
@@ -61,6 +61,26 @@ corner_radius_bottom_right = 2
 corner_radius_bottom_left = 2
 shadow_size = 2
 shadow_offset = Vector2(0, 1.5)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rfqti"]
+bg_color = Color(0.917647, 0.729412, 0.25098, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 4
+border_color = Color(0.517647, 0.407843, 0.133333, 1)
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g8i7c"]
+bg_color = Color(0.168627, 0.168627, 0.168627, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 6
+corner_radius_bottom_left = 6
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jsrd8"]
 bg_color = Color(0.917647, 0.729412, 0.25098, 1)
@@ -144,32 +164,12 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -184.5
-offset_top = -488.0
+offset_top = -504.0
 offset_right = 185.5
-offset_bottom = -87.0
+offset_bottom = -142.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_xhh6f")
-
-[node name="rodadaf" type="Label" parent="base/painel_rodada"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -159.5
-offset_top = -169.5
-offset_right = 165.5
-offset_bottom = -69.5
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(0, 0, 0, 0.490196)
-theme_override_fonts/font = ExtResource("1_1rerr")
-theme_override_font_sizes/font_size = 100
-text = "Rodada"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="rodada" type="Label" parent="base/painel_rodada"]
 layout_mode = 1
@@ -179,75 +179,18 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -162.5
-offset_top = -174.5
+offset_top = -164.0
 offset_right = 162.5
-offset_bottom = -74.5
+offset_bottom = -64.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 4
 theme_override_fonts/font = ExtResource("1_1rerr")
 theme_override_font_sizes/font_size = 100
-text = "Rodada"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="numf" type="Label" parent="base/painel_rodada"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -159.5
-offset_top = -84.5
-offset_right = -59.5
-offset_bottom = 66.5
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(0, 0, 0, 0.490196)
-theme_override_fonts/font = ExtResource("1_1rerr")
-theme_override_font_sizes/font_size = 150
-text = "1"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="num" type="Label" parent="base/painel_rodada"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -162.5
-offset_top = -89.5
-offset_right = -62.5
-offset_bottom = 61.5
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("1_1rerr")
-theme_override_font_sizes/font_size = 150
-text = "1"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="descrif" type="Label" parent="base/painel_rodada"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -67.5
-offset_top = -59.5
-offset_right = 170.5
-offset_bottom = 21.5
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(0, 0, 0, 0.490196)
-theme_override_fonts/font = ExtResource("1_1rerr")
-theme_override_font_sizes/font_size = 80
-text = "Small"
+text = "Ante"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -258,54 +201,43 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -70.0
-offset_top = -63.5
-offset_right = 168.0
-offset_bottom = 17.5
+offset_left = -162.0
+offset_top = -51.0
+offset_right = 162.0
+offset_bottom = 30.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 4
 theme_override_fonts/font = ExtResource("1_1rerr")
-theme_override_font_sizes/font_size = 80
-text = "Small"
+theme_override_font_sizes/font_size = 75
+text = "*ante"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="traco1" type="Panel" parent="base/painel_rodada"]
-layout_mode = 1
-anchors_preset = -1
-offset_left = 132.0
-offset_top = 208.0
-offset_right = 343.0
-offset_bottom = 218.0
-
-[node name="painel_p_necessario" type="Panel" parent="base/painel_rodada"]
-layout_mode = 0
-offset_left = 15.0
-offset_top = 253.0
-offset_right = 353.0
-offset_bottom = 382.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_cayip")
-
-[node name="pont_necessariof" type="Label" parent="base/painel_rodada/painel_p_necessario"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -149.0
-offset_top = -47.5
-offset_right = 154.0
-offset_bottom = -16.5
+offset_left = -155.5
+offset_top = -69.0
+offset_right = 155.5
+offset_bottom = -59.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("1_1rerr")
-theme_override_font_sizes/font_size = 30
-text = "Pontuação para passar"
-horizontal_alignment = 1
-vertical_alignment = 1
+
+[node name="painel_p_necessario" type="Panel" parent="base/painel_rodada"]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 213.0
+offset_right = 353.0
+offset_bottom = 342.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_cayip")
 
 [node name="pont_necessario" type="Label" parent="base/painel_rodada/painel_p_necessario"]
 layout_mode = 1
@@ -315,35 +247,18 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -151.5
-offset_top = -49.5
+offset_top = -56.5
 offset_right = 151.5
-offset_bottom = -18.5
+offset_bottom = -25.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 3
 theme_override_fonts/font = ExtResource("1_1rerr")
 theme_override_font_sizes/font_size = 30
-text = "Pontuação para passar"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="pont_vf" type="Label" parent="base/painel_rodada/painel_p_necessario"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -149.0
-offset_top = -6.5
-offset_right = 154.0
-offset_bottom = 73.5
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("1_1rerr")
-theme_override_font_sizes/font_size = 75
-text = "*P"
+text = "Score at least"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -354,46 +269,29 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -151.5
+offset_left = -151.0
 offset_top = -9.5
-offset_right = 151.5
-offset_bottom = 70.5
+offset_right = 152.0
+offset_bottom = 66.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 4
 theme_override_fonts/font = ExtResource("1_1rerr")
 theme_override_font_sizes/font_size = 75
-text = "*P"
+text = "*Points"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="painel_pontuacao" type="Panel" parent="base"]
 layout_mode = 0
 offset_left = 35.0
-offset_top = 483.0
+offset_top = 425.0
 offset_right = 405.0
-offset_bottom = 717.0
+offset_bottom = 724.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_1rerr")
-
-[node name="text_combof" type="Label" parent="base/painel_pontuacao"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -150.0
-offset_top = -85.5
-offset_right = 153.0
-offset_bottom = -5.5
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("1_1rerr")
-theme_override_font_sizes/font_size = 60
-text = "FullHouse"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="text_combo" type="Label" parent="base/painel_pontuacao"]
 layout_mode = 1
@@ -402,16 +300,16 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -151.5
-offset_top = -88.5
-offset_right = 151.5
-offset_bottom = -8.5
+offset_left = -151.0
+offset_top = -42.5
+offset_right = 152.0
+offset_bottom = 4.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("1_1rerr")
-theme_override_font_sizes/font_size = 60
-text = "FullHouse"
+theme_override_font_sizes/font_size = 45
+text = "*Combo"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -430,26 +328,6 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_158mb")
 
-[node name="pont_multf" type="Label" parent="base/painel_pontuacao/painel_mult"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -73.0
-offset_top = -10.5
-offset_right = 77.0
-offset_bottom = 55.5
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("1_1rerr")
-theme_override_font_sizes/font_size = 65
-text = "*P"
-horizontal_alignment = 1
-vertical_alignment = 1
-
 [node name="pont_mult" type="Label" parent="base/painel_pontuacao/painel_mult"]
 layout_mode = 1
 anchors_preset = 8
@@ -464,6 +342,9 @@ offset_bottom = 52.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 3
 theme_override_fonts/font = ExtResource("1_1rerr")
 theme_override_font_sizes/font_size = 65
 text = "*P"
@@ -486,7 +367,7 @@ grow_vertical = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("1_1rerr")
 theme_override_font_sizes/font_size = 20
-text = "Multiplicador"
+text = "Multi"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -505,26 +386,6 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_158mb")
 
-[node name="pont_chipsf" type="Label" parent="base/painel_pontuacao/painel_chips"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -73.0
-offset_top = -10.5
-offset_right = 77.0
-offset_bottom = 55.5
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("1_1rerr")
-theme_override_font_sizes/font_size = 65
-text = "*P"
-horizontal_alignment = 1
-vertical_alignment = 1
-
 [node name="pont_chips" type="Label" parent="base/painel_pontuacao/painel_chips"]
 layout_mode = 1
 anchors_preset = 8
@@ -539,6 +400,9 @@ offset_bottom = 52.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 3
 theme_override_fonts/font = ExtResource("1_1rerr")
 theme_override_font_sizes/font_size = 65
 text = "*P"
@@ -572,13 +436,76 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -130.0
-offset_top = -23.0
-offset_right = 130.0
-offset_bottom = -17.0
+offset_left = -157.0
+offset_top = 4.5
+offset_right = 157.0
+offset_bottom = 10.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_wwsa2")
+
+[node name="painel_atualscore" type="Panel" parent="base/painel_pontuacao"]
+layout_mode = 0
+offset_left = 93.0
+offset_top = 17.0
+offset_right = 354.0
+offset_bottom = 77.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_rfqti")
+
+[node name="pont_necessario" type="Label" parent="base/painel_pontuacao/painel_atualscore"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -117.0
+offset_top = -15.5
+offset_right = 117.0
+offset_bottom = 15.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 3
+theme_override_fonts/font = ExtResource("1_1rerr")
+theme_override_font_sizes/font_size = 30
+text = "*Score"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="painel_atual" type="Panel" parent="base/painel_pontuacao"]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 17.0
+offset_right = 93.0
+offset_bottom = 77.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_g8i7c")
+
+[node name="pont_necessario" type="Label" parent="base/painel_pontuacao/painel_atual"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -33.0
+offset_top = -27.5
+offset_right = 34.0
+offset_bottom = 27.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 2
+theme_override_fonts/font = ExtResource("1_1rerr")
+theme_override_font_sizes/font_size = 20
+text = "Round
+Score"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="painel_info" type="Panel" parent="base"]
 layout_mode = 1
@@ -588,9 +515,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -184.5
-offset_top = 210.0
+offset_top = 216.0
 offset_right = 185.5
-offset_bottom = 316.0
+offset_bottom = 322.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_jsrd8")
@@ -602,26 +529,6 @@ offset_top = 12.0
 offset_right = 111.0
 offset_bottom = 89.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_wbdvm")
-
-[node name="maosf" type="Label" parent="base/painel_info/painel_maos"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -56.0
-offset_top = -33.5
-offset_right = 58.0
-offset_bottom = -13.5
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("1_1rerr")
-theme_override_font_sizes/font_size = 20
-text = "Mãos"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="maos" type="Label" parent="base/painel_info/painel_maos"]
 layout_mode = 1
@@ -637,29 +544,12 @@ offset_bottom = -14.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 2
 theme_override_fonts/font = ExtResource("1_1rerr")
 theme_override_font_sizes/font_size = 20
-text = "Mãos"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="pont_maof" type="Label" parent="base/painel_info/painel_maos"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -73.0
-offset_top = -15.5
-offset_right = 77.0
-offset_bottom = 50.5
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("1_1rerr")
-theme_override_font_sizes/font_size = 55
-text = "*M"
+text = "Hands"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -677,6 +567,9 @@ offset_bottom = 47.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 3
 theme_override_fonts/font = ExtResource("1_1rerr")
 theme_override_font_sizes/font_size = 55
 text = "*M"
@@ -690,26 +583,6 @@ offset_top = 12.0
 offset_right = 227.0
 offset_bottom = 89.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_wbdvm")
-
-[node name="descartef" type="Label" parent="base/painel_info/painel_descarte"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -56.0
-offset_top = -33.5
-offset_right = 58.0
-offset_bottom = -13.5
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("1_1rerr")
-theme_override_font_sizes/font_size = 20
-text = "Descartes"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="descarte" type="Label" parent="base/painel_info/painel_descarte"]
 layout_mode = 1
@@ -725,29 +598,12 @@ offset_bottom = -14.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 2
 theme_override_fonts/font = ExtResource("1_1rerr")
 theme_override_font_sizes/font_size = 20
-text = "Descartes"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="pont_descartef" type="Label" parent="base/painel_info/painel_descarte"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -73.0
-offset_top = -15.5
-offset_right = 77.0
-offset_bottom = 50.5
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("1_1rerr")
-theme_override_font_sizes/font_size = 55
-text = "*M"
+text = "Discards"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -765,6 +621,9 @@ offset_bottom = 47.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 3
 theme_override_fonts/font = ExtResource("1_1rerr")
 theme_override_font_sizes/font_size = 55
 text = "*M"
@@ -778,26 +637,6 @@ offset_top = 12.0
 offset_right = 356.0
 offset_bottom = 89.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_wbdvm")
-
-[node name="dinf" type="Label" parent="base/painel_info/painel_economia"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -56.0
-offset_top = -33.5
-offset_right = 58.0
-offset_bottom = -13.5
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("1_1rerr")
-theme_override_font_sizes/font_size = 20
-text = "Dinheiro"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="din" type="Label" parent="base/painel_info/painel_economia"]
 layout_mode = 1
@@ -813,29 +652,12 @@ offset_bottom = -14.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 2
 theme_override_fonts/font = ExtResource("1_1rerr")
 theme_override_font_sizes/font_size = 20
-text = "Dinheiro"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="pont_dinf" type="Label" parent="base/painel_info/painel_economia"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -73.0
-offset_top = -15.5
-offset_right = 77.0
-offset_bottom = 50.5
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("1_1rerr")
-theme_override_font_sizes/font_size = 55
-text = "*M"
+text = "Money"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -853,6 +675,9 @@ offset_bottom = 47.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 3
 theme_override_fonts/font = ExtResource("1_1rerr")
 theme_override_font_sizes/font_size = 55
 text = "*M"
@@ -897,26 +722,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_type_variation = &"FlatButton"
 
-[node name="textf" type="Label" parent="base/painel_menu/painel_combo"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -130.0
-offset_top = -13.0
-offset_right = 132.0
-offset_bottom = 18.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("1_1rerr")
-theme_override_font_sizes/font_size = 30
-text = "Informação do Jogo"
-horizontal_alignment = 1
-vertical_alignment = 1
-
 [node name="text" type="Label" parent="base/painel_menu/painel_combo"]
 layout_mode = 1
 anchors_preset = 8
@@ -931,6 +736,9 @@ offset_bottom = 16.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 3
 theme_override_fonts/font = ExtResource("1_1rerr")
 theme_override_font_sizes/font_size = 30
 text = "Informação do Jogo"
@@ -967,26 +775,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_type_variation = &"FlatButton"
 
-[node name="textf" type="Label" parent="base/painel_menu/painel_sair"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -130.0
-offset_top = -13.0
-offset_right = 132.0
-offset_bottom = 18.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("1_1rerr")
-theme_override_font_sizes/font_size = 30
-text = "Sair do Jogo"
-horizontal_alignment = 1
-vertical_alignment = 1
-
 [node name="text" type="Label" parent="base/painel_menu/painel_sair"]
 layout_mode = 1
 anchors_preset = 8
@@ -1001,6 +789,9 @@ offset_bottom = 16.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 3
 theme_override_fonts/font = ExtResource("1_1rerr")
 theme_override_font_sizes/font_size = 30
 text = "Sair do Jogo"

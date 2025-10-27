@@ -131,17 +131,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_smhdt")
 
-[node name="fim_sombra" type="Label" parent="painel_principal"]
-layout_mode = 1
-offset_left = 47.0
-offset_top = 79.0
-offset_right = 1056.0
-offset_bottom = 270.0
-theme_override_colors/font_color = Color(0.10748, 0.10748, 0.10748, 1)
-theme_override_fonts/font = ExtResource("1_tff05")
-theme_override_font_sizes/font_size = 190
-text = "Fim de Jogo"
-
 [node name="fim_cima" type="Label" parent="painel_principal"]
 layout_mode = 1
 offset_left = 47.0
@@ -149,6 +138,9 @@ offset_top = 67.0
 offset_right = 1056.0
 offset_bottom = 258.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 6
+theme_override_constants/shadow_offset_y = 10
 theme_override_fonts/font = ExtResource("1_tff05")
 theme_override_font_sizes/font_size = 190
 text = "Fim de Jogo"
@@ -176,17 +168,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_rplu7")
 
-[node name="fim_textom_fundo" type="Label" parent="painel_principal/painel_frase"]
-layout_mode = 1
-offset_left = 36.0
-offset_top = 23.0
-offset_right = 941.0
-offset_bottom = 69.0
-theme_override_colors/font_color = Color(0.105882, 0.105882, 0.105882, 1)
-theme_override_fonts/font = ExtResource("1_tff05")
-theme_override_font_sizes/font_size = 45
-text = "Não foi dessa vez, e também nunca será!"
-
 [node name="fim_textom" type="Label" parent="painel_principal/painel_frase"]
 layout_mode = 1
 offset_left = 36.0
@@ -194,21 +175,12 @@ offset_top = 18.0
 offset_right = 941.0
 offset_bottom = 64.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 3
 theme_override_fonts/font = ExtResource("1_tff05")
 theme_override_font_sizes/font_size = 45
 text = "Não foi dessa vez, e também nunca será!"
-
-[node name="fim_carinha" type="Label" parent="painel_principal/painel_frase/fim_textom"]
-layout_mode = 1
-offset_left = 906.431
-offset_top = 3.41107
-offset_right = 963.431
-offset_bottom = 74.4111
-rotation = 1.8326
-theme_override_colors/font_color = Color(0.105882, 0.105882, 0.105882, 1)
-theme_override_fonts/font = ExtResource("1_tff05")
-theme_override_font_sizes/font_size = 70
-text = "=("
 
 [node name="fim_carinha2" type="Label" parent="painel_principal/painel_frase/fim_textom"]
 layout_mode = 1
@@ -218,6 +190,9 @@ offset_right = 970.097
 offset_bottom = 77.7055
 rotation = 1.8326
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = -3
 theme_override_fonts/font = ExtResource("1_tff05")
 theme_override_font_sizes/font_size = 70
 text = "=("
@@ -268,24 +243,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_een1g")
 
-[node name="fim_textoc_fundo" type="Label" parent="painel_principal/painel_class/painel_pont"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -315.5
-offset_top = -14.5
-offset_right = 589.5
-offset_bottom = 31.5
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(0.105882, 0.105882, 0.105882, 1)
-theme_override_fonts/font = ExtResource("1_tff05")
-theme_override_font_sizes/font_size = 36
-text = "Maior Pontuação"
-
 [node name="fim_textoc" type="Label" parent="painel_principal/painel_class/painel_pont"]
 layout_mode = 1
 anchors_preset = 8
@@ -300,6 +257,9 @@ offset_bottom = 28.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 3
 theme_override_fonts/font = ExtResource("1_tff05")
 theme_override_font_sizes/font_size = 36
 text = "Maior Pontuação"
@@ -335,7 +295,7 @@ grow_vertical = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("1_tff05")
 theme_override_font_sizes/font_size = 30
-text = "PONTUAÇÃO"
+text = "*Points"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -355,18 +315,6 @@ offset_right = 533.5
 offset_bottom = 637.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_c4b86")
 
-[node name="fim_textom_fundo" type="Label" parent="painel_principal/painel_jogar"]
-layout_mode = 0
-offset_left = 35.0
-offset_top = 19.0
-offset_right = 429.0
-offset_bottom = 70.0
-theme_override_colors/font_color = Color(0.105882, 0.105882, 0.105882, 1)
-theme_override_fonts/font = ExtResource("1_tff05")
-theme_override_font_sizes/font_size = 50
-text = "Jogar Novamente!"
-horizontal_alignment = 1
-
 [node name="fim_textom" type="Label" parent="painel_principal/painel_jogar"]
 layout_mode = 0
 offset_left = 35.0
@@ -374,6 +322,9 @@ offset_top = 14.0
 offset_right = 429.0
 offset_bottom = 65.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 4
 theme_override_fonts/font = ExtResource("1_tff05")
 theme_override_font_sizes/font_size = 50
 text = "Jogar Novamente!"
@@ -403,18 +354,6 @@ offset_right = 1042.5
 offset_bottom = 637.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_x5u2t")
 
-[node name="fim_textom_fundo" type="Label" parent="painel_principal/painel_menu"]
-layout_mode = 0
-offset_left = 22.0
-offset_top = 24.0
-offset_right = 448.0
-offset_bottom = 75.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("1_tff05")
-theme_override_font_sizes/font_size = 50
-text = "Voltar para o Menu"
-horizontal_alignment = 1
-
 [node name="fim_textom" type="Label" parent="painel_principal/painel_menu"]
 layout_mode = 0
 offset_left = 22.0
@@ -422,6 +361,9 @@ offset_top = 19.0
 offset_right = 448.0
 offset_bottom = 70.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 4
 theme_override_fonts/font = ExtResource("1_tff05")
 theme_override_font_sizes/font_size = 50
 text = "Voltar para o Menu"
