@@ -369,6 +369,11 @@ public partial class UIController : Control
         if (PlayButton != null) PlayButton.Disabled = playsLeft <= 0;
     }
 
+    public int GetPlaysLeft()
+    {
+        return Math.Max(0, MaxPlays - _playCount);
+    }
+
     // (com ordem decrescente dentro de cada naipe)
     private void SortBySuit()
     {
