@@ -304,7 +304,7 @@ public partial class UIController : Control
 
     private void UpdateHandVisuals()
     {
-        float spacing = 57;
+        float spacing = 142;
         for (int i = 0; i < _hand.Count; i++)
         {
             if (!_hand[i].IsDragging)
