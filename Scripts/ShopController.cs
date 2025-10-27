@@ -8,6 +8,7 @@ public partial class ShopController : Control
     [Export] private NodePath JokerListContainerPath;
     [Export] private NodePath BuyButtonPath;
     [Export] private NodePath RerollButtonPath;
+    [Export] private Label ShopCost;
     
     private const int ShopDisplayCount = 3;
     
@@ -79,8 +80,9 @@ public partial class ShopController : Control
 
             joker.TooltipDisplayDirection = TooltipDirection.Above;
         }
-        
+
         UpdateShopJokerState();
+        UpdateTotalCostLabel();
     }
 
     private void OnJokerClicked(BaseCard clickedCard)
@@ -90,8 +92,10 @@ public partial class ShopController : Control
             GD.Print("Inventário de Curingas cheio! (5/5)");
             return;
         }
-        
+
         clickedCard.ToggleSelection();
+        
+        UpdateTotalCostLabel();
     }
 
     private void OnBuyPressed()
@@ -109,21 +113,41 @@ public partial class ShopController : Control
             GD.Print($"ERRO: Você não pode comprar! Você tem {_playerInventory.Count}/5 e está tentando comprar {boughtJokers.Count}.");
             return;
         }
+
+        var gameManager = GetParent<GameManager>();
+        if (gameManager == null)
+        {
+            GD.PrintErr("ShopController não conseguiu encontrar o GameManager!");
+            return;
+        }
+
+        int totalCost = boughtJokers.Sum(joker => joker.Cost);
         
+        if (gameManager.PlayerCoins < totalCost)
+        {
+            GD.Print($"Moedas insuficientes! Você tem {gameManager.PlayerCoins}, mas precisa de {totalCost}.");
+            return;
+        }
+
+        gameManager.SpendCoins(totalCost);
+
         foreach (var joker in boughtJokers)
         {
-            GD.Print($"Jogador comprou {joker.Name}.");
-            
+            GD.Print($"Jogador comprou {joker.Name} por {joker.Cost} moedas.");
+
             _playerInventory.Add(joker);
             _currentDisplay.Remove(joker);
-            
+
             joker.OnCardClicked -= OnJokerClicked;
-            if (joker.IsSelected) joker.ToggleSelection(); 
+            if (joker.IsSelected) joker.ToggleSelection();
+
+            joker.IsDraggable = true;
 
             _jokerListContainer.RemoveChild(joker);
         }
-        
+
         UpdateShopJokerState();
+        UpdateTotalCostLabel();
     }
 
     private void OnRerollPressed()
@@ -176,5 +200,24 @@ public partial class ShopController : Control
     public List<JokerCard> GetUpdatedInventory()
     {
         return _playerInventory;
+    }
+
+    private void UpdateTotalCostLabel()
+    {
+        var selectedJokers = _currentDisplay.Where(j => j.IsSelected).ToList();
+        
+        int totalCost = selectedJokers.Sum(joker => joker.Cost);
+
+        if (ShopCost != null)
+        {
+            if (totalCost > 0)
+            {
+                ShopCost.Text = $"$ {totalCost}";
+            }
+            else
+            {
+                ShopCost.Text = $"$ 0";
+            }
+        }
     }
 }

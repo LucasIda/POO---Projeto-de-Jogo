@@ -216,9 +216,24 @@ public partial class GameManager : Control
 
         GD.Print("🛍️ Loja exibida sobre o jogo.");
     }
-    
+
     public void SetPlayerJokerOrder(List<JokerCard> newOrder)
     {
         PlayerJokerInventory = newOrder;
+    }
+    
+    public void SpendCoins(int amount)
+    {
+        if (amount > PlayerCoins)
+        {
+            GD.PrintErr($"Tentativa de gastar {amount} moedas, mas o jogador só tem {PlayerCoins}. O gasto foi bloqueado.");
+            return;
+        }
+        if (amount < 0) return;
+        
+        PlayerCoins -= amount;
+        GD.Print($"Gastou {amount} moedas. Saldo restante: {PlayerCoins}");
+
+        PlayerCoin.Text = PlayerCoins.ToString();
     }
 }
