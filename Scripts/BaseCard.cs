@@ -24,6 +24,11 @@ public abstract partial class BaseCard : TextureRect
     private float _currentYRot = 0.0f;
     private float _currentXRot = 0.0f;
     private Tween _scaleTween; // Tween for scaling animation
+    private const float HOVER_SCALE = 1.1f;
+    private const float NORMAL_SCALE = 1.0f;
+    private const float TWEEN_DURATION = 0.5f;
+    [Export] private TextureRect _shadow;
+    
 
     public virtual void Initialize(string name, Texture2D texture)
     {
@@ -38,12 +43,16 @@ public abstract partial class BaseCard : TextureRect
         shaderMaterial.SetShaderParameter("y_rot", 0.0f);
         shaderMaterial.SetShaderParameter("x_rot", 0.0f);
         shaderMaterial.SetShaderParameter("cull_back", true);
-        shaderMaterial.SetShaderParameter("inset", 0.2f);
+        shaderMaterial.SetShaderParameter("inset", 0.0f);
         Material = shaderMaterial;
 
         Connect("gui_input", new Callable(this, nameof(OnCardInput)));
         MouseEntered += OnMouseEntered;
         MouseExited += OnMouseExited;
+        if (_shadow != null)
+    {
+        _shadow.PivotOffset = _shadow.Size / 2;
+    }
     }
 
     private void OnCardInput(InputEvent @event)
@@ -91,41 +100,82 @@ public abstract partial class BaseCard : TextureRect
     }
 
     private void OnMouseEntered()
+{
+    UpdateCardRotation();
+
+    if (_scaleTween != null && _scaleTween.IsValid())
+        _scaleTween.Kill();
+
+    _scaleTween = CreateTween();
+    _scaleTween.SetParallel(true);
+
+    bool hasAnimation = false;
+
+    // Anima a carta (sempre)
+    _scaleTween.TweenProperty(this, "scale", new Vector2(HOVER_SCALE, HOVER_SCALE), TWEEN_DURATION)
+        .SetTrans(Tween.TransitionType.Elastic)
+        .SetEase(Tween.EaseType.Out);
+    hasAnimation = true;
+
+    // Anima a sombra (se existir)
+    if (_shadow != null)
     {
-        UpdateCardRotation();
-        // Start scale-up tween
-        if (_scaleTween != null)
-        {
-            _scaleTween.Kill(); // Stop any existing tween
-        }
-        _scaleTween = CreateTween();
-        _scaleTween.TweenProperty(this, "scale", new Vector2(1.1f, 1.1f), 0.5f)
+        _scaleTween.TweenProperty(_shadow, "scale", new Vector2(HOVER_SCALE, HOVER_SCALE), TWEEN_DURATION)
             .SetTrans(Tween.TransitionType.Elastic)
             .SetEase(Tween.EaseType.Out);
+        hasAnimation = true;
     }
 
-    private void OnMouseExited()
+    // Só roda se tiver pelo menos uma animação
+    if (!hasAnimation)
     {
-        if (!_isDragging)
-        {
-            if (Material is ShaderMaterial shaderMaterial)
-            {
-                _currentYRot = 0.0f;
-                _currentXRot = 0.0f;
-                shaderMaterial.SetShaderParameter("y_rot", _currentYRot);
-                shaderMaterial.SetShaderParameter("x_rot", _currentXRot);
-            }
-            // Start scale-down tween
-            if (_scaleTween != null)
-            {
-                _scaleTween.Kill(); // Stop any existing tween
-            }
-            _scaleTween = CreateTween();
-            _scaleTween.TweenProperty(this, "scale", new Vector2(1.0f, 1.0f), 0.5f)
-                .SetTrans(Tween.TransitionType.Elastic)
-                .SetEase(Tween.EaseType.Out);
-        }
+        _scaleTween.Kill();
+        _scaleTween = null;
     }
+}
+
+    private void OnMouseExited()
+{
+    if (_isDragging) return;
+
+    // Reset rotação
+    if (Material is ShaderMaterial shaderMaterial)
+    {
+        _currentYRot = 0.0f;
+        _currentXRot = 0.0f;
+        shaderMaterial.SetShaderParameter("y_rot", _currentYRot);
+        shaderMaterial.SetShaderParameter("x_rot", _currentXRot);
+    }
+
+    if (_scaleTween != null && _scaleTween.IsValid())
+        _scaleTween.Kill();
+
+    _scaleTween = CreateTween();
+    _scaleTween.SetParallel(true);
+
+    bool hasAnimation = false;
+
+    // Anima a carta (sempre)
+    _scaleTween.TweenProperty(this, "scale", new Vector2(NORMAL_SCALE, NORMAL_SCALE), TWEEN_DURATION)
+        .SetTrans(Tween.TransitionType.Elastic)
+        .SetEase(Tween.EaseType.Out);
+    hasAnimation = true;
+
+    // Anima a sombra (se existir)
+    if (_shadow != null)
+    {
+        _scaleTween.TweenProperty(_shadow, "scale", new Vector2(NORMAL_SCALE, NORMAL_SCALE), TWEEN_DURATION)
+            .SetTrans(Tween.TransitionType.Elastic)
+            .SetEase(Tween.EaseType.Out);
+        hasAnimation = true;
+    }
+
+    if (!hasAnimation)
+    {
+        _scaleTween.Kill();
+        _scaleTween = null;
+    }
+}
 
     private void UpdateCardRotation()
     {
@@ -164,4 +214,5 @@ public abstract partial class BaseCard : TextureRect
             shaderMaterial.SetShaderParameter("x_rot", _currentXRot);
         }
     }
+    
 }
