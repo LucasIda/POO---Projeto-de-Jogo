@@ -20,9 +20,9 @@ RerollCostLabel = NodePath("PanelContainer/HBoxContainer/HBoxContainer2/RerollCo
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 1
-offset_left = 441.0
+offset_left = 477.0
 offset_top = 575.0
-offset_right = 1639.0
+offset_right = 1675.0
 offset_bottom = 1076.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer"]
@@ -67,9 +67,9 @@ text = "Próximo Round
 
 [node name="JokerList" type="HBoxContainer" parent="."]
 layout_mode = 0
-offset_left = 526.0
+offset_left = 562.0
 offset_top = 725.0
-offset_right = 1209.0
+offset_right = 1245.0
 offset_bottom = 875.0
 scale = Vector2(1.5, 1.5)
 mouse_filter = 2

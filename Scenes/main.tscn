@@ -75,7 +75,6 @@ script = ExtResource("1_jjgbg")
 CardScene = ExtResource("2_bo1nx")
 CardContainerPath = NodePath("CardContainer")
 HandNameLabelPath = NodePath("Panel/HandData/HandName")
-JokerContainerPath = NodePath("JokerContainer")
 DrawButton = NodePath("VBoxContainer/DrawButton")
 DiscardButton = NodePath("DiscardButton")
 PlayButton = NodePath("PlayButton")
@@ -83,6 +82,7 @@ ResetButton = NodePath("VBoxContainer/ResetButton")
 SuitSortButton = NodePath("HBoxContainer/SuitSortButton")
 RankSortButton = NodePath("HBoxContainer/RankSortButton")
 RoundScoreLabel = NodePath("Panel/RoundScore/ScorePanel/HBoxContainer/ScoreLabel")
+JokerContainerPath = NodePath("JokerContainer")
 
 [node name="Background" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_344ge")
@@ -96,19 +96,19 @@ pivot_offset = Vector2(576, 324)
 
 [node name="PlayButton" type="Button" parent="."]
 layout_mode = 0
-offset_left = 1353.0
-offset_top = 995.0
-offset_right = 967.0
-offset_bottom = 1065.0
+offset_left = 784.0
+offset_top = 954.0
+offset_right = 901.0
+offset_bottom = 1024.0
 size_flags_horizontal = 8
 text = "Play"
 
 [node name="DiscardButton" type="Button" parent="."]
 layout_mode = 0
-offset_left = 836.0
-offset_top = 995.0
-offset_right = 956.0
-offset_bottom = 1065.0
+offset_left = 1279.0
+offset_top = 951.0
+offset_right = 1399.0
+offset_bottom = 1021.0
 size_flags_horizontal = 0
 text = "Discard"
 
@@ -143,19 +143,19 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -517.0
-offset_top = -300.0
-offset_right = 233.0
-offset_bottom = -110.0
+offset_left = -459.0
+offset_top = -406.0
+offset_right = 291.0
+offset_bottom = -216.0
 grow_horizontal = 2
 grow_vertical = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 0
-offset_left = 1067.0
-offset_top = 1010.0
-offset_right = 1224.0
-offset_bottom = 1041.0
+offset_left = 984.0
+offset_top = 973.0
+offset_right = 1141.0
+offset_bottom = 1004.0
 
 [node name="SortLabel" type="Label" parent="HBoxContainer"]
 layout_mode = 2
@@ -430,14 +430,21 @@ PlayerCoin = NodePath("../Panel/HBoxContainer/HBoxContainer/PlayerCoin")
 
 [node name="RequiredChips" type="Label" parent="GameManager"]
 layout_mode = 0
-offset_top = 124.0
-offset_right = 257.0
-offset_bottom = 165.0
+offset_left = 41.0
+offset_top = 172.0
+offset_right = 351.0
+offset_bottom = 237.0
+theme_override_font_sizes/font_size = 30
+horizontal_alignment = 1
 
 [node name="Ante" type="Label" parent="GameManager"]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+offset_left = 72.0
+offset_top = 54.0
+offset_right = 343.0
+offset_bottom = 112.0
+theme_override_font_sizes/font_size = 35
+horizontal_alignment = 1
 
 [node name="JokerContainer" type="FlowContainer" parent="."]
 layout_mode = 0
@@ -445,3 +452,4 @@ offset_left = 514.0
 offset_top = 14.0
 offset_right = 1026.0
 offset_bottom = 111.0
+scale = Vector2(1.1, 1.1)
