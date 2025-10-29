@@ -1,6 +1,7 @@
-[gd_scene load_steps=12 format=3 uid="uid://cshkbjvohnrai"]
+[gd_scene load_steps=13 format=3 uid="uid://cshkbjvohnrai"]
 
 [ext_resource type="FontFile" uid="uid://dkobr42y6m63l" path="res://Font/Pixellari.ttf" id="1_tff05"]
+[ext_resource type="Script" uid="uid://d00a475wksvdd" path="res://Scripts/GameOverScreen.cs" id="2_smhdt"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_smhdt"]
 bg_color = Color(0.168627, 0.168627, 0.168627, 1)
@@ -114,7 +115,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(1, 0, 0, 0.27451)
+color = Color(1, 0, 0, 0.0392157)
 
 [node name="painel_principal" type="Panel" parent="."]
 layout_mode = 1
@@ -279,7 +280,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_bhqh7")
 
-[node name="fim_textoc2" type="Label" parent="painel_principal/painel_class/painel_pont/painel_pontuacao"]
+[node name="fim_textoc2" type="Label" parent="painel_principal/painel_class/painel_pont/painel_pontuacao" node_paths=PackedStringArray("_menuButton", "_quitButton")]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -298,6 +299,9 @@ theme_override_font_sizes/font_size = 30
 text = "*Points"
 horizontal_alignment = 1
 vertical_alignment = 1
+script = ExtResource("2_smhdt")
+_menuButton = NodePath("../../../../botão_jogar")
+_quitButton = NodePath("../../../../botão_menu")
 
 [node name="painel_jogarf" type="Panel" parent="painel_principal"]
 layout_mode = 0

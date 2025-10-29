@@ -221,7 +221,7 @@ public partial class GameManager : Control
     {
         PlayerJokerInventory = newOrder;
     }
-    
+
     public void SpendCoins(int amount)
     {
         if (amount > PlayerCoins)
@@ -230,10 +230,25 @@ public partial class GameManager : Control
             return;
         }
         if (amount < 0) return;
-        
+
         PlayerCoins -= amount;
         GD.Print($"Gastou {amount} moedas. Saldo restante: {PlayerCoins}");
 
         PlayerCoin.Text = $"$ {PlayerCoins.ToString()}";
+    }
+    
+    public void CheckRoundEndState()
+    {
+        bool shopIsOpen = (_lojaInstance != null && IsInstanceValid(_lojaInstance));
+        if (shopIsOpen)
+        {
+            return;
+        }
+
+        if (_currentChips < _requiredChips)
+        {
+            GD.Print($"GAME OVER: Meta não atingida. Tinha {_currentChips} de {_requiredChips} necessários.");
+            GetTree().ChangeSceneToFile("res://Scenes/morte.tscn");
+        }
     }
 }

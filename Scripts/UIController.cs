@@ -372,6 +372,18 @@ public partial class UIController : Control
 
         if (DiscardButton != null) DiscardButton.Disabled = discardsLeft <= 0;
         if (PlayButton != null) PlayButton.Disabled = playsLeft <= 0;
+
+        bool outOfActions = playsLeft <= 0;
+
+        if (outOfActions)
+        {
+            var gm = GetNodeOrNull<GameManager>("GameManager");
+            if (gm != null)
+            {
+                // Notifica o GameManager para verificar o estado de vitória/derrota
+                gm.CheckRoundEndState();
+            }
+        }
     }
 
     public int GetPlaysLeft()
