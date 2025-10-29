@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://mirandkx0nvm"]
+[gd_scene load_steps=19 format=3 uid="uid://mirandkx0nvm"]
 
 [ext_resource type="Script" uid="uid://mydm023cvu67" path="res://Scripts/UIController.cs" id="1_jjgbg"]
 [ext_resource type="PackedScene" uid="uid://b4guub2w3vtjd" path="res://Scenes/card.tscn" id="2_bo1nx"]
@@ -8,21 +8,22 @@
 [ext_resource type="Texture2D" uid="uid://xd340x8pwlkx" path="res://Sprites/Icons/stake.png" id="4_jjvhh"]
 [ext_resource type="FontFile" uid="uid://dkobr42y6m63l" path="res://Font/Pixellari.ttf" id="5_hptm8"]
 [ext_resource type="Script" uid="uid://dwfwkwk7xk0s2" path="res://Scripts/GameManager.cs" id="6_21xkr"]
+[ext_resource type="Texture2D" uid="uid://bw1e37mfhgn1t" path="res://Sprites/Icons/coin.png" id="7_hptm8"]
 [ext_resource type="PackedScene" uid="uid://cidvrmdx83kvj" path="res://Scenes/loja.tscn" id="8_344ge"]
 [ext_resource type="PackedScene" uid="uid://d1ogvkc66i3p6" path="res://Scenes/jokercard.tscn" id="9_ynf5e"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_344ge"]
 shader = ExtResource("3_6bp64")
 shader_parameter/spin_rotation_speed = 2.0
-shader_parameter/move_speed = 2.0
+shader_parameter/move_speed = 0.5
 shader_parameter/offset = Vector2(0, 0)
-shader_parameter/colour_1 = Color(0.871, 0.267, 0.231, 1)
-shader_parameter/colour_2 = Color(0, 0.42, 0.706, 1)
-shader_parameter/colour_3 = Color(0.086, 0.137, 0.145, 1)
-shader_parameter/contrast = 3.5
-shader_parameter/lighting = 0.4
-shader_parameter/spin_amount = 0.25
-shader_parameter/pixel_filter = 740.0
+shader_parameter/colour_1 = Color(0.223529, 0.462745, 0.392157, 1)
+shader_parameter/colour_2 = Color(0.254902, 0.65098, 0.533333, 1)
+shader_parameter/colour_3 = Color(0.0862745, 0.137255, 0.145098, 1)
+shader_parameter/contrast = 0.8
+shader_parameter/lighting = 0.0
+shader_parameter/spin_amount = 0.0
+shader_parameter/pixel_filter = 1920.0
 shader_parameter/is_rotating = false
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kry3j"]
@@ -224,20 +225,20 @@ grow_vertical = 2
 pivot_offset = Vector2(576, 324)
 
 [node name="PlayButton" type="Button" parent="."]
-layout_mode = 2
-offset_left = 1353.0
-offset_top = 995.0
-offset_right = 1473.0
-offset_bottom = 1065.0
+layout_mode = 0
+offset_left = 784.0
+offset_top = 954.0
+offset_right = 901.0
+offset_bottom = 1024.0
 size_flags_horizontal = 8
 text = "Play"
 
 [node name="DiscardButton" type="Button" parent="."]
-layout_mode = 2
-offset_left = 836.0
-offset_top = 995.0
-offset_right = 956.0
-offset_bottom = 1065.0
+layout_mode = 0
+offset_left = 1279.0
+offset_top = 951.0
+offset_right = 1399.0
+offset_bottom = 1021.0
 size_flags_horizontal = 0
 text = "Discard"
 
@@ -272,20 +273,19 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -517.0
-offset_top = -275.0
-offset_right = 233.0
-offset_bottom = -185.0
+offset_left = -459.0
+offset_top = -406.0
+offset_right = 291.0
+offset_bottom = -216.0
 grow_horizontal = 2
 grow_vertical = 0
-scale = Vector2(2, 2)
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
-layout_mode = 2
-offset_left = 1067.0
-offset_top = 1010.0
-offset_right = 1224.0
-offset_bottom = 1041.0
+layout_mode = 0
+offset_left = 984.0
+offset_top = 973.0
+offset_right = 1141.0
+offset_bottom = 1004.0
 
 [node name="SortLabel" type="Label" parent="HBoxContainer"]
 layout_mode = 2
@@ -309,8 +309,8 @@ scale = Vector2(2, 2)
 script = ExtResource("3_kry3j")
 
 [node name="TextureRect" type="Panel" parent="DeckView"]
-modulate = Color(0.647059, 0.647059, 0.647059, 1)
-self_modulate = Color(0.647059, 0.647059, 0.647059, 1)
+modulate = Color(0.0862745, 0.137255, 0.145098, 1)
+self_modulate = Color(0.647059, 0.647059, 0.647059, 0.462745)
 layout_mode = 0
 offset_left = -34.0
 offset_top = -43.0
@@ -1245,8 +1245,30 @@ text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="GameManager" type="Control" parent="."]
-visible = false
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel"]
+layout_mode = 0
+offset_left = 45.8824
+offset_top = 501.176
+offset_right = 192.882
+offset_bottom = 573.176
+
+[node name="TextureRect" type="TextureRect" parent="Panel/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("7_hptm8")
+expand_mode = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+alignment = 1
+
+[node name="PlayerCoin" type="Label" parent="Panel/HBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="GameManager" type="Control" parent="." node_paths=PackedStringArray("PlayerCoin")]
+
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
@@ -1255,17 +1277,25 @@ ChipsLabelPath = NodePath("../base/painel_rodada/painel_p_necessario/pont_v")
 AnteLabelPath = NodePath("../base/painel_rodada/descri")
 LojaScene = ExtResource("8_344ge")
 JokerScene = ExtResource("9_ynf5e")
+PlayerCoin = NodePath("../Panel/HBoxContainer/HBoxContainer/PlayerCoin")
 
 [node name="RequiredChips" type="Label" parent="GameManager"]
 layout_mode = 0
-offset_top = 124.0
-offset_right = 257.0
-offset_bottom = 165.0
+offset_left = 41.0
+offset_top = 172.0
+offset_right = 351.0
+offset_bottom = 237.0
+theme_override_font_sizes/font_size = 30
+horizontal_alignment = 1
 
 [node name="Ante" type="Label" parent="GameManager"]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+offset_left = 72.0
+offset_top = 54.0
+offset_right = 343.0
+offset_bottom = 112.0
+theme_override_font_sizes/font_size = 35
+horizontal_alignment = 1
 
 [node name="JokerContainer" type="FlowContainer" parent="."]
 layout_mode = 0
@@ -1273,4 +1303,4 @@ offset_left = 514.0
 offset_top = 14.0
 offset_right = 1026.0
 offset_bottom = 111.0
-scale = Vector2(1.2, 1.2)
+scale = Vector2(1.1, 1.1)

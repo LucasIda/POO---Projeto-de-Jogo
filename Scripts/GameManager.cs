@@ -8,12 +8,14 @@ public partial class GameManager : Control
     [Export] private NodePath AnteLabelPath;
     [Export] private PackedScene LojaScene;
     [Export] private PackedScene JokerScene;
+    [Export] private Label PlayerCoin;
 
     private Label _chipsLabel;
     private Label _anteLabel;
 
     private int _currentAnte = 0;   // Índice de ante (0 = Ante 1, 1 = Ante 2...)
     private int _currentBlind = 0;  // Índice de blind (0 = Small, 1 = Big, 2 = Boss)
+    public int PlayerCoins { get; private set; } = 4;
 
     private int _requiredChips;
     private int _currentChips;
@@ -49,6 +51,8 @@ public partial class GameManager : Control
         MasterJokerPool = JokerFactory.CreateJokers(JokerScene);
         GD.Print($"GameManager: Criados {MasterJokerPool.Count} curingas para o MasterPool.");
 
+        PlayerCoin.Text = $"$ {PlayerCoins.ToString()}";
+
         StartRound();
     }
 
@@ -77,6 +81,55 @@ public partial class GameManager : Control
         {
             GD.Print("🎉 Parabéns, você completou a meta!");
             MostrarLoja();
+        }
+    }
+    private void CalculateEndOfRoundBonuses()
+    {
+        GD.Print("--- Calculando Bônus de Fim de Rodada ---");
+        GD.Print($"Moedas Iniciais: {PlayerCoins}");
+
+        var uiController = GetParent<UIController>();
+        if (uiController == null)
+        {
+            GD.PrintErr("GameManager não conseguiu encontrar o UIController para calcular bônus.");
+            return;
+        }
+
+        int interestBonus = PlayerCoins / 5;
+        AddCoins(interestBonus);
+        GD.Print($"Bônus de Juros (1 por 5): +{interestBonus} moedas");
+
+        int playsLeft = uiController.GetPlaysLeft();
+        AddCoins(playsLeft);
+        GD.Print($"Bônus de Jogadas Restantes: +{playsLeft} moedas");
+
+        int blindBonus = 0;
+        switch (_currentBlind)
+        {
+            case 0: // Small Blind
+                blindBonus = 4;
+                break;
+            case 1: // Big Blind
+                blindBonus = 5;
+                break;
+            case 2: // Boss Blind
+                blindBonus = 6;
+                break;
+        }
+        AddCoins(blindBonus);
+        GD.Print($"Bônus do Blind ({BlindNames[_currentBlind]}): +{blindBonus} moedas");
+        
+        GD.Print($"Total de Moedas Final: {PlayerCoins}");
+        GD.Print("------------------------------------------");
+
+        PlayerCoin.Text = $"$ {PlayerCoins.ToString()}";
+    }
+
+    public void AddCoins(int amount)
+    {
+        if (amount > 0)
+        {
+            PlayerCoins += amount;
         }
     }
 
@@ -118,6 +171,8 @@ public partial class GameManager : Control
             GD.Print("Loja já está visível.");
             return;
         }
+
+        CalculateEndOfRoundBonuses();
 
         if (LojaScene == null)
         {
@@ -161,9 +216,24 @@ public partial class GameManager : Control
 
         GD.Print("🛍️ Loja exibida sobre o jogo.");
     }
-    
+
     public void SetPlayerJokerOrder(List<JokerCard> newOrder)
     {
         PlayerJokerInventory = newOrder;
+    }
+    
+    public void SpendCoins(int amount)
+    {
+        if (amount > PlayerCoins)
+        {
+            GD.PrintErr($"Tentativa de gastar {amount} moedas, mas o jogador só tem {PlayerCoins}. O gasto foi bloqueado.");
+            return;
+        }
+        if (amount < 0) return;
+        
+        PlayerCoins -= amount;
+        GD.Print($"Gastou {amount} moedas. Saldo restante: {PlayerCoins}");
+
+        PlayerCoin.Text = $"$ {PlayerCoins.ToString()}";
     }
 }

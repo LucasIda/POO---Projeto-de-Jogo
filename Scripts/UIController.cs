@@ -304,7 +304,7 @@ public partial class UIController : Control
 
     private void UpdateHandVisuals()
     {
-        float spacing = 57;
+        float spacing = 142;
         for (int i = 0; i < _hand.Count; i++)
         {
             if (!_hand[i].IsDragging)
@@ -367,6 +367,11 @@ public partial class UIController : Control
 
         if (DiscardButton != null) DiscardButton.Disabled = discardsLeft <= 0;
         if (PlayButton != null) PlayButton.Disabled = playsLeft <= 0;
+    }
+
+    public int GetPlaysLeft()
+    {
+        return Math.Max(0, MaxPlays - _playCount);
     }
 
     // (com ordem decrescente dentro de cada naipe)

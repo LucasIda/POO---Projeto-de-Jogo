@@ -1,8 +1,32 @@
-[gd_scene load_steps=2 format=3 uid="uid://b4guub2w3vtjd"]
+[gd_scene load_steps=5 format=3 uid="uid://b4guub2w3vtjd"]
 
 [ext_resource type="Script" uid="uid://cnlralvspabdn" path="res://Scripts/Card.cs" id="1_0qqmn"]
+[ext_resource type="Shader" uid="uid://psjuinkvp0f0" path="res://Shaders/CardPerspectiveShader.gdshader" id="1_wf8id"]
+[ext_resource type="Texture2D" uid="uid://ckamhngidi5si" path="res://Sprites/Cartas/ace_of_clubs.png" id="2_brehn"]
 
-[node name="Card" type="TextureRect"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_brehn"]
+shader = ExtResource("1_wf8id")
+shader_parameter/fov = 90.0
+shader_parameter/cull_back = true
+shader_parameter/y_rot = 0.0
+shader_parameter/x_rot = 0.0
+shader_parameter/inset = 0.0
+
+[node name="Card" type="TextureRect" node_paths=PackedStringArray("_shadow")]
+material = SubResource("ShaderMaterial_brehn")
 offset_right = 40.0
 offset_bottom = 40.0
+texture = ExtResource("2_brehn")
 script = ExtResource("1_0qqmn")
+_shadow = NodePath("Shadow")
+
+[node name="Shadow" type="TextureRect" parent="."]
+modulate = Color(0, 0, 0, 1)
+self_modulate = Color(1, 1, 1, 0.560784)
+show_behind_parent = true
+layout_mode = 0
+offset_top = 15.0
+offset_right = 137.0
+offset_bottom = 205.0
+pivot_offset = Vector2(68.5, 95)
+texture = ExtResource("2_brehn")
