@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dfycyqg1pe01a" path="res://Scripts/ShopController.cs" id="1_6ihgo"]
 
-[node name="Loja" type="Control"]
+[node name="Loja" type="Control" node_paths=PackedStringArray("ShopCost", "RerollCostLabel")]
 light_mask = 513
 visibility_layer = 513
 layout_mode = 3
@@ -13,8 +13,10 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_6ihgo")
 JokerListContainerPath = NodePath("JokerList")
-BuyButtonPath = NodePath("PanelContainer/HBoxContainer/BuyButton")
-RerollButtonPath = NodePath("PanelContainer/HBoxContainer/RerollButton")
+BuyButtonPath = NodePath("PanelContainer/HBoxContainer/HBoxContainer/BuyButton")
+RerollButtonPath = NodePath("PanelContainer/HBoxContainer/HBoxContainer2/RerollButton")
+ShopCost = NodePath("PanelContainer/HBoxContainer/HBoxContainer/ShopCost")
+RerollCostLabel = NodePath("PanelContainer/HBoxContainer/HBoxContainer2/RerollCost")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 1
@@ -28,16 +30,38 @@ layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
-[node name="BuyButton" type="Button" parent="PanelContainer/HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
+
+[node name="BuyButton" type="Button" parent="PanelContainer/HBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
 text = "Comprar"
 
-[node name="RerollButton" type="Button" parent="PanelContainer/HBoxContainer"]
+[node name="ShopCost" type="Label" parent="PanelContainer/HBoxContainer/HBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 30
+text = "0"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+
+[node name="RerollButton" type="Button" parent="PanelContainer/HBoxContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
 text = "Atualizar"
+
+[node name="RerollCost" type="Label" parent="PanelContainer/HBoxContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "0"
 
 [node name="PassButton" type="Button" parent="PanelContainer/HBoxContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 30
 text = "Próximo Round
 "
 

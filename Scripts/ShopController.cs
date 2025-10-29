@@ -8,11 +8,12 @@ public partial class ShopController : Control
     [Export] private NodePath JokerListContainerPath;
     [Export] private NodePath BuyButtonPath;
     [Export] private NodePath RerollButtonPath;
+    [Export] private Label ShopCost;
+    [Export] private Label RerollCostLabel;
     
     private const int ShopDisplayCount = 3;
-    
-    // --- 1. ADICIONE A CONSTANTE DO LIMITE ---
     private const int MaxJokerSlots = 5;
+    private int _currentRerollCost = 2;
 
     private HBoxContainer _jokerListContainer;
     private Button _buyButton;
@@ -44,8 +45,9 @@ public partial class ShopController : Control
         _rerollButton.Pressed += OnRerollPressed;
 
         await ToSignal(GetTree(), "process_frame");
-        
+
         PopulateShop();
+        UpdateRerollCostLabel();
     }
 
     private void PopulateShop()
@@ -79,8 +81,9 @@ public partial class ShopController : Control
 
             joker.TooltipDisplayDirection = TooltipDirection.Above;
         }
-        
+
         UpdateShopJokerState();
+        UpdateTotalCostLabel();
     }
 
     private void OnJokerClicked(BaseCard clickedCard)
@@ -90,8 +93,10 @@ public partial class ShopController : Control
             GD.Print("Inventário de Curingas cheio! (5/5)");
             return;
         }
-        
+
         clickedCard.ToggleSelection();
+        
+        UpdateTotalCostLabel();
     }
 
     private void OnBuyPressed()
@@ -109,25 +114,64 @@ public partial class ShopController : Control
             GD.Print($"ERRO: Você não pode comprar! Você tem {_playerInventory.Count}/5 e está tentando comprar {boughtJokers.Count}.");
             return;
         }
+
+        var gameManager = GetParent<GameManager>();
+        if (gameManager == null)
+        {
+            GD.PrintErr("ShopController não conseguiu encontrar o GameManager!");
+            return;
+        }
+
+        int totalCost = boughtJokers.Sum(joker => joker.Cost);
         
+        if (gameManager.PlayerCoins < totalCost)
+        {
+            GD.Print($"Moedas insuficientes! Você tem {gameManager.PlayerCoins}, mas precisa de {totalCost}.");
+            return;
+        }
+
+        gameManager.SpendCoins(totalCost);
+
         foreach (var joker in boughtJokers)
         {
-            GD.Print($"Jogador comprou {joker.Name}.");
-            
+            GD.Print($"Jogador comprou {joker.Name} por {joker.Cost} moedas.");
+
             _playerInventory.Add(joker);
             _currentDisplay.Remove(joker);
-            
+
             joker.OnCardClicked -= OnJokerClicked;
-            if (joker.IsSelected) joker.ToggleSelection(); 
+            if (joker.IsSelected) joker.ToggleSelection();
+
+            joker.IsDraggable = true;
 
             _jokerListContainer.RemoveChild(joker);
         }
-        
+
         UpdateShopJokerState();
+        UpdateTotalCostLabel();
     }
 
     private void OnRerollPressed()
     {
+        var gameManager = GetParent<GameManager>();
+        if (gameManager == null)
+        {
+            GD.PrintErr("ShopController não conseguiu encontrar o GameManager!");
+            return;
+        }
+
+        if (gameManager.PlayerCoins < _currentRerollCost)
+        {
+            GD.Print($"Moedas insuficientes para atualizar! Você tem {gameManager.PlayerCoins}, mas precisa de {_currentRerollCost}.");
+            return;
+        }
+
+        gameManager.SpendCoins(_currentRerollCost);
+
+        _currentRerollCost += 1;
+
+        UpdateRerollCostLabel();
+        
         foreach (var joker in _currentDisplay)
         {
             _shopMasterPool.Add(joker);
@@ -176,5 +220,33 @@ public partial class ShopController : Control
     public List<JokerCard> GetUpdatedInventory()
     {
         return _playerInventory;
+    }
+
+    private void UpdateTotalCostLabel()
+    {
+        var selectedJokers = _currentDisplay.Where(j => j.IsSelected).ToList();
+
+        int totalCost = selectedJokers.Sum(joker => joker.Cost);
+
+        if (ShopCost != null)
+        {
+            if (totalCost > 0)
+            {
+                ShopCost.Text = $"$ {totalCost}";
+            }
+            else
+            {
+                ShopCost.Text = $"$ 0";
+            }
+        }
+    }
+    
+    private void UpdateRerollCostLabel()
+    {
+        if (RerollCostLabel != null)
+        {
+            // Exibe o custo ao lado do botão "Atualizar"
+            RerollCostLabel.Text = $"$ {_currentRerollCost}";
+        }
     }
 }
