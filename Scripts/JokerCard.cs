@@ -44,6 +44,7 @@ public partial class JokerCard : BaseCard
 
     private void OnMouseEntered()
     {
+        if (IsDragging) return;
         ShowTooltip();
     }
 
@@ -103,11 +104,15 @@ public partial class JokerCard : BaseCard
         tooltip.CallDeferred("set_position", position);
     }
 
-    private void HideTooltip()
+    protected override void HideTooltip()
+{
+    base.HideTooltip();
+    if (tooltip != null)
     {
-        tooltip?.QueueFree();
+        tooltip.QueueFree();
         tooltip = null;
     }
+}
 
     public override void _Ready()
     {

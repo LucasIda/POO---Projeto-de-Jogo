@@ -25,6 +25,7 @@ public partial class Card : BaseCard
 
     private void OnMouseEntered()
     {
+        if (IsDragging) return;
         ShowTooltip();
     }
 
@@ -74,11 +75,15 @@ public partial class Card : BaseCard
 
 
 
-    private void HideTooltip()
+    protected override void HideTooltip()
+{
+    base.HideTooltip();
+    if (tooltip != null)
     {
-        tooltip?.QueueFree();
+        tooltip.QueueFree();
         tooltip = null;
     }
+}
 
     public override void _Ready()
     {

@@ -72,6 +72,7 @@ public abstract partial class BaseCard : TextureRect
 
                     _dragOffset = GetGlobalMousePosition() - GlobalPosition;
                     _isDragging = true;
+                    HideTooltip();
                 }
                 else
                 {
@@ -214,5 +215,8 @@ public abstract partial class BaseCard : TextureRect
             shaderMaterial.SetShaderParameter("x_rot", _currentXRot);
         }
     }
-    
+    protected virtual void HideTooltip()
+{
+    // será sobrescrita nas subclasses
+}
 }
