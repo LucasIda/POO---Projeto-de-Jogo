@@ -14,15 +14,15 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_344ge"]
 shader = ExtResource("3_6bp64")
 shader_parameter/spin_rotation_speed = 2.0
-shader_parameter/move_speed = 7.0
+shader_parameter/move_speed = 0.5
 shader_parameter/offset = Vector2(0, 0)
-shader_parameter/colour_1 = Color(0.871, 0.267, 0.231, 1)
-shader_parameter/colour_2 = Color(0, 0.42, 0.706, 1)
-shader_parameter/colour_3 = Color(0.086, 0.137, 0.145, 1)
-shader_parameter/contrast = 3.5
-shader_parameter/lighting = 0.4
-shader_parameter/spin_amount = 0.25
-shader_parameter/pixel_filter = 740.0
+shader_parameter/colour_1 = Color(0.223529, 0.462745, 0.392157, 1)
+shader_parameter/colour_2 = Color(0.254902, 0.65098, 0.533333, 1)
+shader_parameter/colour_3 = Color(0.0862745, 0.137255, 0.145098, 1)
+shader_parameter/contrast = 0.8
+shader_parameter/lighting = 0.0
+shader_parameter/spin_amount = 0.0
+shader_parameter/pixel_filter = 1920.0
 shader_parameter/is_rotating = false
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kry3j"]
@@ -179,8 +179,8 @@ scale = Vector2(2, 2)
 script = ExtResource("3_kry3j")
 
 [node name="TextureRect" type="Panel" parent="DeckView"]
-modulate = Color(0.647059, 0.647059, 0.647059, 1)
-self_modulate = Color(0.647059, 0.647059, 0.647059, 1)
+modulate = Color(0.0862745, 0.137255, 0.145098, 1)
+self_modulate = Color(0.647059, 0.647059, 0.647059, 0.462745)
 layout_mode = 0
 offset_left = -34.0
 offset_top = -43.0
