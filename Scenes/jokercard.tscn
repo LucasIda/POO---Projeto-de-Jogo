@@ -1,5 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://d1ogvkc66i3p6"]
+[gd_scene load_steps=3 format=3 uid="uid://d1ogvkc66i3p6"]
 
+[ext_resource type="Texture2D" uid="uid://c3k5gd31qt3wc" path="res://Sprites/Jokers/Doubler.png" id="1_gogcq"]
 [ext_resource type="Script" uid="uid://dmoya6vvl6hbf" path="res://Scripts/JokerCard.cs" id="1_pmbxp"]
 
 [node name="Card" type="TextureRect"]
@@ -7,5 +8,16 @@ offset_right = 40.0
 offset_bottom = 40.0
 size_flags_vertical = 4
 mouse_filter = 0
+texture = ExtResource("1_gogcq")
 stretch_mode = 4
 script = ExtResource("1_pmbxp")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+modulate = Color(0, 0, 0, 1)
+self_modulate = Color(1, 1, 1, 0.560784)
+show_behind_parent = true
+layout_mode = 0
+offset_top = 7.0
+offset_right = 142.0
+offset_bottom = 197.0
+texture = ExtResource("1_gogcq")
