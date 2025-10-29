@@ -24,7 +24,8 @@ public abstract partial class BaseCard : TextureRect
     private float _currentYRot = 0.0f;
     private float _currentXRot = 0.0f;
     private Tween _scaleTween; // Tween for scaling animation
-    private const float HOVER_SCALE = 1.1f;
+    private const float HOVER_SCALE = 1.05f;
+    private const float SELECTED_SCALE = 1.15f;
     private const float NORMAL_SCALE = 1.0f;
     private const float TWEEN_DURATION = 0.5f;
     [Export] private TextureRect _shadow;
@@ -101,7 +102,9 @@ public abstract partial class BaseCard : TextureRect
     }
 
     private void OnMouseEntered()
-{
+    {
+    if (IsDragging) return;
+    if (IsSelected) return;
     UpdateCardRotation();
 
     if (_scaleTween != null && _scaleTween.IsValid())
@@ -153,11 +156,12 @@ public abstract partial class BaseCard : TextureRect
 
     _scaleTween = CreateTween();
     _scaleTween.SetParallel(true);
+    float targetScale = IsSelected ? SELECTED_SCALE : NORMAL_SCALE;
 
     bool hasAnimation = false;
 
     // Anima a carta (sempre)
-    _scaleTween.TweenProperty(this, "scale", new Vector2(NORMAL_SCALE, NORMAL_SCALE), TWEEN_DURATION)
+    _scaleTween.TweenProperty(this, "scale", new Vector2(targetScale, targetScale), TWEEN_DURATION)
         .SetTrans(Tween.TransitionType.Elastic)
         .SetEase(Tween.EaseType.Out);
     hasAnimation = true;
@@ -165,7 +169,7 @@ public abstract partial class BaseCard : TextureRect
     // Anima a sombra (se existir)
     if (_shadow != null)
     {
-        _scaleTween.TweenProperty(_shadow, "scale", new Vector2(NORMAL_SCALE, NORMAL_SCALE), TWEEN_DURATION)
+        _scaleTween.TweenProperty(_shadow, "scale", new Vector2(targetScale, targetScale), TWEEN_DURATION)
             .SetTrans(Tween.TransitionType.Elastic)
             .SetEase(Tween.EaseType.Out);
         hasAnimation = true;
@@ -204,17 +208,34 @@ public abstract partial class BaseCard : TextureRect
     }
 
     public void ToggleSelection()
+{
+    IsSelected = !IsSelected;
+
+    // Interrompe qualquer animação (hover ou anterior)
+    if (_scaleTween != null && _scaleTween.IsValid())
+        _scaleTween.Kill();
+
+    _scaleTween = CreateTween();
+    _scaleTween.SetParallel(true);
+
+    float targetScale = IsSelected ? SELECTED_SCALE : NORMAL_SCALE;
+
+    // Anima a carta
+    _scaleTween.TweenProperty(this, "scale", new Vector2(targetScale, targetScale), TWEEN_DURATION)
+        .SetTrans(Tween.TransitionType.Elastic)
+        .SetEase(Tween.EaseType.Out);
+
+    // Anima a sombra
+    if (_shadow != null)
     {
-        IsSelected = !IsSelected;
-        Modulate = IsSelected ? new Color(1, 1, 1, 0.5f) : new Color(1, 1, 1, 1);
-        if (Material is ShaderMaterial shaderMaterial)
-        {
-            _currentYRot = IsSelected ? 10.0f : 0.0f;
-            _currentXRot = IsSelected ? 5.0f : 0.0f;
-            shaderMaterial.SetShaderParameter("y_rot", _currentYRot);
-            shaderMaterial.SetShaderParameter("x_rot", _currentXRot);
-        }
+        _scaleTween.TweenProperty(_shadow, "scale", new Vector2(targetScale, targetScale), TWEEN_DURATION)
+            .SetTrans(Tween.TransitionType.Elastic)
+            .SetEase(Tween.EaseType.Out);
     }
+
+    // Modulação de cor
+    Modulate = IsSelected ? new Color(1, 1, 1, 0.5f) : new Color(1, 1, 1, 1);
+}
     protected virtual void HideTooltip()
 {
     // será sobrescrita nas subclasses
