@@ -9,6 +9,7 @@ public partial class GameManager : Control
     [Export] private PackedScene LojaScene;
     [Export] private PackedScene JokerScene;
     [Export] private Label PlayerCoin;
+    [Export] private PackedScene GameOverScreen;
 
     private Label _chipsLabel;
     private Label _anteLabel;
@@ -22,6 +23,7 @@ public partial class GameManager : Control
 
     public event Action OnRoundAdvanced;
     private Control _lojaInstance;
+    private Control _gameOverInstance;
 
     public List<JokerCard> MasterJokerPool { get; private set; } = new();
     
@@ -245,10 +247,26 @@ public partial class GameManager : Control
             return;
         }
 
+bool gameOverIsOpen = (_gameOverInstance != null && IsInstanceValid(_gameOverInstance));
+        if (gameOverIsOpen)
+        {
+            return;
+        }
+
         if (_currentChips < _requiredChips)
         {
             GD.Print($"GAME OVER: Meta não atingida. Tinha {_currentChips} de {_requiredChips} necessários.");
-            GetTree().ChangeSceneToFile("res://Scenes/morte.tscn");
+            
+            if (GameOverScreen == null)
+            {
+                GD.PrintErr("⚠️ GameOverScreen não atribuída no GameManager! Carregando cena de morte diretamente como fallback.");
+                GetTree().ChangeSceneToFile("res://Scenes/morte.tscn");
+                return;
+            }
+
+            _gameOverInstance = GameOverScreen.Instantiate<Control>();
+            AddChild(_gameOverInstance);
+            GD.Print("Tela de Game Over exibida.");
         }
     }
 }

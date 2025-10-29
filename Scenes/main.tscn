@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://mirandkx0nvm"]
+[gd_scene load_steps=34 format=3 uid="uid://mirandkx0nvm"]
 
 [ext_resource type="Script" uid="uid://mydm023cvu67" path="res://Scripts/UIController.cs" id="1_jjgbg"]
 [ext_resource type="PackedScene" uid="uid://b4guub2w3vtjd" path="res://Scenes/card.tscn" id="2_bo1nx"]
@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://bw1e37mfhgn1t" path="res://Sprites/Icons/coin.png" id="7_hptm8"]
 [ext_resource type="PackedScene" uid="uid://cidvrmdx83kvj" path="res://Scenes/loja.tscn" id="8_344ge"]
 [ext_resource type="PackedScene" uid="uid://d1ogvkc66i3p6" path="res://Scenes/jokercard.tscn" id="9_ynf5e"]
+[ext_resource type="PackedScene" uid="uid://cshkbjvohnrai" path="res://Scenes/morte.tscn" id="11_6iyac"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_344ge"]
 shader = ExtResource("3_6bp64")
@@ -567,6 +568,7 @@ AnteLabelPath = NodePath("../base/painel_rodada/descri_ant_atu")
 LojaScene = ExtResource("8_344ge")
 JokerScene = ExtResource("9_ynf5e")
 PlayerCoin = NodePath("../base/painel_info/painel_economia/pont_din")
+GameOverScreen = ExtResource("11_6iyac")
 
 [node name="RequiredChips" type="Label" parent="GameManager"]
 layout_mode = 0
