@@ -12,6 +12,7 @@ public partial class UIController : Control
     [Export] private Button DiscardButton;
     [Export] private Button PlayButton;
     [Export] private Button ResetButton;
+    [Export] private Button _quitBtn;
     [Export] private Button SuitSortButton;
     [Export] private Button RankSortButton;
     [Export] private Label RoundScoreLabel;
@@ -50,12 +51,14 @@ public partial class UIController : Control
         _cardContainer = GetNode<Control>(CardContainerPath);
         _chipsLabel = GetNode<Label>("base/painel_pontuacao/painel_chips/pont_chips");
         _multLabel = GetNode<Label>("base/painel_pontuacao/painel_mult/pont_mult");
-        RoundScoreLabel = GetNode<Label>("base/painel_rodada/Panel/RoundScoreLab");
+        RoundScoreLabel = GetNode<Label>("base/painel_pontuacao/painel_atualscore/round_score");
         _handNameLabel = GetNodeOrNull<Label>(HandNameLabelPath) ?? GetNode<Label>("Panel/HandData/HandName");
         _deckView = GetNode<DeckView>("DeckView");
         DiscardLeftLabel = GetNode<Label>("base/painel_info/painel_descarte/pont_descarte");
         PlayLeftLabel = GetNode<Label>("base/painel_info/painel_maos/pont_mao");
         _jokerContainer = GetNode<Control>(JokerContainerPath);
+        _quitBtn    = GetNodeOrNull<Button>("base/painel_menu/painel_sair/btn_sair");
+
         InitDeck();
         _deckView.UpdateCount(_deck.Count, _totalDeckCount); // Atualiza visual do deck ao iniciar
         UpdateCurrentHandLabel();
@@ -67,6 +70,8 @@ public partial class UIController : Control
         if (ResetButton != null) ResetButton.Pressed += OnResetPressed;
         if (SuitSortButton != null) SuitSortButton.Pressed += SortBySuit;
         if (RankSortButton != null) RankSortButton.Pressed += SortByRank;
+
+        _quitBtn.Pressed += OnQuitBtnPressed;
 
         var gm = GetNode<GameManager>("GameManager");
         gm.OnRoundAdvanced += HandleRoundAdvanced;
@@ -479,7 +484,7 @@ public partial class UIController : Control
             UpdateJokerVisuals();
         }
     }
-    
+
     private void UpdateJokerVisuals()
     {
         // Itera sobre a lista _jokers (que acabou de ser reordenada)
@@ -491,4 +496,6 @@ public partial class UIController : Control
             _jokerContainer.AddChild(joker);
         }
     }
+    
+    private void OnQuitBtnPressed() => GetTree().Quit();
  }
