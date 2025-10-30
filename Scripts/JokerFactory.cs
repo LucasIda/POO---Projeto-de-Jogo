@@ -1,10 +1,11 @@
 using Godot;
+using System;
 using System.Collections.Generic;
 
 public static class JokerFactory
 {
     // Agora ele precisa da cena base do Curinga para instanciar
-    public static List<JokerCard> CreateJokers(PackedScene jokerScene)
+    public static List<JokerCard> CreateJokers(PackedScene jokerScene, Func<int> getPlayerCoins)
     {
         if (jokerScene == null)
         {
@@ -36,6 +37,13 @@ public static class JokerFactory
         doubler.Rarity = JokerRarity.Rare;
         doubler.AddEffect(new EffectMultiplyMultiplier(1.5f, "Increase your base multiplier by 50%"));
         list.Add(doubler);
+
+        // Bull
+        var bull = jokerScene.Instantiate<JokerCard>();
+        bull.Initialize("Bull", GD.Load<Texture2D>("res://Sprites/Jokers/Bull.png"));
+        bull.Rarity = JokerRarity.Common;
+        bull.AddEffect(new EffectAddChipsPerCoin(2,getPlayerCoins,"Gain 2 Chips for each $1 you have"));
+        list.Add(bull);
 
         return list;
     }
