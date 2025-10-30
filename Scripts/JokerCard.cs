@@ -22,15 +22,19 @@ public partial class JokerCard : BaseCard
     public int Cost { get; private set; }
 
     private JokerRarity _rarity;
+    private bool _rarityInitialized = false;
     public JokerRarity Rarity
     {
-        get { return _rarity; }
+        get => _rarity;
         set
         {
             _rarity = value;
+            _rarityInitialized = true;  // Marca como inicializado
             Cost = CalculateCostFromRarity(_rarity);
         }
     }
+
+    
 
     private PanelContainer tooltip;
 
@@ -134,7 +138,10 @@ public partial class JokerCard : BaseCard
         MouseEntered += OnMouseEntered;
         MouseExited += OnMouseExited;
 
-        Rarity = JokerRarity.Common;
+        if (!_rarityInitialized)
+        {
+            Rarity = JokerRarity.Common;
+        }
     }
 
     private int CalculateCostFromRarity(JokerRarity rarity)
