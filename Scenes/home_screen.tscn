@@ -1,8 +1,38 @@
-[gd_scene load_steps=4 format=3 uid="uid://bsxgkgm6by51o"]
+[gd_scene load_steps=8 format=3 uid="uid://bsxgkgm6by51o"]
 
 [ext_resource type="Texture2D" uid="uid://h771o0bra2aq" path="res://Sprites/Bg/bg_scenne.png" id="1_d6d8u"]
 [ext_resource type="Script" uid="uid://bkmvyuobxm5g3" path="res://Scripts/HomeScreen.cs" id="1_db1cy"]
 [ext_resource type="Texture2D" uid="uid://c0utgo7nib35b" path="res://Sprites/Bg/logo05.png" id="3_db1cy"]
+[ext_resource type="FontFile" uid="uid://dkobr42y6m63l" path="res://Font/Pixellari.ttf" id="4_font"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u8qlv"]
+bg_color = Color(0.14902, 0.14902, 0.14902, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yufik"]
+bg_color = Color(0.841941, 0.147144, 0.0318006, 1)
+corner_detail = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ianbu"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_size = 2
+shadow_offset = Vector2(0, 2)
 
 [node name="HomeScreen" type="Control"]
 layout_mode = 3
@@ -26,6 +56,8 @@ expand_mode = 2
 [node name="MusicManager" type="Node" parent="."]
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="MusicManager"]
+volume_db = -8.0
+autoplay = true
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -53,6 +85,7 @@ size_flags_vertical = 4
 [node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 texture = ExtResource("3_db1cy")
+stretch_mode = 3
 
 [node name="start_btn" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
@@ -68,3 +101,28 @@ text = "RANKING
 layout_mode = 2
 text = "SAIR
 "
+
+[node name="VolumeContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+alignment = 1
+
+[node name="VolumeLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/VolumeContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.870588)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 28
+text = "Volume"
+
+[node name="VolumeSlider" type="HSlider" parent="MarginContainer/HBoxContainer/VBoxContainer/VolumeContainer"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_override_styles/slider = SubResource("StyleBoxFlat_u8qlv")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_yufik")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_ianbu")
+max_value = 1.0
+step = 0.01
+value = 0.7

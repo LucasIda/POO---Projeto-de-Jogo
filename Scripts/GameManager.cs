@@ -247,7 +247,7 @@ public partial class GameManager : Control
             return;
         }
 
-bool gameOverIsOpen = (_gameOverInstance != null && IsInstanceValid(_gameOverInstance));
+        bool gameOverIsOpen = (_gameOverInstance != null && IsInstanceValid(_gameOverInstance));
         if (gameOverIsOpen)
         {
             return;
@@ -256,7 +256,7 @@ bool gameOverIsOpen = (_gameOverInstance != null && IsInstanceValid(_gameOverIns
         if (_currentChips < _requiredChips)
         {
             GD.Print($"GAME OVER: Meta não atingida. Tinha {_currentChips} de {_requiredChips} necessários.");
-            
+
             if (GameOverScreen == null)
             {
                 GD.PrintErr("⚠️ GameOverScreen não atribuída no GameManager! Carregando cena de morte diretamente como fallback.");
@@ -265,8 +265,19 @@ bool gameOverIsOpen = (_gameOverInstance != null && IsInstanceValid(_gameOverIns
             }
 
             _gameOverInstance = GameOverScreen.Instantiate<Control>();
-            AddChild(_gameOverInstance);
-            GD.Print("Tela de Game Over exibida.");
+
+            // Adicione à cena raiz (tela cheia)
+            var gameScene = GetTree().CurrentScene;
+            gameScene.AddChild(_gameOverInstance);
+
+            
+            var pointsLabel = _gameOverInstance.GetNodeOrNull<Label>("painel_principal/painel_class/painel_pont/painel_pontuacao/fim_textoc2");
+            if (pointsLabel != null)
+            {
+                pointsLabel.Text = _currentChips.ToString();  // Ou use high score se tiver salvo
+            }
+
+            GD.Print("Tela de Game Over exibida no centro da tela.");
         }
     }
 }
