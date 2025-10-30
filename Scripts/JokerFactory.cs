@@ -58,12 +58,26 @@ public static class JokerFactory
         bluejoker.AddEffect(new EffectAddChips(90, "Add 90 chips to your base chips"));
         list.Add(bluejoker);
 
+        // Blainstorm
+        var brainstorm = jokerScene.Instantiate<JokerCard>();
+        brainstorm.Initialize("Blainstorm", GD.Load<Texture2D>("res://Sprites/Jokers/Brainstorm.png"));
+        brainstorm.Rarity = JokerRarity.Rare;
+        brainstorm.AddEffect(new EffectAddChips(150, "Add 150 chips to your base chips"));
+        list.Add(brainstorm);
+
         // Bull
         var bull = jokerScene.Instantiate<JokerCard>();
         bull.Initialize("Bull", GD.Load<Texture2D>("res://Sprites/Jokers/Bull.png"));
         bull.Rarity = JokerRarity.Common;
         bull.AddEffect(new EffectAddChipsPerCoin(2,getPlayerCoins,"Gain 2 Chips for each $1 you have"));
         list.Add(bull);
+
+        // Polychrome
+        var Polychrome = jokerScene.Instantiate<JokerCard>();
+        Polychrome.Initialize("Polychrome", GD.Load<Texture2D>("res://Sprites/Jokers/Polychrome.png"));
+        Polychrome.Rarity = JokerRarity.Rare;
+        Polychrome.AddEffect(new EffectAddChipsPerCoin(7,getPlayerCoins,"Gain 7 Chips for each $1 you have"));
+        list.Add(Polychrome);
 
         // Stuntman
         var stuntman = jokerScene.Instantiate<JokerCard>();
@@ -79,12 +93,55 @@ public static class JokerFactory
         doubler.AddEffect(new EffectMultiplyMultiplier(1.5f, "Increase your base multiplier by 50%"));
         list.Add(doubler);
 
+        //Lucky Cat
+        var luckycat = jokerScene.Instantiate<JokerCard>();
+        luckycat.Initialize("Lucky Cat", GD.Load<Texture2D>("res://Sprites/Jokers/Lucky_Cat.png"));
+        luckycat.Rarity = JokerRarity.Rare;
+        luckycat.AddEffect(new EffectMultiplyMultiplier(2f, "Increase your base multplier by 200%"));
+        list.Add(luckycat);
+        
+
         // The Family
         var thefamily = jokerScene.Instantiate<JokerCard>();
         thefamily.Initialize("The Family", GD.Load<Texture2D>("res://Sprites/Jokers/TheFamily.png"));
         thefamily.Rarity = JokerRarity.Rare;
         thefamily.AddEffect(new EffectMultiplyMultiplier(2.5f, "Increase your base multplier by 150%"));
         list.Add(thefamily);
+
+        // Kenzo
+        var Kenzo = jokerScene.Instantiate<JokerCard>();
+        Kenzo.Initialize("Kenzo", GD.Load<Texture2D>("res://Sprites/Jokers/Kenzo.png"));
+        Kenzo.Rarity = JokerRarity.Legendary;
+        Kenzo.AddEffect(new EffectMultiplyMultiplier(10.0f, "Increase your base multplier by 1000%"));
+        list.Add(Kenzo);
+
+        // Pedro
+        var Pedro = jokerScene.Instantiate<JokerCard>();
+        Pedro.Initialize("Pedro", GD.Load<Texture2D>("res://Sprites/Jokers/Pedro.png"));
+        Pedro.Rarity = JokerRarity.Legendary;
+        Pedro.AddEffect(new EffectAddMultiplier(0, "???"));
+        list.Add(Pedro);
+
+        // Diogo
+        var Diogo = jokerScene.Instantiate<JokerCard>();
+        Diogo.Initialize("Diogo", GD.Load<Texture2D>("res://Sprites/Jokers/Diogo.png"));
+        Diogo.Rarity = JokerRarity.Legendary;
+        Diogo.AddEffect(new EffectAddChips(500, "Add 500 chips to your base chips"));
+        list.Add(Diogo);
+
+        // Murilo
+        var Murilo = jokerScene.Instantiate<JokerCard>();
+        Murilo.Initialize("Murilo", GD.Load<Texture2D>("res://Sprites/Jokers/Murilo.png"));
+        Murilo.Rarity = JokerRarity.Legendary;
+        Murilo.AddEffect(new EffectAddChipsPerCoin(30,getPlayerCoins,"Gain 30 Chips for each $1 you have"));
+        list.Add(Murilo);
+
+        // Fabricio
+        var Fabricio = jokerScene.Instantiate<JokerCard>();
+        Fabricio.Initialize("Fabricio", GD.Load<Texture2D>("res://Sprites/Jokers/Fabricio.png"));
+        Fabricio.Rarity = JokerRarity.Legendary;
+        Fabricio.AddEffect(new EffectAddMultiplier(40, "Add 40 to your base multiplier"));
+        list.Add(Fabricio);
         
 
         return list;

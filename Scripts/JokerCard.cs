@@ -155,7 +155,7 @@ public partial class JokerCard : BaseCard
             case JokerRarity.Rare:
                 return 9;
             case JokerRarity.Legendary:
-                return 11;
+                return 35;
             default:
                 GD.PrintErr($"Raridade desconhecida: {rarity}. Usando custo padrão (5).");
                 return 5; 
