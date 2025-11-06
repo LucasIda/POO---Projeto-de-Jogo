@@ -1,0 +1,354 @@
+[gd_scene load_steps=14 format=3 uid="uid://beog8vtvaxk3j"]
+
+[ext_resource type="Script" uid="uid://dfycyqg1pe01a" path="res://Scripts/ShopController.cs" id="1_welqo"]
+[ext_resource type="FontFile" uid="uid://dkobr42y6m63l" path="res://Font/Pixellari.ttf" id="2_oe5q6"]
+[ext_resource type="Texture2D" uid="uid://bvpn0tfcrsape" path="res://Sprites/Extras/chips_amarelo-export.png" id="3_wbbl0"]
+[ext_resource type="Texture2D" uid="uid://bhpnmvr044uv" path="res://Sprites/Extras/chips_vermelho-export.png" id="4_0knoa"]
+[ext_resource type="Texture2D" uid="uid://b63t3u167mecx" path="res://Sprites/Extras/chips_verde-export.png" id="5_xu4vy"]
+[ext_resource type="Texture2D" uid="uid://ci07h1mnv8ws6" path="res://Sprites/Extras/chips_roxo-export.png" id="6_ao1ms"]
+[ext_resource type="Texture2D" uid="uid://d0bqhi77beuiy" path="res://Sprites/Extras/chips_azul-export.png" id="7_t1aqh"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4qqw2"]
+bg_color = Color(0.133922, 0.289784, 0.247141, 1)
+border_width_left = 40
+border_width_top = 40
+border_width_right = 40
+border_width_bottom = 40
+border_color = Color(0.0807833, 0.0807834, 0.0807832, 1)
+border_blend = true
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ornrv"]
+bg_color = Color(0.294118, 0.294118, 0.294118, 0)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.147672, 0.147672, 0.147672, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jc2mj"]
+bg_color = Color(0.230117, 0.458671, 0.395404, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 8
+border_color = Color(0.133333, 0.290196, 0.247059, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_color = Color(0, 0, 0, 0.627451)
+shadow_size = 5
+shadow_offset = Vector2(0, 2)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a2daw"]
+bg_color = Color(0.231373, 0.458824, 0.396078, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 8
+border_color = Color(0.133333, 0.290196, 0.247059, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_color = Color(0, 0, 0, 0.627451)
+shadow_size = 5
+shadow_offset = Vector2(0, 2)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_snqb3"]
+bg_color = Color(0.231373, 0.458824, 0.396078, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 8
+border_color = Color(0.133333, 0.290196, 0.247059, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_color = Color(0, 0, 0, 0.627451)
+shadow_size = 5
+shadow_offset = Vector2(0, 2)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_valom"]
+bg_color = Color(0.600765, 0.601278, 0.588859, 0)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+shadow_color = Color(0, 0, 0, 0.454902)
+shadow_size = 20
+anti_aliasing = false
+
+[node name="Loja" type="Control" node_paths=PackedStringArray("ShopCost", "RerollCostLabel")]
+light_mask = 513
+visibility_layer = 513
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_welqo")
+JokerListContainerPath = NodePath("Panel/Panel/JokerList")
+BuyButtonPath = NodePath("Panel/Panel/Panel4/BuyButton")
+RerollButtonPath = NodePath("Panel/Panel/Panel2/RerollButton")
+ShopCost = NodePath("Panel/Panel/Panel4/ShopCost")
+RerollCostLabel = NodePath("Panel/Panel/Panel2/RerollCost")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -490.0
+offset_top = -500.0
+offset_right = 848.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_4qqw2")
+
+[node name="Panel" type="Panel" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ornrv")
+
+[node name="JokerList" type="HBoxContainer" parent="Panel/Panel"]
+layout_mode = 0
+offset_left = 112.0
+offset_top = 205.0
+offset_right = 795.0
+offset_bottom = 355.0
+scale = Vector2(1.5, 1.5)
+mouse_filter = 2
+theme_override_constants/separation = 75
+alignment = 1
+
+[node name="Panel" type="Panel" parent="Panel/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -658.0
+offset_top = -240.0
+offset_right = 659.0
+offset_bottom = 240.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ornrv")
+
+[node name="Panel2" type="Panel" parent="Panel/Panel"]
+layout_mode = 0
+offset_left = 417.0
+offset_top = 64.0
+offset_right = 713.0
+offset_bottom = 146.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_jc2mj")
+
+[node name="Label" type="Label" parent="Panel/Panel/Panel2"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -134.0
+offset_top = -21.0
+offset_right = 82.0
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 3
+theme_override_fonts/font = ExtResource("2_oe5q6")
+theme_override_font_sizes/font_size = 45
+text = "Atualizar $"
+
+[node name="RerollCost" type="Label" parent="Panel/Panel/Panel2"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 85.0
+offset_top = -19.0
+offset_right = 143.0
+offset_bottom = 27.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 3
+theme_override_fonts/font = ExtResource("2_oe5q6")
+theme_override_font_sizes/font_size = 45
+text = "0"
+
+[node name="RerollButton" type="Button" parent="Panel/Panel/Panel2"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"FlatButton"
+theme_override_font_sizes/font_size = 30
+
+[node name="Panel4" type="Panel" parent="Panel/Panel"]
+layout_mode = 0
+offset_left = 742.0
+offset_top = 64.0
+offset_right = 1046.0
+offset_bottom = 146.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_a2daw")
+
+[node name="Label" type="Label" parent="Panel/Panel/Panel4"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -139.0
+offset_top = -21.0
+offset_right = 77.0
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 3
+theme_override_fonts/font = ExtResource("2_oe5q6")
+theme_override_font_sizes/font_size = 45
+text = "Comprar $"
+
+[node name="ShopCost" type="Label" parent="Panel/Panel/Panel4"]
+offset_left = 233.0
+offset_top = 22.0
+offset_right = 286.0
+offset_bottom = 68.0
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 3
+theme_override_fonts/font = ExtResource("2_oe5q6")
+theme_override_font_sizes/font_size = 45
+text = "0"
+
+[node name="BuyButton" type="Button" parent="Panel/Panel/Panel4"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"FlatButton"
+theme_override_font_sizes/font_size = 30
+
+[node name="Panel5" type="Panel" parent="Panel/Panel"]
+layout_mode = 0
+offset_left = 1076.0
+offset_top = 46.0
+offset_right = 1297.0
+offset_bottom = 162.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_snqb3")
+
+[node name="Label" type="Label" parent="Panel/Panel/Panel5"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -80.0
+offset_top = -47.5
+offset_right = 80.0
+offset_bottom = 47.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 3
+theme_override_fonts/font = ExtResource("2_oe5q6")
+theme_override_font_sizes/font_size = 45
+text = "Próxima
+Rodada"
+horizontal_alignment = 1
+
+[node name="PassButton" type="Button" parent="Panel/Panel/Panel5"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"FlatButton"
+theme_override_font_sizes/font_size = 30
+text = "
+"
+
+[node name="Panel3" type="Panel" parent="Panel/Panel"]
+layout_mode = 0
+offset_left = 84.0
+offset_top = 195.0
+offset_right = 1158.0
+offset_bottom = 440.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_valom")
+
+[node name="Label" type="Label" parent="Panel/Panel"]
+layout_mode = 0
+offset_left = 61.0
+offset_top = 52.0
+offset_right = 386.0
+offset_bottom = 183.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 6
+theme_override_constants/shadow_offset_y = 8
+theme_override_fonts/font = ExtResource("2_oe5q6")
+theme_override_font_sizes/font_size = 130
+text = "SHOP"
+
+[node name="ChipsAmarelo-export" type="Sprite2D" parent="."]
+position = Vector2(1711, 978.4)
+texture = ExtResource("3_wbbl0")
+
+[node name="ChipsVermelho-export" type="Sprite2D" parent="."]
+position = Vector2(1711, 937.4)
+texture = ExtResource("4_0knoa")
+
+[node name="ChipsVerde-export" type="Sprite2D" parent="."]
+position = Vector2(1711, 896.4)
+texture = ExtResource("5_xu4vy")
+
+[node name="ChipsRoxo-export" type="Sprite2D" parent="."]
+position = Vector2(1711, 855.4)
+texture = ExtResource("6_ao1ms")
+
+[node name="ChipsAzul-export" type="Sprite2D" parent="."]
+position = Vector2(1711, 814.4)
+texture = ExtResource("7_t1aqh")
