@@ -1,4 +1,7 @@
 using Godot;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 public interface IJokerEffect
 {
@@ -62,3 +65,26 @@ public class EffectMultiplyMultiplier : IJokerEffect
     }
 }
 
+
+public class EffectAddChipsPerCoin : IJokerEffect
+{
+    private readonly int _multiplierPerCoin;
+    private readonly Func<int> _getPlayerCoins;
+    public string Description { get; }
+
+    public EffectAddChipsPerCoin(int multiplierPerCoin, Func<int> getPlayerCoins, string description)
+    {
+        _multiplierPerCoin = multiplierPerCoin;
+        _getPlayerCoins = getPlayerCoins;
+        Description = description;
+    }
+
+    public void Apply(HandValue.HandResult result)
+    {
+        int playerCoins = _getPlayerCoins();
+        int additionalChips = playerCoins * _multiplierPerCoin;
+        result.ChipsBase += additionalChips;
+
+        GD.Print($"+{additionalChips} chips (PlayerCoins={playerCoins}, x{_multiplierPerCoin})");
+    }
+}

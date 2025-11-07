@@ -9,6 +9,7 @@ public partial class GameManager : Control
     [Export] private PackedScene LojaScene;
     [Export] private PackedScene JokerScene;
     [Export] private Label PlayerCoin;
+    [Export] private PackedScene GameOverScreen;
 
     private Label _chipsLabel;
     private Label _anteLabel;
@@ -22,6 +23,7 @@ public partial class GameManager : Control
 
     public event Action OnRoundAdvanced;
     private Control _lojaInstance;
+    private Control _gameOverInstance;
 
     public List<JokerCard> MasterJokerPool { get; private set; } = new();
     
@@ -48,7 +50,7 @@ public partial class GameManager : Control
         _chipsLabel = GetNode<Label>(ChipsLabelPath);
         _anteLabel = GetNode<Label>(AnteLabelPath);
 
-        MasterJokerPool = JokerFactory.CreateJokers(JokerScene);
+        MasterJokerPool = JokerFactory.CreateJokers(JokerScene, () => PlayerCoins);
         GD.Print($"GameManager: Criados {MasterJokerPool.Count} curingas para o MasterPool.");
 
         PlayerCoin.Text = $"$ {PlayerCoins.ToString()}";
@@ -62,10 +64,10 @@ public partial class GameManager : Control
         _requiredChips = AnteTable[_currentAnte, _currentBlind];
 
         if (_chipsLabel != null)
-            _chipsLabel.Text = $"Chips necessários = {_requiredChips}";
+            _chipsLabel.Text = $"{_requiredChips}";
 
         if (_anteLabel != null)
-            _anteLabel.Text = $"Ante {_currentAnte + 1} - {BlindNames[_currentBlind]}";
+            _anteLabel.Text = $"{_currentAnte + 1} {BlindNames[_currentBlind]}";
 
         GD.Print($"🔹 Iniciando {_anteLabel.Text}, meta = {_requiredChips}");
     }
@@ -221,7 +223,7 @@ public partial class GameManager : Control
     {
         PlayerJokerInventory = newOrder;
     }
-    
+
     public void SpendCoins(int amount)
     {
         if (amount > PlayerCoins)
@@ -230,10 +232,52 @@ public partial class GameManager : Control
             return;
         }
         if (amount < 0) return;
-        
+
         PlayerCoins -= amount;
         GD.Print($"Gastou {amount} moedas. Saldo restante: {PlayerCoins}");
 
         PlayerCoin.Text = $"$ {PlayerCoins.ToString()}";
+    }
+    
+    public void CheckRoundEndState()
+    {
+        bool shopIsOpen = (_lojaInstance != null && IsInstanceValid(_lojaInstance));
+        if (shopIsOpen)
+        {
+            return;
+        }
+
+        bool gameOverIsOpen = (_gameOverInstance != null && IsInstanceValid(_gameOverInstance));
+        if (gameOverIsOpen)
+        {
+            return;
+        }
+
+        if (_currentChips < _requiredChips)
+        {
+            GD.Print($"GAME OVER: Meta não atingida. Tinha {_currentChips} de {_requiredChips} necessários.");
+
+            if (GameOverScreen == null)
+            {
+                GD.PrintErr("⚠️ GameOverScreen não atribuída no GameManager! Carregando cena de morte diretamente como fallback.");
+                GetTree().ChangeSceneToFile("res://Scenes/morte.tscn");
+                return;
+            }
+
+            _gameOverInstance = GameOverScreen.Instantiate<Control>();
+
+            // Adicione à cena raiz (tela cheia)
+            var gameScene = GetTree().CurrentScene;
+            gameScene.AddChild(_gameOverInstance);
+
+            
+            var pointsLabel = _gameOverInstance.GetNodeOrNull<Label>("painel_principal/painel_class/painel_pont/painel_pontuacao/fim_textoc2");
+            if (pointsLabel != null)
+            {
+                pointsLabel.Text = _currentChips.ToString();  // Ou use high score se tiver salvo
+            }
+
+            GD.Print("Tela de Game Over exibida no centro da tela.");
+        }
     }
 }

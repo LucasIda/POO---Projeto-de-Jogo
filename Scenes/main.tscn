@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://mirandkx0nvm"]
+[gd_scene load_steps=34 format=3 uid="uid://mirandkx0nvm"]
 
 [ext_resource type="Script" uid="uid://mydm023cvu67" path="res://Scripts/UIController.cs" id="1_jjgbg"]
 [ext_resource type="PackedScene" uid="uid://b4guub2w3vtjd" path="res://Scenes/card.tscn" id="2_bo1nx"]
@@ -6,10 +6,12 @@
 [ext_resource type="Texture2D" uid="uid://c45vitmn4egvr" path="res://Sprites/Icons/score_icon.png" id="3_8gbba"]
 [ext_resource type="Script" uid="uid://ccnb15pqo64by" path="res://Scripts/DeckView.cs" id="3_kry3j"]
 [ext_resource type="Texture2D" uid="uid://xd340x8pwlkx" path="res://Sprites/Icons/stake.png" id="4_jjvhh"]
+[ext_resource type="FontFile" uid="uid://dkobr42y6m63l" path="res://Font/Pixellari.ttf" id="5_hptm8"]
 [ext_resource type="Script" uid="uid://dwfwkwk7xk0s2" path="res://Scripts/GameManager.cs" id="6_21xkr"]
 [ext_resource type="Texture2D" uid="uid://bw1e37mfhgn1t" path="res://Sprites/Icons/coin.png" id="7_hptm8"]
 [ext_resource type="PackedScene" uid="uid://cidvrmdx83kvj" path="res://Scenes/loja.tscn" id="8_344ge"]
 [ext_resource type="PackedScene" uid="uid://d1ogvkc66i3p6" path="res://Scenes/jokercard.tscn" id="9_ynf5e"]
+[ext_resource type="PackedScene" uid="uid://cshkbjvohnrai" path="res://Scenes/morte.tscn" id="11_6iyac"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_344ge"]
 shader = ExtResource("3_6bp64")
@@ -64,7 +66,142 @@ texture_margin_top = 9.0
 texture_margin_right = 9.0
 texture_margin_bottom = 9.0
 
-[node name="Main" type="Control" node_paths=PackedStringArray("DrawButton", "DiscardButton", "PlayButton", "ResetButton", "SuitSortButton", "RankSortButton", "RoundScoreLabel")]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d1ilt"]
+bg_color = Color(0.168627, 0.168627, 0.168627, 1)
+border_width_left = 12
+border_width_top = 12
+border_width_right = 12
+border_width_bottom = 12
+border_color = Color(0.917647, 0.729412, 0.25098, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6iyac"]
+bg_color = Color(0.917647, 0.729412, 0.25098, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 8
+border_color = Color(0.517647, 0.407843, 0.133333, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fdnlq"]
+bg_color = Color(0.168627, 0.168627, 0.168627, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jkdf5"]
+bg_color = Color(0.114897, 0.114897, 0.114897, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 8
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wsu2k"]
+bg_color = Color(0.917647, 0.729412, 0.25098, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 4
+border_color = Color(0.517647, 0.407843, 0.133333, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k12tt"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+shadow_size = 2
+shadow_offset = Vector2(0, 1.5)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h1bgf"]
+bg_color = Color(0.917647, 0.729412, 0.25098, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 4
+border_color = Color(0.517647, 0.407843, 0.133333, 1)
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b3802"]
+bg_color = Color(0.168627, 0.168627, 0.168627, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fevyy"]
+bg_color = Color(0.917647, 0.729412, 0.25098, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 8
+border_color = Color(0.517647, 0.407843, 0.133333, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hibaj"]
+bg_color = Color(0.168627, 0.168627, 0.168627, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pdsj5"]
+bg_color = Color(0.113725, 0.113725, 0.113725, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 8
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ee4r6"]
+bg_color = Color(0.917647, 0.729412, 0.25098, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 6
+border_color = Color(0.517647, 0.407843, 0.133333, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gt3je"]
+bg_color = Color(0.168627, 0.168627, 0.168627, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 6
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[node name="Main" type="Control" node_paths=PackedStringArray("DrawButton", "DiscardButton", "PlayButton", "ResetButton", "_quitBtn", "SuitSortButton", "RankSortButton", "RoundScoreLabel", "DiscardLeftLabel", "PlayLeftLabel")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -74,14 +211,17 @@ grow_vertical = 2
 script = ExtResource("1_jjgbg")
 CardScene = ExtResource("2_bo1nx")
 CardContainerPath = NodePath("CardContainer")
-HandNameLabelPath = NodePath("Panel/HandData/HandName")
+HandNameLabelPath = NodePath("base/painel_pontuacao/text_combo")
 DrawButton = NodePath("VBoxContainer/DrawButton")
 DiscardButton = NodePath("DiscardButton")
 PlayButton = NodePath("PlayButton")
 ResetButton = NodePath("VBoxContainer/ResetButton")
+_quitBtn = NodePath("base/painel_menu/painel_sair/btn_sair")
 SuitSortButton = NodePath("HBoxContainer/SuitSortButton")
 RankSortButton = NodePath("HBoxContainer/RankSortButton")
-RoundScoreLabel = NodePath("Panel/RoundScore/ScorePanel/HBoxContainer/ScoreLabel")
+RoundScoreLabel = NodePath("base/painel_pontuacao/painel_atualscore/round_score")
+DiscardLeftLabel = NodePath("base/painel_info/painel_descarte/pont_descarte")
+PlayLeftLabel = NodePath("base/painel_info/painel_maos/pont_mao")
 JokerContainerPath = NodePath("JokerContainer")
 
 [node name="Background" type="ColorRect" parent="."]
@@ -200,6 +340,7 @@ offset_right = 55.5
 offset_bottom = 67.5
 
 [node name="Panel" type="ColorRect" parent="."]
+visible = false
 layout_mode = 1
 offset_right = 257.0
 offset_bottom = 637.0
@@ -422,11 +563,12 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("6_21xkr")
-ChipsLabelPath = NodePath("RequiredChips")
-AnteLabelPath = NodePath("Ante")
+ChipsLabelPath = NodePath("../base/painel_rodada/painel_p_necessario/pont_v")
+AnteLabelPath = NodePath("../base/painel_rodada/descri_ant_atu")
 LojaScene = ExtResource("8_344ge")
 JokerScene = ExtResource("9_ynf5e")
-PlayerCoin = NodePath("../Panel/HBoxContainer/HBoxContainer/PlayerCoin")
+PlayerCoin = NodePath("../base/painel_info/painel_economia/pont_din")
+GameOverScreen = ExtResource("11_6iyac")
 
 [node name="RequiredChips" type="Label" parent="GameManager"]
 layout_mode = 0
@@ -450,6 +592,659 @@ horizontal_alignment = 1
 layout_mode = 0
 offset_left = 514.0
 offset_top = 14.0
-offset_right = 1026.0
+offset_right = 1538.0
 offset_bottom = 111.0
 scale = Vector2(1.1, 1.1)
+
+[node name="base" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -540.0
+offset_right = 437.0
+offset_bottom = 540.0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_d1ilt")
+
+[node name="painel_rodada" type="Panel" parent="base"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -184.5
+offset_top = -504.0
+offset_right = 185.5
+offset_bottom = -142.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_6iyac")
+
+[node name="rodada" type="Label" parent="base/painel_rodada"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -162.5
+offset_top = -164.0
+offset_right = 162.5
+offset_bottom = -64.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 4
+theme_override_fonts/font = ExtResource("5_hptm8")
+theme_override_font_sizes/font_size = 100
+text = "Ante"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="descri_ant_atu" type="Label" parent="base/painel_rodada"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -162.0
+offset_top = -51.0
+offset_right = 162.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 4
+theme_override_fonts/font = ExtResource("5_hptm8")
+theme_override_font_sizes/font_size = 75
+text = "*ante"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="traco1" type="Panel" parent="base/painel_rodada"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -155.5
+offset_top = -69.0
+offset_right = 155.5
+offset_bottom = -59.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="painel_p_necessario" type="Panel" parent="base/painel_rodada"]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 213.0
+offset_right = 353.0
+offset_bottom = 342.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_fdnlq")
+
+[node name="pont_necessario" type="Label" parent="base/painel_rodada/painel_p_necessario"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -151.5
+offset_top = -56.5
+offset_right = 151.5
+offset_bottom = -25.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 3
+theme_override_fonts/font = ExtResource("5_hptm8")
+theme_override_font_sizes/font_size = 30
+text = "Score at least"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="pont_v" type="Label" parent="base/painel_rodada/painel_p_necessario"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -151.0
+offset_top = -9.5
+offset_right = 152.0
+offset_bottom = 66.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 4
+theme_override_fonts/font = ExtResource("5_hptm8")
+theme_override_font_sizes/font_size = 75
+text = "*Points"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="painel_pontuacao" type="Panel" parent="base"]
+layout_mode = 0
+offset_left = 35.0
+offset_top = 425.0
+offset_right = 405.0
+offset_bottom = 724.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_jkdf5")
+
+[node name="text_combo" type="Label" parent="base/painel_pontuacao"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -151.0
+offset_top = -42.5
+offset_right = 152.0
+offset_bottom = 4.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("5_hptm8")
+theme_override_font_sizes/font_size = 45
+text = "*Combo"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="painel_mult" type="Panel" parent="base/painel_pontuacao"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_top = -114.0
+offset_right = 174.0
+offset_bottom = -15.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_wsu2k")
+
+[node name="pont_mult" type="Label" parent="base/painel_pontuacao/painel_mult"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -75.0
+offset_top = -13.5
+offset_right = 75.0
+offset_bottom = 52.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 3
+theme_override_fonts/font = ExtResource("5_hptm8")
+theme_override_font_sizes/font_size = 65
+text = "*P"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="mult" type="Label" parent="base/painel_pontuacao/painel_mult"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -57.0
+offset_top = -41.5
+offset_right = 57.0
+offset_bottom = -21.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("5_hptm8")
+theme_override_font_sizes/font_size = 20
+text = "Multi"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="painel_chips" type="Panel" parent="base/painel_pontuacao"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -174.0
+offset_top = -114.0
+offset_right = -6.0
+offset_bottom = -15.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_wsu2k")
+
+[node name="pont_chips" type="Label" parent="base/painel_pontuacao/painel_chips"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -75.0
+offset_top = -13.5
+offset_right = 75.0
+offset_bottom = 52.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 3
+theme_override_fonts/font = ExtResource("5_hptm8")
+theme_override_font_sizes/font_size = 65
+text = "*P"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="chips" type="Label" parent="base/painel_pontuacao/painel_chips"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -57.0
+offset_top = -41.5
+offset_right = 57.0
+offset_bottom = -21.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("5_hptm8")
+theme_override_font_sizes/font_size = 20
+text = "Chips"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="traco3" type="Panel" parent="base/painel_pontuacao"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -157.0
+offset_top = 4.5
+offset_right = 157.0
+offset_bottom = 10.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_k12tt")
+
+[node name="painel_atualscore" type="Panel" parent="base/painel_pontuacao"]
+layout_mode = 0
+offset_left = 93.0
+offset_top = 17.0
+offset_right = 354.0
+offset_bottom = 77.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_h1bgf")
+
+[node name="round_score" type="Label" parent="base/painel_pontuacao/painel_atualscore"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -117.0
+offset_top = -15.5
+offset_right = 117.0
+offset_bottom = 15.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 3
+theme_override_fonts/font = ExtResource("5_hptm8")
+theme_override_font_sizes/font_size = 40
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="painel_atual" type="Panel" parent="base/painel_pontuacao"]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 17.0
+offset_right = 93.0
+offset_bottom = 77.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_b3802")
+
+[node name="pont_necessario" type="Label" parent="base/painel_pontuacao/painel_atual"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -33.0
+offset_top = -27.5
+offset_right = 34.0
+offset_bottom = 27.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 2
+theme_override_fonts/font = ExtResource("5_hptm8")
+theme_override_font_sizes/font_size = 20
+text = "Round
+Score"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="painel_info" type="Panel" parent="base"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -184.5
+offset_top = 216.0
+offset_right = 185.5
+offset_bottom = 322.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_fevyy")
+
+[node name="painel_maos" type="Panel" parent="base/painel_info"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 12.0
+offset_right = 111.0
+offset_bottom = 89.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_hibaj")
+
+[node name="maos" type="Label" parent="base/painel_info/painel_maos"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -57.0
+offset_top = -34.5
+offset_right = 57.0
+offset_bottom = -14.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 2
+theme_override_fonts/font = ExtResource("5_hptm8")
+theme_override_font_sizes/font_size = 20
+text = "Hands"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="pont_mao" type="Label" parent="base/painel_info/painel_maos"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -75.0
+offset_top = -18.5
+offset_right = 75.0
+offset_bottom = 47.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 3
+theme_override_fonts/font = ExtResource("5_hptm8")
+theme_override_font_sizes/font_size = 55
+text = "*M"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="painel_descarte" type="Panel" parent="base/painel_info"]
+layout_mode = 0
+offset_left = 119.0
+offset_top = 12.0
+offset_right = 227.0
+offset_bottom = 89.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_hibaj")
+
+[node name="descarte" type="Label" parent="base/painel_info/painel_descarte"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -57.0
+offset_top = -34.5
+offset_right = 57.0
+offset_bottom = -14.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 2
+theme_override_fonts/font = ExtResource("5_hptm8")
+theme_override_font_sizes/font_size = 20
+text = "Discards"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="pont_descarte" type="Label" parent="base/painel_info/painel_descarte"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -75.0
+offset_top = -18.5
+offset_right = 75.0
+offset_bottom = 47.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 3
+theme_override_fonts/font = ExtResource("5_hptm8")
+theme_override_font_sizes/font_size = 55
+text = "*M"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="painel_economia" type="Panel" parent="base/painel_info"]
+layout_mode = 0
+offset_left = 235.0
+offset_top = 12.0
+offset_right = 356.0
+offset_bottom = 89.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_hibaj")
+
+[node name="din" type="Label" parent="base/painel_info/painel_economia"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -57.0
+offset_top = -34.5
+offset_right = 57.0
+offset_bottom = -14.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 2
+theme_override_fonts/font = ExtResource("5_hptm8")
+theme_override_font_sizes/font_size = 20
+text = "Money"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="pont_din" type="Label" parent="base/painel_info/painel_economia"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -75.0
+offset_top = -18.5
+offset_right = 75.0
+offset_bottom = 47.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 3
+theme_override_fonts/font = ExtResource("5_hptm8")
+theme_override_font_sizes/font_size = 55
+text = "*M"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="painel_menu" type="Panel" parent="base"]
+layout_mode = 0
+offset_left = 34.0
+offset_top = 889.0
+offset_right = 404.0
+offset_bottom = 1031.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_pdsj5")
+
+[node name="painel_combo" type="Panel" parent="base/painel_menu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -172.0
+offset_top = -58.0
+offset_right = 172.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ee4r6")
+
+[node name="btn_info" type="Button" parent="base/painel_menu/painel_combo"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -172.0
+offset_top = -25.0
+offset_right = 172.0
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"FlatButton"
+
+[node name="text" type="Label" parent="base/painel_menu/painel_combo"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -131.0
+offset_top = -15.0
+offset_right = 131.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 3
+theme_override_fonts/font = ExtResource("5_hptm8")
+theme_override_font_sizes/font_size = 30
+text = "Informação do Jogo"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="painel_sair" type="Panel" parent="base/painel_menu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -172.0
+offset_top = 4.0
+offset_right = 172.0
+offset_bottom = 54.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_gt3je")
+
+[node name="btn_sair" type="Button" parent="base/painel_menu/painel_sair"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -172.0
+offset_top = -25.0
+offset_right = 172.0
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"FlatButton"
+
+[node name="text" type="Label" parent="base/painel_menu/painel_sair"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -131.0
+offset_top = -15.0
+offset_right = 131.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 3
+theme_override_fonts/font = ExtResource("5_hptm8")
+theme_override_font_sizes/font_size = 30
+text = "Sair do Jogo"
+horizontal_alignment = 1
+vertical_alignment = 1
