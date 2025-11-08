@@ -208,9 +208,20 @@ public partial class GameManager : Control
                 if (shopController != null)
                 {
                     MasterJokerPool = shopController.GetUpdatedMasterPool();
-                    PlayerJokerInventory = shopController.GetUpdatedInventory();
-                    OnPlayerInventoryChanged?.Invoke();
-                    GD.Print($"Loja fechada. Inventário: {PlayerJokerInventory.Count}, Pool: {MasterJokerPool.Count}");
+
+                    var updatedInv = shopController.GetUpdatedInventory();
+
+                    if (!object.ReferenceEquals(updatedInv, PlayerJokerInventory))
+                    {
+                        PlayerJokerInventory.Clear();
+                        if (updatedInv != null)
+                            PlayerJokerInventory.AddRange(updatedInv);
+        }
+
+        // Notifica a UI que o inventário mudou
+        OnPlayerInventoryChanged?.Invoke();
+
+        GD.Print($"Loja fechada. Inventário: {PlayerJokerInventory.Count}, Pool: {MasterJokerPool.Count}");
                 }
 
                 NextRound();
@@ -224,7 +235,10 @@ public partial class GameManager : Control
 
     public void SetPlayerJokerOrder(List<JokerCard> newOrder)
     {
-        PlayerJokerInventory = newOrder;
+        if (newOrder == null) return;
+
+        PlayerJokerInventory.Clear();
+        PlayerJokerInventory.AddRange(newOrder);
     }
 
     public void SpendCoins(int amount)
@@ -295,13 +309,25 @@ public partial class GameManager : Control
         // Define valor da venda
         int sellValue = Mathf.RoundToInt(joker.Cost * 0.5f);
 
-        // Remove do inventário e devolve ao pool principal
-        PlayerJokerInventory.Remove(joker);
-        MasterJokerPool.Add(joker);
+        // 2) Sair da UI atual de curingas
+        if (joker.IsSelected) joker.ToggleSelection();
+        var parent = joker.GetParent();
+        if (parent != null && GodotObject.IsInstanceValid(parent))
+            parent.RemoveChild(joker);
 
-        // Libera o nó da cena (para sumir da UI)
-        if (joker.GetParent() != null)
-            joker.QueueFree();
+        // 3) Remover do inventário e devolver às pools
+        PlayerJokerInventory.Remove(joker);
+
+        // Pool global
+        if (!MasterJokerPool.Contains(joker))
+            MasterJokerPool.Add(joker);
+
+        // Se a loja estiver aberta, devolve também para a pool de trabalho da loja
+        if (_lojaInstance != null && IsInstanceValid(_lojaInstance))
+        {
+            var shop = _lojaInstance as ShopController;
+            shop?.AddToPool(joker);   // veja o método no patch do ShopController abaixo
+        }
 
         // Credita moedas
         AddCoins(sellValue);

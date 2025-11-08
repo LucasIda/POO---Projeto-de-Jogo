@@ -495,24 +495,26 @@ public partial class UIController : Control
 				_jokerContainer.RemoveChild(joker);
 			}
 			joker.OnCardClicked -= OnCardClicked;
-
 			joker.OnDragEnded -= OnJokerDragEnded;
+
+			var parent = joker.GetParent();
+        	if (parent != null && GodotObject.IsInstanceValid(parent) && parent == _jokerContainer)
+            _jokerContainer.RemoveChild(joker);
 		}
 
 		var gm = GetNode<GameManager>("GameManager");
-		_jokers = gm.PlayerJokerInventory;
+		_jokers = gm.PlayerJokerInventory
+		    .Where(j => j != null && GodotObject.IsInstanceValid(j))
+            .ToList();
 
 		foreach (var joker in _jokers)
 		{
-			if (joker.GetParent() != null)
-			{
+			if (joker.GetParent() != null && GodotObject.IsInstanceValid(joker.GetParent()))
 				joker.GetParent().RemoveChild(joker);
-			}
+
 			joker.SizeFlagsHorizontal = Control.SizeFlags.Fill;
 			joker.SizeFlagsVertical = Control.SizeFlags.Fill;
-
 			joker.CustomMinimumSize = Vector2.Zero;
-
 			joker.StretchMode = TextureRect.StretchModeEnum.KeepAspect;
 
 			_jokerContainer.AddChild(joker);
@@ -520,9 +522,9 @@ public partial class UIController : Control
 			joker.OnDragEnded += OnJokerDragEnded;
 
 			joker.IsDraggable = true;
-			
 			joker.TooltipDisplayDirection = TooltipDirection.Below;
 		}
+		
 		GD.Print($"UIController: Exibindo {_jokers.Count} curingas.");
 
 		if (_selectedJokerForSale != null && _selectedJokerForSale.IsSelected)
@@ -537,11 +539,18 @@ public partial class UIController : Control
 	{
 		if (card is JokerCard)
 		{
-			_jokers = _jokers.OrderBy(j => j.Position.X).ToList();
+			var before = _jokers.ToList();
+
+			var newOrder = _jokers.OrderBy(j => j.Position.X).ToList();
+
+			bool changed = !newOrder.SequenceEqual(before);
+			if (!changed) return;
+
+			_jokers = newOrder;
 
 			var gm = GetNode<GameManager>("GameManager");
-			gm.SetPlayerJokerOrder(_jokers); 
-			
+			gm.SetPlayerJokerOrder(_jokers);
+
 			UpdateJokerVisuals();
 		}
 	}

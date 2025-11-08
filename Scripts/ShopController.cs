@@ -26,7 +26,7 @@ public partial class ShopController : Control
 	public void Initialize(List<JokerCard> masterPool, List<JokerCard> playerInventory)
 	{
 		_shopMasterPool = new List<JokerCard>(masterPool);
-		_playerInventory = new List<JokerCard>(playerInventory);
+		_playerInventory = playerInventory;
 	}
 
 	public override async void _Ready()
@@ -240,7 +240,7 @@ public partial class ShopController : Control
 			}
 		}
 	}
-	
+
 	private void UpdateRerollCostLabel()
 	{
 		if (RerollCostLabel != null)
@@ -248,5 +248,22 @@ public partial class ShopController : Control
 			// Exibe o custo ao lado do botão "Atualizar"
 			RerollCostLabel.Text = $"{_currentRerollCost}";
 		}
+	}
+
+	public void AddToPool(JokerCard joker)
+	{
+		if (joker == null || !GodotObject.IsInstanceValid(joker))
+			return;
+
+		// Garante estado “neutro” na loja
+		joker.OnCardClicked -= OnJokerClicked;
+		joker.MouseFilter = MouseFilterEnum.Stop;
+		joker.Modulate = new Color(1f, 1f, 1f);
+		joker.IsDraggable = false;
+		if (joker.IsSelected) joker.ToggleSelection();
+
+		// Evita duplicidade por Name (ou use referência)
+		if (!_shopMasterPool.Any(j => j == joker || j.Name == joker.Name))
+			_shopMasterPool.Add(joker);
 	}
 }
