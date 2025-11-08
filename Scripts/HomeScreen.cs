@@ -10,9 +10,9 @@ public partial class HomeScreen : Control
 
 	public override void _Ready()
 	{
-		_startBtn   = GetNodeOrNull<Button>("MarginContainer/HBoxContainer/VBoxContainer/start_btn");
-		_rankingBtn = GetNodeOrNull<Button>("MarginContainer/HBoxContainer/VBoxContainer/ranking_btn");
-		_quitBtn    = GetNodeOrNull<Button>("MarginContainer/HBoxContainer/VBoxContainer/quit_btn");
+		_startBtn   = GetNodeOrNull<Button>("painel/ChipsAzul-export-export/start_btn");
+		_rankingBtn = GetNodeOrNull<Button>("painel/ranking_btn");
+		_quitBtn    = GetNodeOrNull<Button>("painel/ChipsVermelho-export-export/quit_btn");
 		_musicManager = GetNodeOrNull<MusicManager>("MusicManager");  // Referência ao MusicManager
 
 		if (_startBtn == null || _rankingBtn == null || _quitBtn == null)
@@ -21,8 +21,8 @@ public partial class HomeScreen : Control
 			return; // Evita NullReference
 		}
 
-		_volumeSlider = GetNode<HSlider>("MarginContainer/HBoxContainer/VBoxContainer/VolumeContainer/VolumeSlider");
-		_volumeLabel = GetNode<Label>("MarginContainer/HBoxContainer/VBoxContainer/VolumeContainer/VolumeLabel");
+		_volumeSlider = GetNode<HSlider>("painel/volume/VolumeSlider");
+		_volumeLabel = GetNode<Label>("painel/volume/txt");
 
 		// Carrega volume salvo
 		var config = new ConfigFile();

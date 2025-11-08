@@ -1,9 +1,18 @@
-[gd_scene load_steps=8 format=3 uid="uid://bsxgkgm6by51o"]
+[gd_scene load_steps=23 format=3 uid="uid://bsxgkgm6by51o"]
 
 [ext_resource type="Texture2D" uid="uid://h771o0bra2aq" path="res://Sprites/Bg/bg_scenne.png" id="1_d6d8u"]
 [ext_resource type="Script" uid="uid://bkmvyuobxm5g3" path="res://Scripts/HomeScreen.cs" id="1_db1cy"]
 [ext_resource type="Texture2D" uid="uid://c0utgo7nib35b" path="res://Sprites/Bg/logo05.png" id="3_db1cy"]
 [ext_resource type="FontFile" uid="uid://dkobr42y6m63l" path="res://Font/Pixellari.ttf" id="4_font"]
+[ext_resource type="Texture2D" uid="uid://b5sc7iyv8rsch" path="res://Sprites/Extras/fundo_menu.png" id="5_mj6hq"]
+[ext_resource type="FontFile" uid="uid://celsqdatd17mx" path="res://Font/Grand Royal.ttf" id="6_gfsw2"]
+[ext_resource type="Texture2D" uid="uid://cyuhrelybofx1" path="res://Sprites/Extras/C.png" id="7_sw63v"]
+[ext_resource type="Texture2D" uid="uid://bcjgdoqbym73w" path="res://Sprites/Extras/A.png" id="8_0mte4"]
+[ext_resource type="Texture2D" uid="uid://dpomtux70mgs8" path="res://Sprites/Extras/R.png" id="9_h4amd"]
+[ext_resource type="Texture2D" uid="uid://bf6aaxcxobleu" path="res://Sprites/Extras/S.png" id="10_4ucpn"]
+[ext_resource type="Texture2D" uid="uid://cxuhpnlpyo1ki" path="res://Sprites/Extras/D.png" id="11_2a8ha"]
+[ext_resource type="Texture2D" uid="uid://dem425x13c3uu" path="res://Sprites/Extras/chips_vermelho-export-export.png" id="12_llvpu"]
+[ext_resource type="Texture2D" uid="uid://db4rjdx6g7mss" path="res://Sprites/Extras/chips_azul-export-export.png" id="13_4aqxo"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u8qlv"]
 bg_color = Color(0.14902, 0.14902, 0.14902, 1)
@@ -34,6 +43,48 @@ corner_radius_bottom_left = 8
 shadow_size = 2
 shadow_offset = Vector2(0, 2)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8bg7t"]
+bg_color = Color(0, 0, 0, 0.509804)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v3s4n"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q7qmd"]
+bg_color = Color(0, 0, 0, 0.470588)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kpoqd"]
+bg_color = Color(0.14902, 0.14902, 0.14902, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2y8k1"]
+bg_color = Color(0.917647, 0.729412, 0.25098, 1)
+corner_detail = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_20hgf"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_size = 2
+shadow_offset = Vector2(0, 2)
+
 [node name="HomeScreen" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -44,6 +95,7 @@ grow_vertical = 2
 script = ExtResource("1_db1cy")
 
 [node name="bg" type="TextureRect" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -60,6 +112,7 @@ volume_db = -8.0
 autoplay = true
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -126,3 +179,217 @@ theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_ianbu")
 max_value = 1.0
 step = 0.01
 value = 0.7
+
+[node name="painel" type="Panel" parent="."]
+offset_right = 1920.0
+offset_bottom = 1080.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_8bg7t")
+
+[node name="FundoMenu" type="Sprite2D" parent="painel"]
+position = Vector2(960, 581.5)
+scale = Vector2(1.5, 1.45375)
+texture = ExtResource("5_mj6hq")
+
+[node name="fundo" type="Panel" parent="painel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="txt" type="Label" parent="painel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -264.5
+offset_top = -241.0
+offset_right = 264.5
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 10
+theme_override_constants/shadow_offset_y = 10
+theme_override_fonts/font = ExtResource("6_gfsw2")
+theme_override_font_sizes/font_size = 180
+text = "Royal"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="painel_guia" type="Panel" parent="painel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -263.5
+offset_top = -26.0
+offset_right = 263.5
+offset_bottom = 131.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_v3s4n")
+
+[node name="C" type="Sprite2D" parent="painel/painel_guia"]
+position = Vector2(58.9999, 79.9999)
+rotation = 0.174533
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("7_sw63v")
+
+[node name="A" type="Sprite2D" parent="painel/painel_guia"]
+position = Vector2(161, 82)
+rotation = -0.174533
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("8_0mte4")
+
+[node name="R" type="Sprite2D" parent="painel/painel_guia"]
+position = Vector2(255, 82)
+rotation = 0.0872665
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("9_h4amd")
+
+[node name="S" type="Sprite2D" parent="painel/painel_guia"]
+position = Vector2(463, 73.0001)
+rotation = 0.261799
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("10_4ucpn")
+
+[node name="D" type="Sprite2D" parent="painel/painel_guia"]
+position = Vector2(361, 74.0001)
+rotation = -0.349066
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("11_2a8ha")
+
+[node name="ChipsVermelho-export-export" type="Sprite2D" parent="painel"]
+position = Vector2(1141, 880)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("12_llvpu")
+
+[node name="txt" type="Label" parent="painel/ChipsVermelho-export-export"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -96.0
+offset_top = -89.0
+offset_right = -96.0
+offset_bottom = -118.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 35
+text = "Sair"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="quit_btn" type="Button" parent="painel/ChipsVermelho-export-export"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -96.0
+offset_top = -96.0
+offset_right = -96.0
+offset_bottom = -96.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"FlatButton"
+metadata/_edit_use_anchors_ = true
+
+[node name="ChipsAzul-export-export" type="Sprite2D" parent="painel"]
+position = Vector2(780, 880)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("13_4aqxo")
+
+[node name="txt" type="Label" parent="painel/ChipsAzul-export-export"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -96.0
+offset_top = -89.0
+offset_right = -96.0
+offset_bottom = -118.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 35
+text = "Jogar"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="start_btn" type="Button" parent="painel/ChipsAzul-export-export"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -96.0
+offset_top = -96.0
+offset_right = -96.0
+offset_bottom = -96.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"FlatButton"
+
+[node name="volume" type="Panel" parent="painel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -286.5
+offset_top = 40.0
+offset_right = 286.5
+offset_bottom = 80.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_q7qmd")
+
+[node name="txt" type="Label" parent="painel/volume"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 16.5
+offset_top = -10.0
+offset_right = 163.5
+offset_bottom = 16.0
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 25
+text = "Volume"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VolumeSlider" type="HSlider" parent="painel/volume"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -91.5
+offset_top = -8.0
+offset_right = 267.5
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/slider = SubResource("StyleBoxFlat_kpoqd")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_2y8k1")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_20hgf")
+max_value = 1.0
+step = 0.01
+value = 0.7
+
+[node name="ranking_btn" type="Button" parent="painel"]
+visible = false
+text = "RANKING
+"
