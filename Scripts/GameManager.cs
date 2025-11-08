@@ -132,6 +132,8 @@ public partial class GameManager : Control
         if (amount > 0)
         {
             PlayerCoins += amount;
+            if (PlayerCoin != null)
+                PlayerCoin.Text = $"$ {PlayerCoins}";
         }
     }
 
@@ -239,7 +241,7 @@ public partial class GameManager : Control
 
         PlayerCoin.Text = $"$ {PlayerCoins.ToString()}";
     }
-    
+
     public void CheckRoundEndState()
     {
         bool shopIsOpen = (_lojaInstance != null && IsInstanceValid(_lojaInstance));
@@ -271,7 +273,7 @@ public partial class GameManager : Control
             var gameScene = GetTree().CurrentScene;
             gameScene.AddChild(_gameOverInstance);
 
-            
+
             var pointsLabel = _gameOverInstance.GetNodeOrNull<Label>("painel_principal/painel_class/painel_pont/painel_pontuacao/fim_textoc2");
             if (pointsLabel != null)
             {
@@ -280,5 +282,32 @@ public partial class GameManager : Control
 
             GD.Print("Tela de Game Over exibida no centro da tela.");
         }
+    }
+    
+    public void SellJoker(JokerCard joker)
+    {
+        if (!PlayerJokerInventory.Contains(joker))
+        {
+            GD.PrintErr("Tentou vender um curinga que não pertence ao jogador.");
+            return;
+        }
+
+        // Define valor da venda
+        int sellValue = Mathf.RoundToInt(joker.Cost * 0.5f);
+
+        // Remove do inventário e devolve ao pool principal
+        PlayerJokerInventory.Remove(joker);
+        MasterJokerPool.Add(joker);
+
+        // Libera o nó da cena (para sumir da UI)
+        if (joker.GetParent() != null)
+            joker.QueueFree();
+
+        // Credita moedas
+        AddCoins(sellValue);
+        GD.Print($"💰 Curinga {joker.Name} vendido por {sellValue} moedas.");
+
+        // Atualiza UI
+        OnPlayerInventoryChanged?.Invoke();
     }
 }

@@ -201,7 +201,7 @@ corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 
-[node name="Main" type="Control" node_paths=PackedStringArray("DrawButton", "DiscardButton", "PlayButton", "ResetButton", "_quitBtn", "SuitSortButton", "RankSortButton", "RoundScoreLabel", "DiscardLeftLabel", "PlayLeftLabel")]
+[node name="Main" type="Control" node_paths=PackedStringArray("DrawButton", "DiscardButton", "PlayButton", "ResetButton", "_quitBtn", "SuitSortButton", "RankSortButton", "RoundScoreLabel", "DiscardLeftLabel", "PlayLeftLabel", "_sellButton", "SellValueLabel")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -223,6 +223,8 @@ RoundScoreLabel = NodePath("base/painel_pontuacao/painel_atualscore/round_score"
 DiscardLeftLabel = NodePath("base/painel_info/painel_descarte/pont_descarte")
 PlayLeftLabel = NodePath("base/painel_info/painel_maos/pont_mao")
 JokerContainerPath = NodePath("JokerContainer")
+_sellButton = NodePath("HBoxContainer2/SellBtn")
+SellValueLabel = NodePath("HBoxContainer2/SellValue")
 
 [node name="Background" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_344ge")
@@ -253,6 +255,7 @@ size_flags_horizontal = 0
 text = "Discard"
 
 [node name="VBoxContainer" type="HBoxContainer" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -1248,3 +1251,18 @@ theme_override_font_sizes/font_size = 30
 text = "Sair do Jogo"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 451.0
+offset_top = 381.0
+offset_right = 740.0
+offset_bottom = 466.0
+
+[node name="SellBtn" type="Button" parent="HBoxContainer2"]
+layout_mode = 2
+text = "Vender"
+
+[node name="SellValue" type="Label" parent="HBoxContainer2"]
+layout_mode = 2
+text = "0"

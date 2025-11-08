@@ -20,13 +20,16 @@ public partial class UIController : Control
     [Export] private Label DiscardLeftLabel;
     [Export] private Label PlayLeftLabel;
     [Export] private NodePath JokerContainerPath;
-    [Export] private PackedScene JokerScene;  // Carta curinga
+    [Export] private PackedScene JokerScene;
+    [Export] private Button _sellButton;
+    [Export] private Label SellValueLabel;
 
     private Control _cardContainer;
     private DeckView _deckView;
     private Label _handNameLabel;
     private Label _chipsLabel;
     private Label _multLabel;
+    private JokerCard _selectedJokerForSale;
 
 
     private List<CardData> _deck = new();
@@ -57,7 +60,8 @@ public partial class UIController : Control
         DiscardLeftLabel = GetNode<Label>("base/painel_info/painel_descarte/pont_descarte");
         PlayLeftLabel = GetNode<Label>("base/painel_info/painel_maos/pont_mao");
         _jokerContainer = GetNode<Control>(JokerContainerPath);
-        _quitBtn    = GetNodeOrNull<Button>("base/painel_menu/painel_sair/btn_sair");
+        _quitBtn = GetNodeOrNull<Button>("base/painel_menu/painel_sair/btn_sair");
+        SellValueLabel = GetNode<Label>("HBoxContainer2/SellValue");
 
         InitDeck();
         _deckView.UpdateCount(_deck.Count, _totalDeckCount); // Atualiza visual do deck ao iniciar
@@ -81,6 +85,10 @@ public partial class UIController : Control
 
         // Atualiza a exibição dos curingas (que estará vazia no início)
         UpdateJokerDisplay();
+
+        _sellButton = GetNode<Button>("HBoxContainer2/SellBtn");
+        _sellButton.Pressed += OnSellButtonPressed;
+        _sellButton.Visible = false; // escondido até um curinga ser selecionado
 
         DrawCards(MaxHandSize);
         UpdateHandVisuals();
@@ -177,15 +185,49 @@ public partial class UIController : Control
                 _selectedCards.Add(normalCard);
             }
 
+            if (_selectedJokerForSale != null)
+            {
+                if (_selectedJokerForSale.IsSelected)
+                    _selectedJokerForSale.ToggleSelection();
+
+                _selectedJokerForSale = null;
+                _sellButton.Visible = false;
+                if (SellValueLabel != null) SellValueLabel.Text = "0";
+            }
+
             UpdateCurrentHandLabel();
         }
         else if (clickedCard is JokerCard joker)
         {
-           
-            GD.Print($"Joker clicado: {joker.Name}");
-          
-        }
+            // Se clicar no mesmo curinga já selecionado → DESSELECIONA (toggle)
+            if (_selectedJokerForSale == joker)
+            {
+                if (joker.IsSelected)
+                    joker.ToggleSelection(); // volta para escala/estado normal
 
+                _selectedJokerForSale = null;
+                _sellButton.Visible = false;
+                if (SellValueLabel != null) SellValueLabel.Text = "0";
+                GD.Print($"Curinga {joker.Name} desmarcado para venda.");
+                return;
+            }
+
+            // Se houver outro curinga previamente selecionado, desmarca ele
+            if (_selectedJokerForSale != null && _selectedJokerForSale.IsSelected)
+                _selectedJokerForSale.ToggleSelection();
+
+            // Seleciona o novo curinga
+            _selectedJokerForSale = joker;
+
+            if (!joker.IsSelected)
+                joker.ToggleSelection();
+
+            int sellValue = Mathf.RoundToInt(joker.Cost * 0.5f);
+            _sellButton.Visible = true;
+            if (SellValueLabel != null) SellValueLabel.Text = sellValue.ToString();
+
+            GD.Print($"Selecionado {joker.Name} — valor de venda: {sellValue} moedas");
+        }
     }
 
     private void OnPlayPressed()
@@ -482,6 +524,13 @@ public partial class UIController : Control
             joker.TooltipDisplayDirection = TooltipDirection.Below;
         }
         GD.Print($"UIController: Exibindo {_jokers.Count} curingas.");
+
+        if (_selectedJokerForSale != null && _selectedJokerForSale.IsSelected)
+        _selectedJokerForSale.ToggleSelection();
+
+        _selectedJokerForSale = null;
+        _sellButton.Visible = false;
+        if (SellValueLabel != null) SellValueLabel.Text = "0";
     }
 
     private void OnJokerDragEnded(BaseCard card)
@@ -509,5 +558,21 @@ public partial class UIController : Control
         }
     }
     
+    private void OnSellButtonPressed()
+    {
+        if (_selectedJokerForSale == null)
+        {
+            GD.Print("Nenhum curinga selecionado para venda.");
+            return;
+        }
+
+        var gm = GetNode<GameManager>("GameManager");
+        gm.SellJoker(_selectedJokerForSale);
+
+        if (SellValueLabel != null) SellValueLabel.Text = "0";
+        _sellButton.Visible = false;
+        _selectedJokerForSale = null;
+    }
+
     private void OnQuitBtnPressed() => GetTree().Quit();
  }
