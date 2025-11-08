@@ -1,10 +1,9 @@
-[gd_scene load_steps=19 format=3 uid="uid://bsxgkgm6by51o"]
+[gd_scene load_steps=18 format=3 uid="uid://bsxgkgm6by51o"]
 
 [ext_resource type="Texture2D" uid="uid://h771o0bra2aq" path="res://Sprites/Bg/bg_scenne.png" id="1_d6d8u"]
 [ext_resource type="Script" uid="uid://bkmvyuobxm5g3" path="res://Scripts/HomeScreen.cs" id="1_db1cy"]
+[ext_resource type="Texture2D" uid="uid://dxm57chu2k315" path="res://Sprites/Bg/real-poker.jpg" id="3_u58f3"]
 [ext_resource type="FontFile" uid="uid://dkobr42y6m63l" path="res://Font/Pixellari.ttf" id="4_font"]
-[ext_resource type="Texture2D" uid="uid://b5sc7iyv8rsch" path="res://Sprites/Extras/fundo_menu.png" id="5_mj6hq"]
-[ext_resource type="FontFile" uid="uid://celsqdatd17mx" path="res://Font/Grand Royal.ttf" id="6_gfsw2"]
 [ext_resource type="Texture2D" uid="uid://cyuhrelybofx1" path="res://Sprites/Extras/C.png" id="7_sw63v"]
 [ext_resource type="Texture2D" uid="uid://bcjgdoqbym73w" path="res://Sprites/Extras/A.png" id="8_0mte4"]
 [ext_resource type="Texture2D" uid="uid://dpomtux70mgs8" path="res://Sprites/Extras/R.png" id="9_h4amd"]
@@ -82,14 +81,15 @@ volume_db = -8.0
 autoplay = true
 
 [node name="painel" type="Panel" parent="."]
+layout_mode = 0
 offset_right = 1920.0
 offset_bottom = 1080.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_8bg7t")
 
 [node name="FundoMenu" type="Sprite2D" parent="painel"]
-position = Vector2(960, 581.5)
-scale = Vector2(1.5, 1.45375)
-texture = ExtResource("5_mj6hq")
+position = Vector2(961.5, 540)
+scale = Vector2(1.87598, 1.86458)
+texture = ExtResource("3_u58f3")
 
 [node name="fundo" type="Panel" parent="painel"]
 layout_mode = 1
@@ -116,9 +116,9 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
 theme_override_constants/shadow_offset_x = 10
 theme_override_constants/shadow_offset_y = 10
-theme_override_fonts/font = ExtResource("6_gfsw2")
+theme_override_fonts/font = ExtResource("4_font")
 theme_override_font_sizes/font_size = 180
-text = "Royal"
+text = "ROYAL"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -292,5 +292,6 @@ value = 0.7
 
 [node name="ranking_btn" type="Button" parent="painel"]
 visible = false
+layout_mode = 0
 text = "RANKING
 "
