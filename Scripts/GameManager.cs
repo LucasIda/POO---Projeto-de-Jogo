@@ -185,7 +185,8 @@ public partial class GameManager : Control
 
         _lojaInstance = LojaScene.Instantiate<Control>();
 
-        AddChild(_lojaInstance); 
+        AddChild(_lojaInstance);
+        _lojaInstance.ZIndex = 2;
 
         var shopController = _lojaInstance as ShopController;
         if (shopController != null)
