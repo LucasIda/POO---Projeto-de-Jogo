@@ -185,7 +185,8 @@ public partial class GameManager : Control
 
         _lojaInstance = LojaScene.Instantiate<Control>();
 
-        AddChild(_lojaInstance); 
+        AddChild(_lojaInstance);
+        _lojaInstance.ZIndex = 2;
 
         var shopController = _lojaInstance as ShopController;
         if (shopController != null)
@@ -197,7 +198,7 @@ public partial class GameManager : Control
             GD.PrintErr("A cena da Loja (loja.tscn) não tem o script ShopController.cs anexado ao seu nó raiz.");
         }
 
-        var seguirBtn = _lojaInstance.GetNodeOrNull<Button>("PanelContainer/HBoxContainer/PassButton");
+        var seguirBtn = _lojaInstance.GetNodeOrNull<Button>("Panel/Panel/Panel5/PassButton");
         if (seguirBtn != null)
         {
             seguirBtn.Pressed += () =>

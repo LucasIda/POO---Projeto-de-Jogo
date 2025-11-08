@@ -161,6 +161,16 @@ offset_right = 713.0
 offset_bottom = 146.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_jc2mj")
 
+[node name="RerollButton" type="Button" parent="Panel/Panel/Panel2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"FlatButton"
+theme_override_font_sizes/font_size = 30
+
 [node name="Label" type="Label" parent="Panel/Panel/Panel2"]
 layout_mode = 1
 anchors_preset = 8
@@ -203,8 +213,15 @@ theme_override_fonts/font = ExtResource("2_oe5q6")
 theme_override_font_sizes/font_size = 45
 text = "0"
 
-[node name="RerollButton" type="Button" parent="Panel/Panel/Panel2"]
-visible = false
+[node name="Panel4" type="Panel" parent="Panel/Panel"]
+layout_mode = 0
+offset_left = 742.0
+offset_top = 64.0
+offset_right = 1046.0
+offset_bottom = 146.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_a2daw")
+
+[node name="BuyButton" type="Button" parent="Panel/Panel/Panel4"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -213,14 +230,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_type_variation = &"FlatButton"
 theme_override_font_sizes/font_size = 30
-
-[node name="Panel4" type="Panel" parent="Panel/Panel"]
-layout_mode = 0
-offset_left = 742.0
-offset_top = 64.0
-offset_right = 1046.0
-offset_bottom = 146.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_a2daw")
 
 [node name="Label" type="Label" parent="Panel/Panel/Panel4"]
 layout_mode = 1
@@ -244,6 +253,7 @@ theme_override_font_sizes/font_size = 45
 text = "Comprar $"
 
 [node name="ShopCost" type="Label" parent="Panel/Panel/Panel4"]
+layout_mode = 0
 offset_left = 233.0
 offset_top = 22.0
 offset_right = 286.0
@@ -256,17 +266,6 @@ theme_override_constants/shadow_offset_y = 3
 theme_override_fonts/font = ExtResource("2_oe5q6")
 theme_override_font_sizes/font_size = 45
 text = "0"
-
-[node name="BuyButton" type="Button" parent="Panel/Panel/Panel4"]
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_type_variation = &"FlatButton"
-theme_override_font_sizes/font_size = 30
 
 [node name="Panel5" type="Panel" parent="Panel/Panel"]
 layout_mode = 0

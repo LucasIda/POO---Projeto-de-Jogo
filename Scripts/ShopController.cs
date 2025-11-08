@@ -232,11 +232,11 @@ public partial class ShopController : Control
         {
             if (totalCost > 0)
             {
-                ShopCost.Text = $"$ {totalCost}";
+                ShopCost.Text = $"{totalCost}";
             }
             else
             {
-                ShopCost.Text = $"$ 0";
+                ShopCost.Text = $"0";
             }
         }
     }
@@ -246,7 +246,7 @@ public partial class ShopController : Control
         if (RerollCostLabel != null)
         {
             // Exibe o custo ao lado do botão "Atualizar"
-            RerollCostLabel.Text = $"$ {_currentRerollCost}";
+            RerollCostLabel.Text = $"{_currentRerollCost}";
         }
     }
 }
