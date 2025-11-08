@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://mirandkx0nvm"]
+[gd_scene load_steps=35 format=3 uid="uid://mirandkx0nvm"]
 
 [ext_resource type="Script" uid="uid://mydm023cvu67" path="res://Scripts/UIController.cs" id="1_jjgbg"]
 [ext_resource type="PackedScene" uid="uid://b4guub2w3vtjd" path="res://Scenes/card.tscn" id="2_bo1nx"]
@@ -201,6 +201,16 @@ corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3pmx8"]
+bg_color = Color(0.168627, 0.168627, 0.168627, 1)
+border_width_left = 2
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.917647, 0.729412, 0.25098, 1)
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+
 [node name="Main" type="Control" node_paths=PackedStringArray("DrawButton", "DiscardButton", "PlayButton", "ResetButton", "_quitBtn", "SuitSortButton", "RankSortButton", "RoundScoreLabel", "DiscardLeftLabel", "PlayLeftLabel", "_sellButton", "SellValueLabel")]
 layout_mode = 3
 anchors_preset = 15
@@ -223,8 +233,8 @@ RoundScoreLabel = NodePath("base/painel_pontuacao/painel_atualscore/round_score"
 DiscardLeftLabel = NodePath("base/painel_info/painel_descarte/pont_descarte")
 PlayLeftLabel = NodePath("base/painel_info/painel_maos/pont_mao")
 JokerContainerPath = NodePath("JokerContainer")
-_sellButton = NodePath("HBoxContainer2/SellBtn")
-SellValueLabel = NodePath("HBoxContainer2/SellValue")
+_sellButton = NodePath("painel_venda/SellBtn")
+SellValueLabel = NodePath("painel_venda/SellValue")
 
 [node name="Background" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_344ge")
@@ -1252,17 +1262,68 @@ text = "Sair do Jogo"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="."]
-layout_mode = 0
-offset_left = 451.0
-offset_top = 381.0
-offset_right = 740.0
-offset_bottom = 466.0
+[node name="painel_venda" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 435.0
+offset_top = 442.0
+offset_right = -1248.0
+offset_bottom = -575.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_3pmx8")
 
-[node name="SellBtn" type="Button" parent="HBoxContainer2"]
-layout_mode = 2
-text = "Vender"
+[node name="text" type="Label" parent="painel_venda"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 3.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 3
+theme_override_fonts/font = ExtResource("5_hptm8")
+theme_override_font_sizes/font_size = 35
+text = "Vender  $      "
+horizontal_alignment = 2
+vertical_alignment = 1
 
-[node name="SellValue" type="Label" parent="HBoxContainer2"]
-layout_mode = 2
+[node name="SellValue" type="Label" parent="painel_venda"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -61.0
+offset_top = -16.5
+offset_right = -41.0
+offset_bottom = 19.5
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 3
+theme_override_fonts/font = ExtResource("5_hptm8")
+theme_override_font_sizes/font_size = 35
 text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SellBtn" type="Button" parent="painel_venda"]
+custom_minimum_size = Vector2(200, 0)
+layout_direction = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"FlatButton"
