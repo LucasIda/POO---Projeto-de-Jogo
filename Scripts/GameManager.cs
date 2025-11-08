@@ -197,7 +197,7 @@ public partial class GameManager : Control
             GD.PrintErr("A cena da Loja (loja.tscn) não tem o script ShopController.cs anexado ao seu nó raiz.");
         }
 
-        var seguirBtn = _lojaInstance.GetNodeOrNull<Button>("PanelContainer/HBoxContainer/PassButton");
+        var seguirBtn = _lojaInstance.GetNodeOrNull<Button>("Panel/Panel/Panel5/PassButton");
         if (seguirBtn != null)
         {
             seguirBtn.Pressed += () =>

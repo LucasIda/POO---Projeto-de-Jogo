@@ -98,8 +98,8 @@ script = ExtResource("1_6ihgo")
 JokerListContainerPath = NodePath("Panel/JokerList")
 BuyButtonPath = NodePath("Panel/Panel/Panel4/BuyButton")
 RerollButtonPath = NodePath("Panel/Panel/Panel2/RerollButton")
-ShopCost = NodePath("Panel/Panel/Panel2/ShopCost")
-RerollCostLabel = NodePath("Panel/Panel/Panel4/RerollCost")
+ShopCost = NodePath("Panel/Panel/Panel4/ShopCost")
+RerollCostLabel = NodePath("Panel/Panel/Panel2/RerollCost")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 visible = false
@@ -124,16 +124,12 @@ layout_mode = 2
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -490.0
-offset_top = -500.0
-offset_right = 848.0
+anchors_preset = -1
+offset_left = 460.0
+offset_top = 560.0
+offset_right = 1798.0
+offset_bottom = 1060.0
 grow_horizontal = 2
-grow_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_512tp")
 
 [node name="Panel" type="Panel" parent="Panel"]
@@ -169,14 +165,18 @@ offset_right = 713.0
 offset_bottom = 146.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_6hj3p")
 
-[node name="ShopCost" type="Label" parent="Panel/Panel/Panel2"]
+[node name="RerollCost" type="Label" parent="Panel/Panel/Panel2"]
 layout_mode = 2
-offset_left = 244.0
-offset_top = 14.0
-offset_right = 261.0
-offset_bottom = 56.0
-size_flags_horizontal = 0
-theme_override_font_sizes/font_size = 30
+offset_left = 241.0
+offset_top = 23.0
+offset_right = 266.0
+offset_bottom = 69.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.662745)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 3
+theme_override_fonts/font = ExtResource("2_rfl3s")
+theme_override_font_sizes/font_size = 45
 text = "0"
 
 [node name="RerollButton" type="Button" parent="Panel/Panel/Panel2"]
@@ -217,13 +217,19 @@ offset_right = 1046.0
 offset_bottom = 146.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_uaxib")
 
-[node name="RerollCost" type="Label" parent="Panel/Panel/Panel4"]
+[node name="ShopCost" type="Label" parent="Panel/Panel/Panel4"]
 layout_mode = 2
-offset_left = 246.0
+offset_left = 243.0
 offset_top = 23.0
-offset_right = 263.0
-offset_bottom = 65.0
-theme_override_font_sizes/font_size = 30
+offset_right = 268.0
+offset_bottom = 69.0
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.678431)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 3
+theme_override_fonts/font = ExtResource("2_rfl3s")
+theme_override_font_sizes/font_size = 45
 text = "0"
 
 [node name="BuyButton" type="Button" parent="Panel/Panel/Panel4"]
@@ -320,10 +326,10 @@ text = "SHOP"
 [node name="JokerList" type="HBoxContainer" parent="Panel"]
 layout_mode = 0
 offset_left = 111.0
-offset_top = 203.0
-offset_right = 794.0
-offset_bottom = 353.0
-scale = Vector2(1.5, 1.5)
+offset_top = 210.0
+offset_right = 963.0
+offset_bottom = 360.0
+scale = Vector2(1.2, 1.2)
 mouse_filter = 2
 theme_override_constants/separation = 75
 alignment = 1
