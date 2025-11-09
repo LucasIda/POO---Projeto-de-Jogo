@@ -44,41 +44,48 @@ public partial class ShopController : Control
 		_buyButton.Pressed += OnBuyPressed;
 		_rerollButton.Pressed += OnRerollPressed;
 
+		var gm = GetParent<GameManager>();
+		if (gm != null)
+		{
+			gm.OnPlayerInventoryChanged += OnPlayerInventoryChangedFromGM;
+		}
+
+
 		await ToSignal(GetTree(), "process_frame");
 
 		PopulateShop();
 		UpdateRerollCostLabel();
+
+		UpdateShopJokerState();
+		UpdateTotalCostLabel();
 	}
 
 	private void PopulateShop()
 	{
-		foreach (Node child in _jokerListContainer.GetChildren().ToList()) //
+		// devolve o que estava em exibição para a pool, para não “sumir”
+		ReturnDisplayToPool();
+
+		// limpa os filhos do container (se ainda houver)
+		foreach (Node child in _jokerListContainer.GetChildren().ToList())
 		{
 			_jokerListContainer.RemoveChild(child);
-
-			if (child is JokerCard joker)
-			{
-				joker.OnCardClicked -= OnJokerClicked;
-				if (joker.IsSelected) joker.ToggleSelection();
-			}
 		}
-		_currentDisplay.Clear();
 
+		// agora reconstrói normalmente a partir da pool
 		var availablePool = _shopMasterPool
 			.Where(joker => !_playerInventory.Any(owned => owned.Name == joker.Name))
+			.OrderBy(x => GD.Randi())
 			.ToList();
-		availablePool = availablePool.OrderBy(x => GD.Randi()).ToList();
+
 		int count = Math.Min(availablePool.Count, ShopDisplayCount);
 		_currentDisplay = availablePool.Take(count).ToList();
 
 		foreach (var joker in _currentDisplay)
 		{
-			_shopMasterPool.Remove(joker); 
+			_shopMasterPool.Remove(joker);
 			_jokerListContainer.AddChild(joker);
 			joker.OnCardClicked += OnJokerClicked;
-
 			joker.IsDraggable = false;
-
 			joker.TooltipDisplayDirection = TooltipDirection.Above;
 		}
 
@@ -185,16 +192,18 @@ public partial class ShopController : Control
 	{
 		bool isFull = _playerInventory.Count >= MaxJokerSlots;
 
-		foreach (var joker in _currentDisplay)
+		foreach (var joker in _currentDisplay.ToList())
 		{
+			if (joker == null || !GodotObject.IsInstanceValid(joker)) continue;
+
 			if (isFull && !joker.IsSelected)
 			{
 				joker.MouseFilter = MouseFilterEnum.Ignore;
-				joker.Modulate = new Color(0.5f, 0.5f, 0.5f); 
+				joker.Modulate = new Color(0.5f, 0.5f, 0.5f);
 			}
 			else
 			{
-				joker.MouseFilter = MouseFilterEnum.Stop; 
+				joker.MouseFilter = MouseFilterEnum.Stop;
 				joker.Modulate = new Color(1f, 1f, 1f);
 			}
 		}
@@ -224,30 +233,17 @@ public partial class ShopController : Control
 
 	private void UpdateTotalCostLabel()
 	{
-		var selectedJokers = _currentDisplay.Where(j => j.IsSelected).ToList();
+		// pode ser chamado numa janela de tempo em que a cena já saiu
+		if (ShopCost == null || !GodotObject.IsInstanceValid(ShopCost)) return;
 
-		int totalCost = selectedJokers.Sum(joker => joker.Cost);
-
-		if (ShopCost != null)
-		{
-			if (totalCost > 0)
-			{
-				ShopCost.Text = $"{totalCost}";
-			}
-			else
-			{
-				ShopCost.Text = $"0";
-			}
-		}
+		int totalCost = _currentDisplay.Where(j => j.IsSelected).Sum(j => j.Cost);
+		ShopCost.Text = totalCost > 0 ? $"{totalCost}" : "0";
 	}
 
 	private void UpdateRerollCostLabel()
 	{
-		if (RerollCostLabel != null)
-		{
-			// Exibe o custo ao lado do botão "Atualizar"
-			RerollCostLabel.Text = $"{_currentRerollCost}";
-		}
+		if (RerollCostLabel == null || !GodotObject.IsInstanceValid(RerollCostLabel)) return;
+		RerollCostLabel.Text = $"{_currentRerollCost}";
 	}
 
 	public void AddToPool(JokerCard joker)
@@ -265,5 +261,40 @@ public partial class ShopController : Control
 		// Evita duplicidade por Name (ou use referência)
 		if (!_shopMasterPool.Any(j => j == joker || j.Name == joker.Name))
 			_shopMasterPool.Add(joker);
+
+		UpdateShopJokerState();
+    	UpdateTotalCostLabel();
+	}
+
+	private void OnPlayerInventoryChangedFromGM()
+	{
+		UpdateShopJokerState();
+		UpdateTotalCostLabel();
+	}
+
+	public override void _ExitTree()
+	{
+		var gm = GetParent<GameManager>();
+		if (gm != null)
+		{
+			gm.OnPlayerInventoryChanged -= OnPlayerInventoryChangedFromGM;
+		}
+	}
+	private void ReturnDisplayToPool()
+	{
+		foreach (var j in _currentDisplay.ToList())
+		{
+			// desconecta handlers
+			j.OnCardClicked -= OnJokerClicked;
+
+			// se ainda estiver na UI, remove
+			if (j.GetParent() != null && GodotObject.IsInstanceValid(j.GetParent()))
+				j.GetParent().RemoveChild(j);
+
+			// volta para a pool (evita duplicidade)
+			if (!_shopMasterPool.Contains(j))
+				_shopMasterPool.Add(j);
+		}
+		_currentDisplay.Clear();
 	}
 }
