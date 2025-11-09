@@ -41,6 +41,10 @@ public partial class GameManager : Control
         { 20000, 30000, 40000 },  // Ante 6
         { 35000, 52500, 70000 },  // Ante 7
         { 50000, 75000, 100000 }, // Ante 8
+        { 110000, 250000, 500000 }, // Ante 9
+        { 560000, 3500000, 7000000 }, // Ante 10
+        { 7200000, 150000000, 250000000 }, // Ante 11
+        { 300000000, 1000000000, 2147483647 }, // Ante 12
     };
 
     private readonly string[] BlindNames = { "Small", "Big", "Boss" };
