@@ -17,6 +17,8 @@ public partial class GameManager : Control
     private int _currentAnte = 0;   // Índice de ante (0 = Ante 1, 1 = Ante 2...)
     private int _currentBlind = 0;  // Índice de blind (0 = Small, 1 = Big, 2 = Boss)
     public int PlayerCoins { get; private set; } = 4;
+    public int LastRoundScore { get; private set; } = 0;
+    public void SetLastRoundScore(int value) => LastRoundScore = value;
 
     private int _requiredChips;
     private int _currentChips;
@@ -287,16 +289,9 @@ public partial class GameManager : Control
 
             _gameOverInstance = GameOverScreen.Instantiate<Control>();
 
-            // Adicione à cena raiz (tela cheia)
+            // Adiciona na cena atual (overlay)
             var gameScene = GetTree().CurrentScene;
             gameScene.AddChild(_gameOverInstance);
-
-
-            var pointsLabel = _gameOverInstance.GetNodeOrNull<Label>("painel_principal/painel_class/painel_pont/painel_pontuacao/fim_textoc2");
-            if (pointsLabel != null)
-            {
-                pointsLabel.Text = _currentChips.ToString();  // Ou use high score se tiver salvo
-            }
 
             GD.Print("Tela de Game Over exibida no centro da tela.");
         }

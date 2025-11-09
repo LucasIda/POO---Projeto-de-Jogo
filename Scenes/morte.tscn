@@ -101,7 +101,7 @@ corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 
-[node name="Control" type="Control"]
+[node name="Control" type="Control" node_paths=PackedStringArray("_menuButton", "_quitButton")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -111,6 +111,10 @@ grow_vertical = 2
 pivot_offset = Vector2(960, 540)
 size_flags_horizontal = 4
 size_flags_vertical = 4
+script = ExtResource("2_smhdt")
+_menuButton = NodePath("painel_principal/botão_jogar")
+_quitButton = NodePath("painel_principal/botão_menu")
+FinalScoreLabelPath = NodePath("painel_principal/painel_class/painel_pont/painel_pontuacao/fim_textoc2")
 metadata/_edit_use_anchors_ = true
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -290,7 +294,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_bhqh7")
 
-[node name="fim_textoc2" type="Label" parent="painel_principal/painel_class/painel_pont/painel_pontuacao" node_paths=PackedStringArray("_menuButton", "_quitButton")]
+[node name="fim_textoc2" type="Label" parent="painel_principal/painel_class/painel_pont/painel_pontuacao"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -306,12 +310,8 @@ grow_vertical = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("1_tff05")
 theme_override_font_sizes/font_size = 30
-text = "*Points"
 horizontal_alignment = 1
 vertical_alignment = 1
-script = ExtResource("2_smhdt")
-_menuButton = NodePath("../../../../botão_jogar")
-_quitButton = NodePath("../../../../botão_menu")
 
 [node name="painel_jogarf" type="Panel" parent="painel_principal"]
 layout_mode = 0

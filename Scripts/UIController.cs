@@ -258,6 +258,7 @@ public partial class UIController : Control
 
 		// **Adiciona os chips ao GameManager** (agora o efeito do curinga conta para blinds)
 		var gm = GetNode<GameManager>("GameManager");
+		gm.SetLastRoundScore(_roundScore); 
 		gm.AddChips(score);
 
 		// Remove cartas jogadas
