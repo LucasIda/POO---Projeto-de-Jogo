@@ -149,11 +149,11 @@ public partial class JokerCard : BaseCard
         switch (rarity)
         {
             case JokerRarity.Common:
-                return 5;
-            case JokerRarity.Uncommon:
                 return 7;
-            case JokerRarity.Rare:
+            case JokerRarity.Uncommon:
                 return 9;
+            case JokerRarity.Rare:
+                return 11;
             case JokerRarity.Legendary:
                 return 35;
             default:

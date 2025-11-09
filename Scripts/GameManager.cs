@@ -97,7 +97,7 @@ public partial class GameManager : Control
             return;
         }
 
-        int interestBonus = PlayerCoins / 5;
+        int interestBonus = Math.Min(PlayerCoins / 5, 5);
         AddCoins(interestBonus);
         GD.Print($"Bônus de Juros (1 por 5): +{interestBonus} moedas");
 
