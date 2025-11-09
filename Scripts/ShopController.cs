@@ -169,15 +169,16 @@ public partial class ShopController : Control
 		{
 			GD.Print($"Jogador comprou {joker.Name} por {joker.Cost} moedas.");
 
-			_playerInventory.Add(joker);
+			_jokerListContainer.RemoveChild(joker);
 			_currentDisplay.Remove(joker);
 
 			joker.OnCardClicked -= OnJokerClicked;
 			if (joker.IsSelected) joker.ToggleSelection();
-
 			joker.IsDraggable = true;
+			joker.MouseFilter = MouseFilterEnum.Stop;
+			joker.Modulate = new Color(1,1,1);
 
-			_jokerListContainer.RemoveChild(joker);
+			gameManager.AddJokerToInventory(joker);
 		}
 
 		UpdateShopJokerState();

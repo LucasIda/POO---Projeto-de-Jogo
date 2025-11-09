@@ -297,7 +297,7 @@ public partial class GameManager : Control
             GD.Print("Tela de Game Over exibida no centro da tela.");
         }
     }
-    
+
     public void SellJoker(JokerCard joker)
     {
         if (!PlayerJokerInventory.Contains(joker))
@@ -334,6 +334,16 @@ public partial class GameManager : Control
         GD.Print($"💰 Curinga {joker.Name} vendido por {sellValue} moedas.");
 
         // Atualiza UI
+        OnPlayerInventoryChanged?.Invoke();
+    }
+    
+    public void AddJokerToInventory(JokerCard joker)
+    {
+        if (joker == null || !GodotObject.IsInstanceValid(joker)) return;
+        if (!PlayerJokerInventory.Contains(joker))
+            PlayerJokerInventory.Add(joker);
+
+        // dispare o evento para a UI redesenhar imediatamente
         OnPlayerInventoryChanged?.Invoke();
     }
 }
