@@ -16,7 +16,7 @@ public partial class GameManager : Control
 
     private int _currentAnte = 0;   // Índice de ante (0 = Ante 1, 1 = Ante 2...)
     private int _currentBlind = 0;  // Índice de blind (0 = Small, 1 = Big, 2 = Boss)
-    public int PlayerCoins { get; private set; } = 4;
+    public int PlayerCoins { get; private set; } = 400000;
     public int LastRoundScore { get; private set; } = 0;
     public int BestRoundScore { get; private set; } = 0;
     public void SetLastRoundScore(int value) => LastRoundScore = value;

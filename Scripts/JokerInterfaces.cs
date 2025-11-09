@@ -6,7 +6,30 @@ using System.Linq;
 public interface IJokerEffect
 {
     string Description { get; }
-    void Apply(HandValue.HandResult result);
+    void Apply(HandValue.HandResult result, List<CardData> playedCards);
+}
+
+public interface ICardFilter
+{
+    string DescriptionFragment { get; }
+    int Count(List<CardData> playedCards);
+}
+
+public class FilterBySuit : ICardFilter
+{
+    private readonly Suit _targetSuit;
+    public string DescriptionFragment => $"carta de {_targetSuit}"; // Ajuda a auto-gerar descrições
+
+    public FilterBySuit(Suit targetSuit)
+    {
+        _targetSuit = targetSuit;
+    }
+
+    public int Count(List<CardData> playedCards)
+    {
+        // Usa Linq para contar quantas cartas na lista têm o naipe alvo
+        return playedCards.Count(c => c.Suit == _targetSuit);
+    }
 }
 
 public class EffectAddChips : IJokerEffect
@@ -20,7 +43,7 @@ public class EffectAddChips : IJokerEffect
         Description = description;
     }
 
-    public void Apply(HandValue.HandResult result)
+    public void Apply(HandValue.HandResult result, List<CardData> playedCards)
     {
         result.ChipsBase += _chips;
         GD.Print($"🟢 +{_chips} chips added by Joker");
@@ -39,7 +62,7 @@ public class EffectAddMultiplier : IJokerEffect
         Description = description;
     }
 
-    public void Apply(HandValue.HandResult result)
+    public void Apply(HandValue.HandResult result, List<CardData> playedCards)
     {
         result.MultBase += _multiplier;
         GD.Print($"🔵 +{_multiplier}x multiplier added by Joker");
@@ -58,7 +81,7 @@ public class EffectMultiplyMultiplier : IJokerEffect
         Description = description;
     }
 
-    public void Apply(HandValue.HandResult result)
+    public void Apply(HandValue.HandResult result, List<CardData> playedCards)
     {
         result.MultBase = (int)(result.MultBase * _factor);
         GD.Print($"🔴 Multiplier multiplied by {_factor}");
@@ -79,12 +102,41 @@ public class EffectAddChipsPerCoin : IJokerEffect
         Description = description;
     }
 
-    public void Apply(HandValue.HandResult result)
+    public void Apply(HandValue.HandResult result, List<CardData> playedCards)
     {
         int playerCoins = _getPlayerCoins();
-        int additionalChips = playerCoins * _multiplierPerCoin;
-        result.ChipsBase += additionalChips;
+    int additionalChips = playerCoins * _multiplierPerCoin;
+    result.ChipsBase += additionalChips;
 
         GD.Print($"+{additionalChips} chips (PlayerCoins={playerCoins}, x{_multiplierPerCoin})");
     }
 }
+public class EffectAddMultPerFilteredCard : IJokerEffect
+{
+    private readonly int _multPerCard;
+    private readonly ICardFilter _filter;
+    public string Description { get; }
+
+    public EffectAddMultPerFilteredCard(int multPerCard, ICardFilter filter, string description)
+    {
+        _multPerCard = multPerCard;
+        _filter = filter;
+        Description = description;
+    }
+
+    // MUDANÇA: Agora usamos o parâmetro 'playedCards'!
+    public void Apply(HandValue.HandResult result, List<CardData> playedCards)
+    {
+        // 1. Usa a interface (estratégia) para contar as cartas
+        int cardCount = _filter.Count(playedCards);
+
+        if (cardCount > 0)
+        {
+            // 2. Calcula e aplica o bônus
+            int totalMult = cardCount * _multPerCard;
+            result.MultBase += totalMult;
+            GD.Print($"🔷 +{totalMult} Mult ({cardCount}x {_filter.DescriptionFragment})");
+        }
+    }
+}
+

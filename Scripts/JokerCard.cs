@@ -45,10 +45,11 @@ public partial class JokerCard : BaseCard
         _effects.Add(effect);
     }
 
-    public void ActivateEffects(HandValue.HandResult result)
+    public void ActivateEffects(HandValue.HandResult result, List<CardData> playedCards)
+
     {
         foreach (var effect in _effects)
-            effect.Apply(result);
+            effect.Apply(result, playedCards);
     }
 
     public override string ToString()

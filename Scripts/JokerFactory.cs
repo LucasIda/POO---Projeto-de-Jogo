@@ -142,6 +142,14 @@ public static class JokerFactory
         Fabricio.Rarity = JokerRarity.Legendary;
         Fabricio.AddEffect(new EffectAddMultiplier(40, "Add 40 to your base multiplier"));
         list.Add(Fabricio);
+       
+       
+        var greedyJoker = jokerScene.Instantiate<JokerCard>();
+        greedyJoker.Initialize("Greedy Joker", GD.Load<Texture2D>("res://Sprites/Jokers/GreedyJoker.png"));
+        greedyJoker.Rarity = JokerRarity.Uncommon;
+        var diamondFilter = new FilterBySuit(Suit.Diamonds);
+        greedyJoker.AddEffect(new EffectAddMultPerFilteredCard(3,diamondFilter,"+3 Mult for each Diamond card played" ));
+        list.Add(greedyJoker);
         
 
         return list;

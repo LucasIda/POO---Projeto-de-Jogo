@@ -38,14 +38,14 @@ public static class HandValue
     public static HandResult Evaluate(HandChecker.HandType handType, List<CardData> cards, List<JokerCard> jokers = null)
     {
         var (baseChips, mult) = HandTable.TryGetValue(handType, out var data) ? data : (0, 1);
-
+        var relevantCards = GetRelevantCards(handType, cards);
         int chipsFromCards = GetRelevantCards(handType, cards).Sum(c => c.ChipValue);
         var result = new HandResult(baseChips + chipsFromCards, mult);
 
     if (jokers != null)
     {
         foreach (var joker in jokers)
-            joker.ActivateEffects(result);
+            joker.ActivateEffects(result, relevantCards);
     }
 
     return result;
