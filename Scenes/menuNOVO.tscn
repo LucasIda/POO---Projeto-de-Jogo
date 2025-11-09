@@ -1,31 +1,30 @@
-[gd_scene load_steps=18 format=3 uid="uid://bsxgkgm6by51o"]
+[gd_scene load_steps=17 format=3 uid="uid://0fl428je0fwp"]
 
-[ext_resource type="Texture2D" uid="uid://h771o0bra2aq" path="res://Sprites/Bg/bg_scenne.png" id="1_d6d8u"]
-[ext_resource type="Script" uid="uid://bkmvyuobxm5g3" path="res://Scripts/HomeScreen.cs" id="1_db1cy"]
-[ext_resource type="Texture2D" uid="uid://dxm57chu2k315" path="res://Sprites/Bg/real-poker.jpg" id="3_u58f3"]
-[ext_resource type="FontFile" uid="uid://dkobr42y6m63l" path="res://Font/Pixellari.ttf" id="4_font"]
-[ext_resource type="Texture2D" uid="uid://cyuhrelybofx1" path="res://Sprites/Extras/C.png" id="7_sw63v"]
-[ext_resource type="Texture2D" uid="uid://bcjgdoqbym73w" path="res://Sprites/Extras/A.png" id="8_0mte4"]
-[ext_resource type="Texture2D" uid="uid://dpomtux70mgs8" path="res://Sprites/Extras/R.png" id="9_h4amd"]
-[ext_resource type="Texture2D" uid="uid://bf6aaxcxobleu" path="res://Sprites/Extras/S.png" id="10_4ucpn"]
-[ext_resource type="Texture2D" uid="uid://cxuhpnlpyo1ki" path="res://Sprites/Extras/D.png" id="11_2a8ha"]
-[ext_resource type="Texture2D" uid="uid://dem425x13c3uu" path="res://Sprites/Extras/chips_vermelho-export-export.png" id="12_llvpu"]
-[ext_resource type="Texture2D" uid="uid://db4rjdx6g7mss" path="res://Sprites/Extras/chips_azul-export-export.png" id="13_4aqxo"]
+[ext_resource type="Texture2D" uid="uid://b5sc7iyv8rsch" path="res://Sprites/Extras/fundo_menu.png" id="1_dl1jt"]
+[ext_resource type="FontFile" uid="uid://celsqdatd17mx" path="res://Font/Grand Royal.ttf" id="2_4naua"]
+[ext_resource type="Texture2D" uid="uid://dpomtux70mgs8" path="res://Sprites/Extras/R.png" id="3_ntbbi"]
+[ext_resource type="Texture2D" uid="uid://bf6aaxcxobleu" path="res://Sprites/Extras/S.png" id="4_4naua"]
+[ext_resource type="Texture2D" uid="uid://cxuhpnlpyo1ki" path="res://Sprites/Extras/D.png" id="5_p3cjy"]
+[ext_resource type="Texture2D" uid="uid://bcjgdoqbym73w" path="res://Sprites/Extras/A.png" id="6_iqxla"]
+[ext_resource type="Texture2D" uid="uid://cyuhrelybofx1" path="res://Sprites/Extras/C.png" id="7_et3yv"]
+[ext_resource type="Texture2D" uid="uid://dem425x13c3uu" path="res://Sprites/Extras/chips_vermelho-export-export.png" id="8_p3cjy"]
+[ext_resource type="FontFile" uid="uid://dkobr42y6m63l" path="res://Font/Pixellari.ttf" id="9_4naua"]
+[ext_resource type="Texture2D" uid="uid://db4rjdx6g7mss" path="res://Sprites/Extras/chips_azul-export-export.png" id="10_et3yv"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8bg7t"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2tqx4"]
 bg_color = Color(0, 0, 0, 0.509804)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v3s4n"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xw8hh"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q7qmd"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p3cjy"]
 bg_color = Color(0, 0, 0, 0.470588)
 corner_radius_top_left = 15
 corner_radius_top_right = 15
 corner_radius_bottom_right = 15
 corner_radius_bottom_left = 15
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kpoqd"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iqxla"]
 bg_color = Color(0.14902, 0.14902, 0.14902, 1)
 border_width_left = 3
 border_width_top = 3
@@ -37,11 +36,11 @@ corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2y8k1"]
-bg_color = Color(0.917647, 0.729412, 0.25098, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_et3yv"]
+bg_color = Color(0.841941, 0.147144, 0.0318006, 1)
 corner_detail = 6
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_20hgf"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8kgf6"]
 bg_color = Color(1, 1, 1, 1)
 border_width_left = 2
 border_width_top = 2
@@ -54,42 +53,17 @@ corner_radius_bottom_left = 8
 shadow_size = 2
 shadow_offset = Vector2(0, 2)
 
-[node name="HomeScreen" type="Control"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("1_db1cy")
-
-[node name="bg" type="TextureRect" parent="."]
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("1_d6d8u")
-expand_mode = 2
-
-[node name="MusicManager" type="Node" parent="."]
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="MusicManager"]
-volume_db = -8.0
-autoplay = true
+[node name="MenuNovo" type="Node2D"]
 
 [node name="painel" type="Panel" parent="."]
-layout_mode = 0
 offset_right = 1920.0
 offset_bottom = 1080.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_8bg7t")
+theme_override_styles/panel = SubResource("StyleBoxFlat_2tqx4")
 
 [node name="FundoMenu" type="Sprite2D" parent="painel"]
-position = Vector2(961.5, 540)
-scale = Vector2(1.87598, 1.86458)
-texture = ExtResource("3_u58f3")
+position = Vector2(960, 581.5)
+scale = Vector2(1.5, 1.45375)
+texture = ExtResource("1_dl1jt")
 
 [node name="fundo" type="Panel" parent="painel"]
 layout_mode = 1
@@ -116,9 +90,9 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
 theme_override_constants/shadow_offset_x = 10
 theme_override_constants/shadow_offset_y = 10
-theme_override_fonts/font = ExtResource("4_font")
+theme_override_fonts/font = ExtResource("2_4naua")
 theme_override_font_sizes/font_size = 180
-text = "ROYAL"
+text = "Royal"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -135,42 +109,42 @@ offset_right = 263.5
 offset_bottom = 131.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_v3s4n")
+theme_override_styles/panel = SubResource("StyleBoxFlat_xw8hh")
 
 [node name="C" type="Sprite2D" parent="painel/painel_guia"]
 position = Vector2(58.9999, 79.9999)
 rotation = 0.174533
 scale = Vector2(0.8, 0.8)
-texture = ExtResource("7_sw63v")
+texture = ExtResource("7_et3yv")
 
 [node name="A" type="Sprite2D" parent="painel/painel_guia"]
 position = Vector2(161, 82)
 rotation = -0.174533
 scale = Vector2(0.8, 0.8)
-texture = ExtResource("8_0mte4")
+texture = ExtResource("6_iqxla")
 
 [node name="R" type="Sprite2D" parent="painel/painel_guia"]
 position = Vector2(255, 82)
 rotation = 0.0872665
 scale = Vector2(0.8, 0.8)
-texture = ExtResource("9_h4amd")
+texture = ExtResource("3_ntbbi")
 
 [node name="S" type="Sprite2D" parent="painel/painel_guia"]
 position = Vector2(463, 73.0001)
 rotation = 0.261799
 scale = Vector2(0.8, 0.8)
-texture = ExtResource("10_4ucpn")
+texture = ExtResource("4_4naua")
 
 [node name="D" type="Sprite2D" parent="painel/painel_guia"]
 position = Vector2(361, 74.0001)
 rotation = -0.349066
 scale = Vector2(0.8, 0.8)
-texture = ExtResource("11_2a8ha")
+texture = ExtResource("5_p3cjy")
 
 [node name="ChipsVermelho-export-export" type="Sprite2D" parent="painel"]
 position = Vector2(1141, 880)
 scale = Vector2(1.5, 1.5)
-texture = ExtResource("12_llvpu")
+texture = ExtResource("8_p3cjy")
 
 [node name="txt" type="Label" parent="painel/ChipsVermelho-export-export"]
 anchors_preset = 15
@@ -185,7 +159,7 @@ grow_vertical = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 3
-theme_override_fonts/font = ExtResource("4_font")
+theme_override_fonts/font = ExtResource("9_4naua")
 theme_override_font_sizes/font_size = 35
 text = "Sair"
 horizontal_alignment = 1
@@ -208,7 +182,7 @@ metadata/_edit_use_anchors_ = true
 [node name="ChipsAzul-export-export" type="Sprite2D" parent="painel"]
 position = Vector2(780, 880)
 scale = Vector2(1.5, 1.5)
-texture = ExtResource("13_4aqxo")
+texture = ExtResource("10_et3yv")
 
 [node name="txt" type="Label" parent="painel/ChipsAzul-export-export"]
 anchors_preset = 15
@@ -223,7 +197,7 @@ grow_vertical = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 3
-theme_override_fonts/font = ExtResource("4_font")
+theme_override_fonts/font = ExtResource("9_4naua")
 theme_override_font_sizes/font_size = 35
 text = "Jogar"
 horizontal_alignment = 1
@@ -246,24 +220,23 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -286.5
-offset_top = 40.0
-offset_right = 286.5
-offset_bottom = 80.0
+offset_left = -210.5
+offset_top = 45.0
+offset_right = 210.5
+offset_bottom = 85.0
 grow_horizontal = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_q7qmd")
+theme_override_styles/panel = SubResource("StyleBoxFlat_p3cjy")
 
 [node name="txt" type="Label" parent="painel/volume"]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = 16.5
-offset_top = -10.0
-offset_right = 163.5
-offset_bottom = 16.0
+offset_top = -12.0
+offset_right = 114.0
+offset_bottom = 14.0
 grow_vertical = 2
-theme_override_fonts/font = ExtResource("4_font")
+theme_override_fonts/font = ExtResource("9_4naua")
 theme_override_font_sizes/font_size = 25
 text = "Volume"
 horizontal_alignment = 1
@@ -277,21 +250,15 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -91.5
+offset_left = -103.5
 offset_top = -8.0
-offset_right = 267.5
+offset_right = 196.5
 offset_bottom = 8.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/slider = SubResource("StyleBoxFlat_kpoqd")
-theme_override_styles/grabber_area = SubResource("StyleBoxFlat_2y8k1")
-theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_20hgf")
+theme_override_styles/slider = SubResource("StyleBoxFlat_iqxla")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_et3yv")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_8kgf6")
 max_value = 1.0
 step = 0.01
 value = 0.7
-
-[node name="ranking_btn" type="Button" parent="painel"]
-visible = false
-layout_mode = 0
-text = "RANKING
-"

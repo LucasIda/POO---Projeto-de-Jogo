@@ -1,7 +1,12 @@
-[gd_scene load_steps=9 format=3 uid="uid://cidvrmdx83kvj"]
+[gd_scene load_steps=14 format=3 uid="uid://cidvrmdx83kvj"]
 
 [ext_resource type="Script" uid="uid://dfycyqg1pe01a" path="res://Scripts/ShopController.cs" id="1_6ihgo"]
 [ext_resource type="FontFile" uid="uid://dkobr42y6m63l" path="res://Font/Pixellari.ttf" id="2_rfl3s"]
+[ext_resource type="Texture2D" uid="uid://bvpn0tfcrsape" path="res://Sprites/Extras/chips_amarelo-export.png" id="3_yme5o"]
+[ext_resource type="Texture2D" uid="uid://bhpnmvr044uv" path="res://Sprites/Extras/chips_vermelho-export.png" id="4_ksi35"]
+[ext_resource type="Texture2D" uid="uid://b63t3u167mecx" path="res://Sprites/Extras/chips_verde-export.png" id="5_jk3ti"]
+[ext_resource type="Texture2D" uid="uid://ci07h1mnv8ws6" path="res://Sprites/Extras/chips_roxo-export.png" id="6_876ai"]
+[ext_resource type="Texture2D" uid="uid://d0bqhi77beuiy" path="res://Sprites/Extras/chips_azul-export.png" id="7_86eh8"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_512tp"]
 bg_color = Color(0.133922, 0.289784, 0.247141, 1)
@@ -125,10 +130,10 @@ layout_mode = 2
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 1
 anchors_preset = -1
-offset_left = 460.0
-offset_top = 560.0
-offset_right = 1858.0
-offset_bottom = 1060.0
+offset_left = 480.0
+offset_top = 540.0
+offset_right = 1878.0
+offset_bottom = 1040.0
 grow_horizontal = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_512tp")
 
@@ -168,9 +173,9 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_6hj3p")
 
 [node name="RerollCost" type="Label" parent="Panel/Panel/Panel2"]
 layout_mode = 2
-offset_left = 241.0
+offset_left = 234.0
 offset_top = 23.0
-offset_right = 266.0
+offset_right = 259.0
 offset_bottom = 69.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.662745)
@@ -220,9 +225,9 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_uaxib")
 
 [node name="ShopCost" type="Label" parent="Panel/Panel/Panel4"]
 layout_mode = 2
-offset_left = 243.0
+offset_left = 231.0
 offset_top = 23.0
-offset_right = 268.0
+offset_right = 256.0
 offset_bottom = 69.0
 size_flags_horizontal = 0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -334,3 +339,28 @@ scale = Vector2(1.2, 1.2)
 mouse_filter = 2
 theme_override_constants/separation = 75
 alignment = 1
+
+[node name="ChipsAmarelo-export" type="Sprite2D" parent="Panel"]
+position = Vector2(1270.4, 397.4)
+scale = Vector2(1.3, 1.3)
+texture = ExtResource("3_yme5o")
+
+[node name="ChipsVermelho-export" type="Sprite2D" parent="Panel"]
+position = Vector2(1270.4, 358.4)
+scale = Vector2(1.3, 1.3)
+texture = ExtResource("4_ksi35")
+
+[node name="ChipsVerde-export" type="Sprite2D" parent="Panel"]
+position = Vector2(1270.4, 319.4)
+scale = Vector2(1.3, 1.3)
+texture = ExtResource("5_jk3ti")
+
+[node name="ChipsRoxo-export" type="Sprite2D" parent="Panel"]
+position = Vector2(1270.4, 280.4)
+scale = Vector2(1.3, 1.3)
+texture = ExtResource("6_876ai")
+
+[node name="ChipsAzul-export" type="Sprite2D" parent="Panel"]
+position = Vector2(1270.4, 241.4)
+scale = Vector2(1.3, 1.3)
+texture = ExtResource("7_86eh8")

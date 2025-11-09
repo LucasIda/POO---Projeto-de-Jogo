@@ -132,6 +132,8 @@ public partial class GameManager : Control
         if (amount > 0)
         {
             PlayerCoins += amount;
+            if (PlayerCoin != null)
+                PlayerCoin.Text = $"$ {PlayerCoins}";
         }
     }
 
@@ -206,9 +208,20 @@ public partial class GameManager : Control
                 if (shopController != null)
                 {
                     MasterJokerPool = shopController.GetUpdatedMasterPool();
-                    PlayerJokerInventory = shopController.GetUpdatedInventory();
-                    OnPlayerInventoryChanged?.Invoke();
-                    GD.Print($"Loja fechada. Inventário: {PlayerJokerInventory.Count}, Pool: {MasterJokerPool.Count}");
+
+                    var updatedInv = shopController.GetUpdatedInventory();
+
+                    if (!object.ReferenceEquals(updatedInv, PlayerJokerInventory))
+                    {
+                        PlayerJokerInventory.Clear();
+                        if (updatedInv != null)
+                            PlayerJokerInventory.AddRange(updatedInv);
+        }
+
+        // Notifica a UI que o inventário mudou
+        OnPlayerInventoryChanged?.Invoke();
+
+        GD.Print($"Loja fechada. Inventário: {PlayerJokerInventory.Count}, Pool: {MasterJokerPool.Count}");
                 }
 
                 NextRound();
@@ -222,7 +235,10 @@ public partial class GameManager : Control
 
     public void SetPlayerJokerOrder(List<JokerCard> newOrder)
     {
-        PlayerJokerInventory = newOrder;
+        if (newOrder == null) return;
+
+        PlayerJokerInventory.Clear();
+        PlayerJokerInventory.AddRange(newOrder);
     }
 
     public void SpendCoins(int amount)
@@ -239,7 +255,7 @@ public partial class GameManager : Control
 
         PlayerCoin.Text = $"$ {PlayerCoins.ToString()}";
     }
-    
+
     public void CheckRoundEndState()
     {
         bool shopIsOpen = (_lojaInstance != null && IsInstanceValid(_lojaInstance));
@@ -271,7 +287,7 @@ public partial class GameManager : Control
             var gameScene = GetTree().CurrentScene;
             gameScene.AddChild(_gameOverInstance);
 
-            
+
             var pointsLabel = _gameOverInstance.GetNodeOrNull<Label>("painel_principal/painel_class/painel_pont/painel_pontuacao/fim_textoc2");
             if (pointsLabel != null)
             {
@@ -280,5 +296,54 @@ public partial class GameManager : Control
 
             GD.Print("Tela de Game Over exibida no centro da tela.");
         }
+    }
+
+    public void SellJoker(JokerCard joker)
+    {
+        if (!PlayerJokerInventory.Contains(joker))
+        {
+            GD.PrintErr("Tentou vender um curinga que não pertence ao jogador.");
+            return;
+        }
+
+        // Define valor da venda
+        int sellValue = Mathf.RoundToInt(joker.Cost * 0.5f);
+
+        // 2) Sair da UI atual de curingas
+        if (joker.IsSelected) joker.ToggleSelection();
+        var parent = joker.GetParent();
+        if (parent != null && GodotObject.IsInstanceValid(parent))
+            parent.RemoveChild(joker);
+
+        // 3) Remover do inventário e devolver às pools
+        PlayerJokerInventory.Remove(joker);
+
+        // Pool global
+        if (!MasterJokerPool.Contains(joker))
+            MasterJokerPool.Add(joker);
+
+        // Se a loja estiver aberta, devolve também para a pool de trabalho da loja
+        if (_lojaInstance != null && IsInstanceValid(_lojaInstance))
+        {
+            var shop = _lojaInstance as ShopController;
+            shop?.AddToPool(joker);   // veja o método no patch do ShopController abaixo
+        }
+
+        // Credita moedas
+        AddCoins(sellValue);
+        GD.Print($"💰 Curinga {joker.Name} vendido por {sellValue} moedas.");
+
+        // Atualiza UI
+        OnPlayerInventoryChanged?.Invoke();
+    }
+    
+    public void AddJokerToInventory(JokerCard joker)
+    {
+        if (joker == null || !GodotObject.IsInstanceValid(joker)) return;
+        if (!PlayerJokerInventory.Contains(joker))
+            PlayerJokerInventory.Add(joker);
+
+        // dispare o evento para a UI redesenhar imediatamente
+        OnPlayerInventoryChanged?.Invoke();
     }
 }

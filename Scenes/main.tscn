@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://mirandkx0nvm"]
+[gd_scene load_steps=38 format=3 uid="uid://mirandkx0nvm"]
 
 [ext_resource type="Script" uid="uid://mydm023cvu67" path="res://Scripts/UIController.cs" id="1_jjgbg"]
 [ext_resource type="PackedScene" uid="uid://b4guub2w3vtjd" path="res://Scenes/card.tscn" id="2_bo1nx"]
@@ -73,6 +73,8 @@ border_width_top = 12
 border_width_right = 12
 border_width_bottom = 12
 border_color = Color(0.917647, 0.729412, 0.25098, 1)
+corner_radius_top_right = 40
+corner_radius_bottom_right = 40
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6iyac"]
 bg_color = Color(0.917647, 0.729412, 0.25098, 1)
@@ -201,7 +203,53 @@ corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 
-[node name="Main" type="Control" node_paths=PackedStringArray("DrawButton", "DiscardButton", "PlayButton", "ResetButton", "_quitBtn", "SuitSortButton", "RankSortButton", "RoundScoreLabel", "DiscardLeftLabel", "PlayLeftLabel")]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3pmx8"]
+bg_color = Color(0.168627, 0.168627, 0.168627, 1)
+border_width_left = 2
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.917647, 0.729412, 0.25098, 1)
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u50mg"]
+bg_color = Color(0.168627, 0.168627, 0.168627, 1)
+border_width_left = 12
+border_width_top = 12
+border_width_right = 12
+border_width_bottom = 12
+border_color = Color(0.917647, 0.729412, 0.25098, 1)
+corner_radius_top_left = 40
+corner_radius_top_right = 40
+corner_radius_bottom_right = 40
+corner_radius_bottom_left = 40
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cbgmd"]
+bg_color = Color(0.917647, 0.729412, 0.25098, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 6
+border_color = Color(0.517647, 0.407843, 0.133333, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1w6v2"]
+bg_color = Color(0.168627, 0.168627, 0.168627, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 6
+border_color = Color(0.08469, 0.0846899, 0.0846899, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[node name="Main" type="Control" node_paths=PackedStringArray("DrawButton", "DiscardButton", "PlayButton", "ResetButton", "_quitBtn", "SuitSortButton", "RankSortButton", "RoundScoreLabel", "DiscardLeftLabel", "PlayLeftLabel", "_sellButton", "SellValueLabel")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -213,16 +261,18 @@ CardScene = ExtResource("2_bo1nx")
 CardContainerPath = NodePath("CardContainer")
 HandNameLabelPath = NodePath("base/painel_pontuacao/text_combo")
 DrawButton = NodePath("VBoxContainer/DrawButton")
-DiscardButton = NodePath("DiscardButton")
-PlayButton = NodePath("PlayButton")
+DiscardButton = NodePath("painel_menu_inferior/Discard/DiscardButton")
+PlayButton = NodePath("painel_menu_inferior/Play/PlayButton")
 ResetButton = NodePath("VBoxContainer/ResetButton")
 _quitBtn = NodePath("base/painel_menu/painel_sair/btn_sair")
-SuitSortButton = NodePath("HBoxContainer/SuitSortButton")
-RankSortButton = NodePath("HBoxContainer/RankSortButton")
+SuitSortButton = NodePath("painel_menu_inferior/Suit/SuitSortButton")
+RankSortButton = NodePath("painel_menu_inferior/Rank/RankSortButton")
 RoundScoreLabel = NodePath("base/painel_pontuacao/painel_atualscore/round_score")
 DiscardLeftLabel = NodePath("base/painel_info/painel_descarte/pont_descarte")
 PlayLeftLabel = NodePath("base/painel_info/painel_maos/pont_mao")
 JokerContainerPath = NodePath("JokerContainer")
+_sellButton = NodePath("painel_venda/SellBtn")
+SellValueLabel = NodePath("painel_venda/SellValue")
 
 [node name="Background" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_344ge")
@@ -234,25 +284,8 @@ grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(576, 324)
 
-[node name="PlayButton" type="Button" parent="."]
-layout_mode = 0
-offset_left = 784.0
-offset_top = 954.0
-offset_right = 901.0
-offset_bottom = 1024.0
-size_flags_horizontal = 8
-text = "Play"
-
-[node name="DiscardButton" type="Button" parent="."]
-layout_mode = 0
-offset_left = 1279.0
-offset_top = 951.0
-offset_right = 1399.0
-offset_bottom = 1021.0
-size_flags_horizontal = 0
-text = "Discard"
-
 [node name="VBoxContainer" type="HBoxContainer" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -284,30 +317,11 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -459.0
-offset_top = -406.0
+offset_top = -471.0
 offset_right = 291.0
-offset_bottom = -216.0
+offset_bottom = -281.0
 grow_horizontal = 2
 grow_vertical = 0
-
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
-layout_mode = 0
-offset_left = 984.0
-offset_top = 973.0
-offset_right = 1141.0
-offset_bottom = 1004.0
-
-[node name="SortLabel" type="Label" parent="HBoxContainer"]
-layout_mode = 2
-text = "Sort By: "
-
-[node name="SuitSortButton" type="Button" parent="HBoxContainer"]
-layout_mode = 2
-text = "Suit"
-
-[node name="RankSortButton" type="Button" parent="HBoxContainer"]
-layout_mode = 2
-text = "Rank"
 
 [node name="DeckView" type="Control" parent="."]
 anchors_preset = 0
@@ -1248,3 +1262,271 @@ theme_override_font_sizes/font_size = 30
 text = "Sair do Jogo"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="painel_venda" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 435.0
+offset_top = 442.0
+offset_right = -1248.0
+offset_bottom = -575.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_3pmx8")
+
+[node name="text" type="Label" parent="painel_venda"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 7.0
+offset_right = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 3
+theme_override_fonts/font = ExtResource("5_hptm8")
+theme_override_font_sizes/font_size = 35
+text = "Vender  $      "
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="SellValue" type="Label" parent="painel_venda"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -38.0
+offset_top = -12.5
+offset_right = -18.0
+offset_bottom = 23.5
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 3
+theme_override_fonts/font = ExtResource("5_hptm8")
+theme_override_font_sizes/font_size = 35
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SellBtn" type="Button" parent="painel_venda"]
+visible = false
+custom_minimum_size = Vector2(200, 0)
+layout_direction = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"FlatButton"
+
+[node name="painel_menu_inferior" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -310.0
+offset_top = -179.0
+offset_right = 438.0
+offset_bottom = -54.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_u50mg")
+
+[node name="Play" type="Panel" parent="painel_menu_inferior"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 37.0
+offset_top = -31.5
+offset_right = 214.0
+offset_bottom = 31.5
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_cbgmd")
+
+[node name="txt" type="Label" parent="painel_menu_inferior/Play"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 2.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 3
+theme_override_fonts/font = ExtResource("5_hptm8")
+theme_override_font_sizes/font_size = 45
+text = "Jogar"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlayButton" type="Button" parent="painel_menu_inferior/Play"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 8
+theme_type_variation = &"FlatButton"
+
+[node name="Discard" type="Panel" parent="painel_menu_inferior"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 248.0
+offset_top = -31.5
+offset_right = 489.0
+offset_bottom = 31.5
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_cbgmd")
+
+[node name="txt" type="Label" parent="painel_menu_inferior/Discard"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 2.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 3
+theme_override_fonts/font = ExtResource("5_hptm8")
+theme_override_font_sizes/font_size = 45
+text = "Descartar"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DiscardButton" type="Button" parent="painel_menu_inferior/Discard"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+theme_type_variation = &"FlatButton"
+
+[node name="txt_filtro" type="Label" parent="painel_menu_inferior"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -222.0
+offset_top = -34.5
+offset_right = -58.0
+offset_bottom = -11.5
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 3
+theme_override_fonts/font = ExtResource("5_hptm8")
+theme_override_font_sizes/font_size = 20
+text = "Filtros Disponíveis"
+
+[node name="Rank" type="Panel" parent="painel_menu_inferior"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -136.0
+offset_top = -5.5
+offset_right = -57.0
+offset_bottom = 34.5
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_1w6v2")
+
+[node name="txt" type="Label" parent="painel_menu_inferior/Rank"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 3
+theme_override_fonts/font = ExtResource("5_hptm8")
+theme_override_font_sizes/font_size = 20
+text = "Rank"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RankSortButton" type="Button" parent="painel_menu_inferior/Rank"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"FlatButton"
+
+[node name="Suit" type="Panel" parent="painel_menu_inferior"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -220.0
+offset_top = -5.5
+offset_right = -144.0
+offset_bottom = 34.5
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_1w6v2")
+
+[node name="txt" type="Label" parent="painel_menu_inferior/Suit"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 3
+theme_override_fonts/font = ExtResource("5_hptm8")
+theme_override_font_sizes/font_size = 20
+text = "Suit"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SuitSortButton" type="Button" parent="painel_menu_inferior/Suit"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"FlatButton"
