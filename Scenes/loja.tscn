@@ -173,9 +173,9 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_6hj3p")
 
 [node name="RerollCost" type="Label" parent="Panel/Panel/Panel2"]
 layout_mode = 2
-offset_left = 241.0
+offset_left = 234.0
 offset_top = 23.0
-offset_right = 266.0
+offset_right = 259.0
 offset_bottom = 69.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.662745)
@@ -225,9 +225,9 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_uaxib")
 
 [node name="ShopCost" type="Label" parent="Panel/Panel/Panel4"]
 layout_mode = 2
-offset_left = 243.0
+offset_left = 231.0
 offset_top = 23.0
-offset_right = 268.0
+offset_right = 256.0
 offset_bottom = 69.0
 size_flags_horizontal = 0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
