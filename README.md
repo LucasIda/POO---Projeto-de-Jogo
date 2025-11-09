@@ -1,123 +1,242 @@
-<p align="center">
-  <img width="322" height="184" alt="logo05" src="https://github.com/user-attachments/assets/b9b004b6-57d3-4e1d-9fa7-fbb667b12844" />
+<h1 align="center">🎴 Royal Cards</h1>
+
+<h2>1. Objetivo do Jogo</h2>
+<p>
+O objetivo do jogo é formar mãos com combinações de cartas que gerem a maior pontuação possível, manipular o deck e criar estratégias. 
+Ao final de cada rodada, se o jogador atingir a pontuação necessária, ele vence, passando para a próxima fase.
+O objetivo é alcançar a maior pontuação possível, utilizando os curingas à disposição.
 </p>
-1. Objetivo do Jogo
-O objetivo do jogo é formar mãos com combinações de cartas que gerem a maior pontuação possível, manipular o deck e criar estratégias. Ao final de cada rodada, se o jogador atingir a pontuação necessária, ele vence.
 
-2 Conceitos Básicos
+<hr>
 
+<h2>2. Conceitos Básicos</h2>
 
+<p align="center">
+  <img width="1919" height="1079" alt="Image" src="https://github.com/user-attachments/assets/429fa7b9-7579-489a-a34c-ff7b58c2f16b" />
+</p>
 
-2.1 Cartas
-
-
-
-O jogo utiliza um baralho padrão de 52 cartas (sem curingas, salvo variação combinada).
-
+<h3>2.1 Cartas</h3>
+<p>
+O jogo utiliza um baralho padrão de 52 cartas (sem curingas, salvo variação combinada). 
 Cada carta tem valor numérico e naipe.
+</p>
+<p>
+<b>Valores:</b><br>
+Números 2 a 10: valor nominal.<br>
+A (Ás): 11 pontos.<br>
+Q (Dama), K (Rei) e J (Valete): 10 pontos.
+</p>
 
-
-Valores:
-
-Números 2 a 10: valor nominal.
-A (Ás) 11 pontos
-Q (Dama), K (Rei) e J  (Valete): 10 pontos
-
-2.2 Mão
-Cada jogador recebe uma quantidade fixa de cartas (definida no início da partida, ex: 8 cartas).
-A mão é composta pelas cartas que o jogador possui na sua vez.
+<h3>2.2 Mão</h3>
+<p>
+Cada jogador recebe uma quantidade fixa de cartas (8 cartas).<br>
+A mão é composta pelas cartas que o jogador possui na sua vez.<br>
 O jogador deve analisar sua mão para formar combinações de valor.
-
-
-
-2.3 Combinações
-Sequência (Straight): cartas consecutivas do mesmo naipe. Ex: 5♠ 6♠ 7♠.
-Trinca (Three of a Kind): três cartas de mesmo valor. Ex: 7♣ 7♦ 7♥.
-Quadra (Four of a Kind): quatro cartas de mesmo valor.
-Flush: cinco cartas do mesmo naipe, não necessariamente em sequência.
-
-
-
-2.4 Blinds e Ante
-Blinds e ante são como as “fases” do jogo, cada ante tem 3 blinds diferentes small, big e boss. Ao iniciar o jogo o jogador estará na ante 1 small blind, caso o jogador consiga atingir a pontuação necessária, ele avança para a ante 1 big blind, e caso consiga avançar novamente ele avança ao boss blind, caso derrote o boss blind o jogador avança para a ante 2, qual tem a mesma organização (small, big, boss), esse ciclo se repete até a ante 8, onde caso o jogador derrote o boss ele vence o jogo.
-Os Boss blinds são como o nome diz “Chefões”, estes adicionam um “debuff” espécie de efeito negativo ao deck do jogador quando o enfrenta, por exemplo todas as cartas do naipe de copas são debuffadas, se o jogador joga uma mão que contenha uma carta de copas, está na terá efeito na pontuação.
-
-
-3. Pontuação
-
-Cada combinação possui um valor de pontuação específico:
-<p align="center">
-  <img width="495" height="429" alt="18711e15-3bd8-4984-a862-8d6b573f57ba" src="https://github.com/user-attachments/assets/640d4d83-858a-4a80-9ef7-c14cf7eea8dd" />
 </p>
 
+<h3>2.3 Combinações</h3>
+<ul>
+  <li><b>Sequência (Straight):</b> cartas consecutivas do mesmo naipe. Ex: 5♠ 6♠ 7♠</li>
+  <li><b>Trinca (Three of a Kind):</b> três cartas de mesmo valor. Ex: 7♣ 7♦ 7♥</li>
+  <li><b>Quadra (Four of a Kind):</b> quatro cartas de mesmo valor.</li>
+  <li><b>Flush:</b> cinco cartas do mesmo naipe, não necessariamente em sequência.</li>
+</ul>
 
-
-4. Descarte
-
-
-
-4.1 Objetivo do Descarte
-O objetivo do descarte é descartar cartas que no momento não favorecem a criação de combinações fortes, dando a chance de receber cartas  melhores após o descarte.
-
-
-
-
-4.2 Regras do Descarte
-O Jogador começa uma rodada com 3 descartes, os descartes podem ser feitos de 1 até 5 cartas por descarte, após descartar as cartas selecionadas essas não poderão ser mais utilizadas na rodada. O mesmo número de cartas descartadas serão compradas se disponíveis no deck. Por exemplo, se o jogador descarta 5 cartas mas restam apenas 3 cartas no deck, as 3 cartas serão compradas.
-
-
-
-5. Loja
-A Loja é o espaço do jogo onde o jogador pode gastar dinheiro ($) para adquirir Coringas. Ela não está sempre disponível, sendo acessível apenas após a vitória contra determinados desafios, como o Small Blind, o Big Blind ou o Boss Blind. Dessa forma, a Loja funciona como uma fase de compras entre batalhas, permitindo que o jogador fortaleça sua estratégia antes de prosseguir.
-
-
- 
-5.1 Reroll
-O Reroll é uma mecânica que permite ao jogador pagar dinheiro para trocar as cartas disponíveis na loja por novas opções. Cada vez que o jogador dá um reroll, duas novas cartas aleatórias aparecem no lugar das anteriores. O preço desse recurso começa em $5 e aumenta progressivamente em $1 a cada uso, mas sempre volta para $5 quando uma nova loja é acessada. 
-
-
-
-6. Curingas
-
-<p align="center">
-  <img width="57" height="79" alt="C_opcional1" src="https://github.com/user-attachments/assets/41cf023d-7d55-41d4-a02a-43c81d312773" />
+<h3>2.4 Blinds e Ante</h3>
+<p>
+Blinds e ante são como as “fases” do jogo, cada ante tem 3 blinds diferentes: small, big e boss.
+</p>
+<p>
+Ao iniciar o jogo o jogador estará na ante 1 small blind. Caso o jogador consiga atingir a pontuação necessária, ele avança para a ante 1 big blind; 
+se conseguir novamente, avança ao boss blind. 
+Ao derrotar o boss blind, o jogador avança para a ante 2 — o ciclo se repete até a ante 12.
 </p>
 
+<hr>
 
-Curingas são a “ferramenta” principal do jogo, eles são capazes de gerar pontuação, manipulação do deck e até gerar economia. 
-Os curingas não são jogados junto às cartas do baralho, eles podem ser comprados na loja, o jogador tem um mão de coringas, a qual suporta até 5 curingas, o jogador pode vender um ou mais coringa a qualquer momento.
-Curingas possuem diferentes classificações de raridade, quanto mais raro mais difícil aparecerem na loja, sendo Comum 70%, Incomum 25%, Raro 4,5% e Lendário 0,5%.
-
-<p align="center">
-  <strong>Alguns exemplos dos 4 pilares da Programação Orientada a Objetos (POO)</strong>
-</p>
+<h2>3. Pontuação</h2>
+<p>Cada combinação possui um valor de pontuação específico:</p>
 
 <p align="center">
-  <strong>Encapsulamento 🔒 </strong>
+  <img width="1024" height="976" alt="Image" src="https://github.com/user-attachments/assets/8e4cce9d-5436-48c9-916f-f643c4a37293" />
 </p>
 
-Em CardData.cs, a classe CardData encapsula os atributos Suit, Rank, Name, TexturePath e ChipValue. 
-Eles são definidos como propriedades com getters públicos e setters privados (ex.: public Suit Suit { get; private set; }), garantindo que só possam ser definidos no construtor e não alterados externamente. 
-O método privado CalculateChipValue é usado internamente para computar ChipValue, escondendo a lógica de cálculo.
+<hr>
+
+<h2>4. Descarte</h2>
+
+<h3>4.1 Objetivo do Descarte</h3>
+<p>
+O objetivo do descarte é eliminar cartas que, no momento, não favorecem a criação de combinações fortes, 
+dando a chance de receber cartas melhores após o descarte.
+</p>
+
+<h3>4.2 Regras do Descarte</h3>
+<p>
+O jogador começa uma rodada com 3 descartes. Cada descarte pode ser de 1 até 5 cartas.<br>
+Após descartar, essas cartas não poderão mais ser utilizadas na rodada.<br>
+O mesmo número de cartas descartadas será comprado do deck (se disponível).<br>
+Exemplo: se o jogador descarta 5 cartas, mas restam apenas 3 no deck, ele comprará apenas 3.
+</p>
+
+<hr>
+
+<h2>5. Loja</h2>
 
 <p align="center">
-  <strong>Herança 🌳 </strong>
+  <img width="1433" height="529" alt="Image" src="https://github.com/user-attachments/assets/d0a069e4-aa5f-4d57-87f4-83c532b8e945" />
 </p>
-Em Card.cs, a classe Card herda de BaseCard (public partial class Card : BaseCard). 
-Ela herda propriedades como Name, TextureIcon e eventos como OnCardClicked, e adiciona funcionalidades específicas, como SetCard(CardData data, Texture2D texture) e GetChipValue(). 
-Isso permite reutilizar o comportamento básico de cartas (como drag-and-drop) definido em BaseCard.
+
+<p>
+A Loja é o espaço onde o jogador pode gastar dinheiro (<b>$</b>) para adquirir Curingas.<br>
+Ela aparece apenas após vitórias em determinadas fases, como Small Blind, Big Blind ou Boss Blind.<br>
+Funciona como uma fase de compras entre batalhas, permitindo fortalecer a estratégia antes de prosseguir.
+</p>
+
+<h3>5.1 Reroll</h3>
+<p>
+O <b>Reroll</b> permite ao jogador pagar dinheiro para trocar as cartas disponíveis na loja por novas opções.<br>
+Cada reroll exibe três novas cartas aleatórias no lugar das anteriores.<br>
+O custo começa em <b>$2</b> e aumenta em <b>$1</b> a cada uso, voltando para $2 ao abrir uma nova loja.
+</p>
+
+<hr>
+
+<h2>6. Curingas</h2>
 
 <p align="center">
-  <strong>Polimorfismo 🔄 </strong>
-</p>
-Em BaseCard.cs, métodos como Initialize(string name, Texture2D texture) são virtuais (public virtual void Initialize...), permitindo que classes derivadas como Card e JokerCard os usem diretamente ou os estendam.
-Eventos como OnCardClicked e OnDragging são delegados que podem ser invocados polimorficamente em qualquer instância de BaseCard ou derivadas, independentemente do tipo exato (ex.: em UIController.cs, OnCardClicked += OnCardClicked; é usado para cartas normais e curingas).
-
-
-<p align="center">
-  <strong>Abstração 📝 </strong>
+  <img width="142" height="190" alt="Image" src="https://github.com/user-attachments/assets/cfe936f6-3b61-40a3-baa4-3742c3c51e64" />
 </p>
 
+<p>
+Curingas são a principal ferramenta do jogo — capazes de gerar pontuação, manipular o deck e criar economia.<br>
+Eles não são jogados junto às cartas do baralho comum.<br>
+O jogador pode possuir até 5 curingas na mão e vender qualquer um a qualquer momento.
+</p>
+<p>
+Curingas têm diferentes raridades, que afetam no seu custo para compra<br>
+</p>
 
-BaseCard.cs é uma classe abstrata (public abstract partial class BaseCard : TextureRect), definindo comportamentos comuns como Initialize (marcado como virtual para abstração) e eventos para cliques/drags. 
-Ela abstrai o conceito de "carta" genérica, sem detalhes específicos de cartas normais ou curingas, permitindo que Card e JokerCard implementem concretamente.
+<hr>
+
+<h2>7. Os 4 Pilares da POO no Projeto</h2>
+
+<p>Os quatro pilares da Programação Orientada a Objetos (POO) foram aplicados da seguinte forma:</p>
+
+<hr>
+
+<h3>7.1 Encapsulamento</h3>
+<p>
+Aplicado para proteger dados críticos como o dinheiro do jogador (<code>PlayerCoins</code>), controlado pelo <code>GameManager.cs</code>.
+Apenas métodos públicos (<code>AddCoins</code>, <code>SpendCoins</code>) podem alterar esse valor.
+</p>
+
+<pre><code>// O 'private set' garante que só o GameManager pode definir o valor
+public int PlayerCoins { get; private set; } = 4;
+
+public void AddCoins(int amount)
+{
+    if (amount &gt; 0)
+        PlayerCoins += amount;
+}
+
+public void SpendCoins(int amount)
+{
+    if (amount &gt; PlayerCoins) return;
+    PlayerCoins -= amount;
+}
+</code></pre>
+
+<p><b>Motivo:</b> protege a variável de alterações indevidas e centraliza a lógica de validação.</p>
+
+<hr>
+
+<h3>7.2 Herança</h3>
+<p>
+Utilizada para reutilizar código entre <code>Card</code> e <code>JokerCard</code>, ambas derivadas da classe base <code>BaseCard.cs</code>.
+</p>
+
+<pre><code>public abstract partial class BaseCard : TextureRect
+{
+    public string Name { get; protected set; }
+    public bool IsSelected { get; private set; }
+}
+
+public partial class Card : BaseCard
+{
+    public CardData Data { get; private set; }
+}
+
+public partial class JokerCard : BaseCard
+{
+    private List&lt;IJokerEffect&gt; _effects = new();
+    public int Cost { get; private set; }
+}
+</code></pre>
+
+<p><b>Motivo:</b> evita duplicação de código e mantém a lógica comum em um único local.</p>
+
+<hr>
+
+<h3>7.3 Abstração</h3>
+<p>
+Utilizamos a interface <code>IJokerEffect</code> para padronizar o comportamento dos efeitos de curingas, 
+sem expor detalhes de implementação.
+</p>
+
+<pre><code>public interface IJokerEffect
+{
+    string Description { get; }
+    void Apply(HandValue.HandResult result);
+}
+</code></pre>
+
+<p><b>Implementações concretas:</b></p>
+
+<pre><code>public class EffectAddChips : IJokerEffect
+{
+    private int _chips;
+    public void Apply(HandValue.HandResult result)
+    {
+        result.ChipsBase += _chips;
+    }
+}
+</code></pre>
+
+<pre><code>public class EffectMultiplyMultiplier : IJokerEffect
+{
+    private float _factor;
+    public void Apply(HandValue.HandResult result)
+    {
+        result.MultBase = (int)(result.MultBase * _factor);
+    }
+}
+</code></pre>
+
+<p><b>Motivo:</b> o <code>JokerCard</code> apenas chama <code>effect.Apply(result)</code> — sem precisar saber o tipo específico do efeito.</p>
+
+<hr>
+
+<h3>7.4 Polimorfismo</h3>
+<p>
+Usado para que <code>Card</code> e <code>JokerCard</code> tenham comportamentos diferentes ao sobrescrever métodos herdados da <code>BaseCard</code>.
+</p>
+
+<pre><code>protected virtual void HideTooltip() { }
+
+protected override void HideTooltip()
+{
+    base.HideTooltip();
+    if (tooltip != null)
+    {
+        tooltip.QueueFree();
+        tooltip = null;
+    }
+}
+</code></pre>
+
+<p><b>Motivo:</b> permite comportamentos distintos para cada tipo de carta (ex: tooltips diferentes), usando a mesma chamada.</p>
+
+<hr>
+
+<p align="center">Desenvolvido pela Dots.Eng</p>
