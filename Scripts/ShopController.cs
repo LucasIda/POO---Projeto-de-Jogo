@@ -60,7 +60,7 @@ public partial class ShopController : Control
 		UpdateTotalCostLabel();
 	}
 
-	private void PopulateShop()
+	private void PopulateShop(HashSet<string> excludeNames = null)
 	{
 		// devolve o que estava em exibição para a pool, para não “sumir”
 		ReturnDisplayToPool();
@@ -71,15 +71,41 @@ public partial class ShopController : Control
 			_jokerListContainer.RemoveChild(child);
 		}
 
-		// agora reconstrói normalmente a partir da pool
-		var availablePool = _shopMasterPool
-			.Where(joker => !_playerInventory.Any(owned => owned.Name == joker.Name))
-			.OrderBy(x => GD.Randi())
-			.ToList();
+		// 1) Base de candidatos: não pode mostrar o que o jogador já possui
+		var candidates = _shopMasterPool
+			.Where(j => !_playerInventory.Any(owned => owned.Name == j.Name));
 
-		int count = Math.Min(availablePool.Count, ShopDisplayCount);
-		_currentDisplay = availablePool.Take(count).ToList();
+		// 2) Se for reroll, exclui os nomes que estavam exibidos antes
+		if (excludeNames != null && excludeNames.Count > 0)
+			candidates = candidates.Where(j => !excludeNames.Contains(j.Name));
 
+		// 3) Seleciona aleatório
+		var poolFiltered = candidates.OrderBy(_ => GD.Randi()).ToList();
+
+		// 4) Pega o que der respeitando o limite da vitrine
+		int needed = ShopDisplayCount;
+		var chosen = new List<JokerCard>();
+
+		int take = Math.Min(needed, poolFiltered.Count);
+		chosen.AddRange(poolFiltered.Take(take));
+
+		// 5) Fallback: se não tinha cartas suficientes “novas”,
+		//    completa com o restante da pool (sempre sem repetir inventário)
+		if (chosen.Count < needed)
+		{
+			var fallback = _shopMasterPool
+				.Where(j =>
+					!_playerInventory.Any(owned => owned.Name == j.Name) &&
+					!chosen.Contains(j))
+				.OrderBy(_ => GD.Randi())
+				.Take(needed - chosen.Count);
+
+			chosen.AddRange(fallback);
+		}
+
+		_currentDisplay = chosen;
+
+		// 6) Move para a vitrine
 		foreach (var joker in _currentDisplay)
 		{
 			_shopMasterPool.Remove(joker);
@@ -174,18 +200,25 @@ public partial class ShopController : Control
 		}
 
 		gameManager.SpendCoins(_currentRerollCost);
-
 		_currentRerollCost += 1;
-
 		UpdateRerollCostLabel();
 		
+		// 1) Captura os nomes que estavam na vitrine (para excluir no próximo sorteio)
+		var excludeNames = _currentDisplay
+			.Where(j => j != null && GodotObject.IsInstanceValid(j))
+			.Select(j => j.Name)
+			.ToHashSet();
+
+		// 2) Devolve os exibidos para a pool (você já tinha essa lógica)
 		foreach (var joker in _currentDisplay)
 		{
 			_shopMasterPool.Add(joker);
 		}
-		
+
 		GD.Print("Loja atualizada (reroll).");
-		PopulateShop();
+
+		// 3) Repreenche EXCLUINDO os anteriores
+		PopulateShop(excludeNames);
 	}
 
 	private void UpdateShopJokerState()
