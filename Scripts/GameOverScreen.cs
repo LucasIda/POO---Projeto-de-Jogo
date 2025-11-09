@@ -35,7 +35,7 @@ public partial class GameOverScreen : Control
             var scene = GetTree().CurrentScene;
             var gm = scene?.GetNodeOrNull<GameManager>("GameManager");
             if (gm != null && GodotObject.IsInstanceValid(gm))
-                scoreToShow = gm.LastRoundScore;
+                scoreToShow = gm.BestRoundScore;
         }
 
         ApplyScore(scoreToShow);

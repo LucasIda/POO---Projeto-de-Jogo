@@ -18,6 +18,7 @@ public partial class GameManager : Control
     private int _currentBlind = 0;  // Índice de blind (0 = Small, 1 = Big, 2 = Boss)
     public int PlayerCoins { get; private set; } = 4;
     public int LastRoundScore { get; private set; } = 0;
+    public int BestRoundScore { get; private set; } = 0;
     public void SetLastRoundScore(int value) => LastRoundScore = value;
 
     private int _requiredChips;
@@ -335,7 +336,7 @@ public partial class GameManager : Control
         // Atualiza UI
         OnPlayerInventoryChanged?.Invoke();
     }
-    
+
     public void AddJokerToInventory(JokerCard joker)
     {
         if (joker == null || !GodotObject.IsInstanceValid(joker)) return;
@@ -344,5 +345,11 @@ public partial class GameManager : Control
 
         // dispare o evento para a UI redesenhar imediatamente
         OnPlayerInventoryChanged?.Invoke();
+    }
+    
+    public void UpdateBestRoundScore(int currentRoundScore)
+    {
+        if (currentRoundScore > BestRoundScore)
+            BestRoundScore = currentRoundScore;
     }
 }
