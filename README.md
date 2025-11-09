@@ -1,3 +1,14 @@
+<div align="center" style="border:2px solid #e74c3c; padding:15px; border-radius:10px; background-color:#fff0f0;">
+  <h2>⚠️ Aviso Importante</h2>
+  <p>
+    Este projeto foi <b>inspirado no jogo <i>Balatro</i></b>.<br>
+    Não temos qualquer intenção de monetizar, distribuir comercialmente ou violar direitos autorais.<br>
+    O desenvolvimento deste jogo é <b>exclusivamente para fins de estudo e aprendizado</b> em programação e design de jogos.
+  </p>
+</div>
+
+<br>
+
 <h1 align="center">🎴 Royal Cards</h1>
 
 <h2>1. Objetivo do Jogo</h2>
