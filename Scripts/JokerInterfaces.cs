@@ -137,18 +137,40 @@ public class EffectAddMultPerFilteredCard : IJokerEffect
         Description = description;
     }
 
-    // MUDANÇA: Agora usamos o parâmetro 'playedCards'!
     public void Apply(HandValue.HandResult result, List<CardData> playedCards)
     {
-        // 1. Usa a interface (estratégia) para contar as cartas
         int cardCount = _filter.Count(playedCards);
 
         if (cardCount > 0)
         {
-            // 2. Calcula e aplica o bônus
             int totalMult = cardCount * _multPerCard;
             result.MultBase += totalMult;
             GD.Print($"🔷 +{totalMult} Mult ({cardCount}x {_filter.DescriptionFragment})");
+        }
+    }
+
+}
+public class EffectMultiplyMultiplierPerFilteredCard : IJokerEffect
+{
+    private readonly float _factor; // O 1.5f
+    private readonly ICardFilter _filter;
+    public string Description { get; }
+
+    public EffectMultiplyMultiplierPerFilteredCard(float factor, ICardFilter filter, string description)
+    {
+        _factor = factor;
+        _filter = filter;
+        Description = description;
+    }
+
+    public void Apply(HandValue.HandResult result, List<CardData> playedCards)
+    {
+        int cardCount = _filter.Count(playedCards);
+        if (cardCount > 0)
+        {
+            double totalMultiplier = Math.Pow(_factor, cardCount);
+            result.MultBase = (int)(result.MultBase * totalMultiplier);
+            GD.Print($"🔴 Mult x{totalMultiplier:F2}! ({_factor}x^{cardCount} por {_filter.DescriptionFragment})");
         }
     }
 }

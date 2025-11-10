@@ -176,8 +176,15 @@ public static class JokerFactory
         Scholar.Initialize("Tri-Ace", GD.Load<Texture2D>("res://Sprites/Jokers/Scholar.png"));
         Scholar.Rarity = JokerRarity.Rare;
         var aceCounterFilter = new FilterByRank(Rank.Ace);
-        Scholar.AddEffect(new EffectAddMultPerFilteredCard(4,aceCounterFilter,"+4 Mult for each Ace card played"));    
+        Scholar.AddEffect(new EffectAddMultPerFilteredCard(4,aceCounterFilter,"+4 Mult for each Ace card played"));
         list.Add(Scholar);
+        
+        var bloodstone = jokerScene.Instantiate<JokerCard>();
+        bloodstone.Initialize("Bloodstone", GD.Load<Texture2D>("res://Sprites/Jokers/Bloodstone.png")); 
+        bloodstone.Rarity = JokerRarity.Rare;
+        var heartsCounterFilter = new FilterBySuit(Suit.Hearts);
+        bloodstone.AddEffect(new EffectMultiplyMultiplierPerFilteredCard(2, heartsCounterFilter,"x2 Mult for each Heart card played"));
+        list.Add(bloodstone);
 
         return list;
     }
