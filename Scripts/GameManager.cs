@@ -57,7 +57,7 @@ public partial class GameManager : Control
         _chipsLabel = GetNode<Label>(ChipsLabelPath);
         _anteLabel = GetNode<Label>(AnteLabelPath);
 
-        MasterJokerPool = JokerFactory.CreateJokers(JokerScene, () => PlayerCoins);
+        MasterJokerPool = JokerFactory.CreateJokers(JokerScene, () => PlayerCoins, AddCoins);
         GD.Print($"GameManager: Criados {MasterJokerPool.Count} curingas para o MasterPool.");
 
         PlayerCoin.Text = $"$ {PlayerCoins.ToString()}";

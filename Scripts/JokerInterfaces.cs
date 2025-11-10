@@ -174,4 +174,32 @@ public class EffectMultiplyMultiplierPerFilteredCard : IJokerEffect
         }
     }
 }
+public class EffectAddMoneyPerFilteredCard : IJokerEffect
+{
+    private readonly int _moneyPerCard;
+    private readonly ICardFilter _filter;
+    private readonly Action<int> _addPlayerMoneyCallback;
+    public string Description { get; }
+
+    public EffectAddMoneyPerFilteredCard(int moneyPerCard, ICardFilter filter, Action<int> addPlayerMoneyCallback, string description)
+    {
+        _moneyPerCard = moneyPerCard;
+        _filter = filter;
+        _addPlayerMoneyCallback = addPlayerMoneyCallback;
+        Description = description;
+    }
+
+    public void Apply(HandValue.HandResult result, List<CardData> playedCards)
+    {
+        int cardCount = _filter.Count(playedCards);
+
+        if (cardCount > 0)
+        {
+            int moneyGained = _moneyPerCard * cardCount;
+            _addPlayerMoneyCallback?.Invoke(moneyGained);
+
+            GD.Print($"💲 +${moneyGained} ({cardCount}x {_filter.DescriptionFragment})");
+        }
+    }
+}
 

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public static class JokerFactory
 {
     // Agora ele precisa da cena base do Curinga para instanciar
-    public static List<JokerCard> CreateJokers(PackedScene jokerScene, Func<int> getPlayerCoins)
+    public static List<JokerCard> CreateJokers(PackedScene jokerScene, Func<int> getPlayerCoins, Action<int> addPlayerMoney)
     {
         if (jokerScene == null)
         {
@@ -185,6 +185,18 @@ public static class JokerFactory
         var heartsCounterFilter = new FilterBySuit(Suit.Hearts);
         bloodstone.AddEffect(new EffectMultiplyMultiplierPerFilteredCard(2, heartsCounterFilter,"x2 Mult for each Heart card played"));
         list.Add(bloodstone);
+
+        var cavendish = jokerScene.Instantiate<JokerCard>();
+        cavendish.Initialize("Cavendish", GD.Load<Texture2D>("res://Sprites/Jokers/Cavendish.png"));
+        cavendish.Rarity = JokerRarity.Rare;
+        cavendish.AddEffect(new EffectMultiplyMultiplier(3,"Triple your base multiplier"));
+        list.Add(cavendish);
+
+        var RoughGem = jokerScene.Instantiate<JokerCard>();
+        RoughGem.Initialize("Rough Gem", GD.Load<Texture2D>("res://Sprites/Jokers/RoughGem.png"));
+        RoughGem.Rarity = JokerRarity.Common;
+        RoughGem.AddEffect(new EffectAddMoneyPerFilteredCard(1,diamondFilter,addPlayerMoney,"+$1 for each Diamond card played" ));
+        list.Add(RoughGem);
 
         return list;
     }
