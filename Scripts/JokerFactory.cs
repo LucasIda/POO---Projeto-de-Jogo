@@ -151,6 +151,26 @@ public static class JokerFactory
         greedyJoker.AddEffect(new EffectAddMultPerFilteredCard(3,diamondFilter,"+3 Mult for each Diamond card played" ));
         list.Add(greedyJoker);
         
+        var lustyJoker = jokerScene.Instantiate<JokerCard>();
+        lustyJoker.Initialize("Lusty Joker", GD.Load<Texture2D>("res://Sprites/Jokers/LustyJoker.png"));
+        lustyJoker.Rarity = JokerRarity.Uncommon;
+        var heartsFilter = new FilterBySuit(Suit.Hearts);
+        lustyJoker.AddEffect(new EffectAddMultPerFilteredCard(3,heartsFilter,"+3 Mult for each Heart card played"));
+        list.Add(lustyJoker);
+
+        var wrathfulJoker = jokerScene.Instantiate<JokerCard>();
+        wrathfulJoker.Initialize("Wrathful Joker", GD.Load<Texture2D>("res://Sprites/Jokers/WrathfulJoker.png")); 
+        wrathfulJoker.Rarity = JokerRarity.Uncommon;
+        var spadeFilter = new FilterBySuit(Suit.Spades);
+        wrathfulJoker.AddEffect(new EffectAddMultPerFilteredCard(3,spadeFilter,"+3 Mult for each Spade card played"));
+        list.Add(wrathfulJoker);
+
+        var gluttonousJoker = jokerScene.Instantiate<JokerCard>();
+        gluttonousJoker.Initialize("Gluttonous Joker", GD.Load<Texture2D>("res://Sprites/Jokers/GluttonousJoker.png"));
+        gluttonousJoker.Rarity = JokerRarity.Uncommon;
+        var clubFilter = new FilterBySuit(Suit.Clubs);
+        gluttonousJoker.AddEffect(new EffectAddMultPerFilteredCard(3,clubFilter,"+3 Mult for each Club card played"));
+        list.Add(gluttonousJoker);
 
         return list;
     }
