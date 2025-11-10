@@ -18,7 +18,7 @@ public interface ICardFilter
 public class FilterBySuit : ICardFilter
 {
     private readonly Suit _targetSuit;
-    public string DescriptionFragment => $"carta de {_targetSuit}"; // Ajuda a auto-gerar descrições
+    public string DescriptionFragment => $"carta de {_targetSuit}";
 
     public FilterBySuit(Suit targetSuit)
     {
@@ -27,8 +27,21 @@ public class FilterBySuit : ICardFilter
 
     public int Count(List<CardData> playedCards)
     {
-        // Usa Linq para contar quantas cartas na lista têm o naipe alvo
         return playedCards.Count(c => c.Suit == _targetSuit);
+    }
+}
+public class FilterByRank : ICardFilter
+{
+    private readonly Rank _targetRank;
+    public string DescriptionFragment => $"carta de rank {_targetRank}"; 
+
+    public FilterByRank(Rank targetRank)
+    {
+        _targetRank = targetRank;
+    }
+    public int Count(List<CardData> playedCards)
+    {
+        return playedCards.Count(c => c.Rank == _targetRank);
     }
 }
 

@@ -172,6 +172,13 @@ public static class JokerFactory
         gluttonousJoker.AddEffect(new EffectAddMultPerFilteredCard(3,clubFilter,"+3 Mult for each Club card played"));
         list.Add(gluttonousJoker);
 
+        var Scholar = jokerScene.Instantiate<JokerCard>();
+        Scholar.Initialize("Tri-Ace", GD.Load<Texture2D>("res://Sprites/Jokers/Scholar.png"));
+        Scholar.Rarity = JokerRarity.Rare;
+        var aceCounterFilter = new FilterByRank(Rank.Ace);
+        Scholar.AddEffect(new EffectAddMultPerFilteredCard(4,aceCounterFilter,"+4 Mult for each Ace card played"));    
+        list.Add(Scholar);
+
         return list;
     }
 }
