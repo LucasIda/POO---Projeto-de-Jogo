@@ -250,4 +250,4 @@ protected override void HideTooltip()
 
 <hr>
 
-<p align="center">Desenvolvido pela Dots.Eng</p>
+<p align="center">Desenvolvido pela DotsEng.Studio</p>
